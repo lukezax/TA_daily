@@ -13,6 +13,21 @@ import yaml
 
 
 @dataclass
+class WorkerSpec:
+    """一个 worker = 一种模型调用通道(本地 / 云端)。"""
+    name: str                    # "local" / "cloud"
+    model_name: str              # 传给 TA-CN 的 model_name
+    timeout: int = 10800         # 单只股超时(秒)
+
+
+@dataclass
+class DispatchConfig:
+    """并发调度策略配置。"""
+    max_retry: int = 1           # 失败重入队次数(0=不重试;1=总共尝试 2 次)
+    failure_threshold: int = 3   # 同一 worker 连续失败 N 次判本轮失效
+
+
+@dataclass
 class PipelineConfig:
     """流水线配置"""
     # TradingAgents-CN API
@@ -41,6 +56,10 @@ class PipelineConfig:
     # 调度
     schedule_time: str = "01:00"
     skip_holidays: bool = True
+
+    # 并发调度(消费者模型)
+    workers: List[WorkerSpec] = field(default_factory=list)   # 模型 worker 列表
+    dispatch: DispatchConfig = field(default_factory=DispatchConfig)
 
 
 # 必需配置项列表
@@ -106,6 +125,16 @@ def load_config(config_path: Optional[str] = None) -> PipelineConfig:
         config_dict["selected_analysts"] = [a.strip() for a in env_analysts.split(",")]
     elif "selected_analysts" in yaml_config:
         config_dict["selected_analysts"] = yaml_config["selected_analysts"]
+
+    # workers 列表解析
+    if "workers" in yaml_config:
+        config_dict["workers"] = [
+            WorkerSpec(**w) if isinstance(w, dict) else w
+            for w in yaml_config["workers"]
+        ]
+    # dispatch 解析
+    if "dispatch" in yaml_config and isinstance(yaml_config["dispatch"], dict):
+        config_dict["dispatch"] = DispatchConfig(**yaml_config["dispatch"])
 
     # 类型转换
     if "batch_size" in config_dict:

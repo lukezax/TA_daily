@@ -88,10 +88,6 @@ def main():
     parser.add_argument("--config", type=str, default=None, help="配置文件路径")
     parser.add_argument("--debug", action="store_true",
                         help="调试模式：不更新数据（跳过市值快筛和API拉取），只用本地缓存跑筛选+分析流程")
-    parser.add_argument("--deep", action="store_true",
-                        help="深度模式：使用云端模型（qwen3.7-max）进行 AI 分析，而非本地模型")
-    parser.add_argument("--lite", action="store_true",
-                        help="轻量模式：辩论节点使用云端模型，数据收集保持本地，不增加辩论轮次")
     args = parser.parse_args()
 
     if not any([args.run, args.now, args.serve, args.schedule]):
@@ -153,7 +149,7 @@ def main():
 
         orchestrator = PipelineOrchestrator(config)
         try:
-            result = orchestrator.run(target_date=_report_date, debug=args.debug, deadline=_deadline, deep_mode=args.deep, lite_mode=args.lite)
+            result = orchestrator.run(target_date=_report_date, debug=args.debug, deadline=_deadline)
             logger.info(
                 "首次执行完成: 筛选 %d 只, 分析完成 %d 只, 报告: %s",
                 result.total_filtered,
@@ -164,7 +160,7 @@ def main():
             logger.error("首次执行失败: %s", e, exc_info=True)
 
         # 3. 启动定时调度（阻塞主线程）
-        scheduler = PipelineScheduler(config, deep_mode=args.deep, lite_mode=args.lite)
+        scheduler = PipelineScheduler(config)
         logger.info("定时调度启动: 每交易日 %s", config.schedule_time)
         scheduler.start()  # 阻塞
         return
@@ -174,7 +170,7 @@ def main():
         logger.info("开始立即执行流水线")
         orchestrator = PipelineOrchestrator(config)
         try:
-            result = orchestrator.run(debug=args.debug, deep_mode=args.deep, lite_mode=args.lite)
+            result = orchestrator.run(debug=args.debug)
             logger.info(
                 "流水线完成: 筛选 %d 只, 分析完成 %d 只, 报告: %s",
                 result.total_filtered,
@@ -196,7 +192,7 @@ def main():
 
     # 启动定时调度
     elif args.schedule:
-        scheduler = PipelineScheduler(config, deep_mode=args.deep, lite_mode=args.lite)
+        scheduler = PipelineScheduler(config)
         scheduler.start()
 
 

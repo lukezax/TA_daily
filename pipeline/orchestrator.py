@@ -4,13 +4,15 @@
 """
 
 import logging
-from typing import Dict
+import threading
+from typing import Dict, List
 
 from pipeline.config import PipelineConfig
 from pipeline.filter_runner import StockFilterRunner
 from pipeline.analysis_client import TradingAgentsClient
 from pipeline.report_generator import ReportGenerator
 from pipeline.models import PipelineResult, StockAnalysisResult
+from pipeline.stock_dispatch import StockDispatchQueue
 
 logger = logging.getLogger(__name__)
 
@@ -61,26 +63,24 @@ class PipelineOrchestrator:
         self.analysis_client = TradingAgentsClient(config)
         self.report_generator = ReportGenerator(config)
 
-    def run(self, target_date=None, deadline=None, debug=False, deep_mode=False, lite_mode=False) -> PipelineResult:
+    def run(self, target_date=None, deadline=None, debug=False) -> PipelineResult:
         """
         执行完整流水线：筛选 → 分析 → 报告
 
         Args:
             target_date: 目标交易日（date 对象）。如果为 None，自动计算下一个交易日。
-            deadline: 截止时间（datetime 对象）。超过此时间后不再提交新批次，
-                      但正在执行的批次会跑完。None 表示无限制（手动任务）。
+            deadline: 截止时间（datetime 对象）。超过此时间后不再消费新任务，
+                      但正在执行的任务会跑完。None 表示无限制（手动任务）。
             debug: 调试模式。跳过数据更新（市值快筛+API拉取），只用本地缓存跑流程。
 
         Fallback 机制：
         - Stock_Filter 失败 → 致命错误，退出
         - TradingAgents 不可用 → 跳过分析，仅用筛选数据生成报告
-        - 单只股票分析失败 → 标记为失败，继续其他
+        - 单只股票分析失败 → 重新入队（最多 max_retry 次），最终失败标记为失败
         - 所有分析失败 → 仍生成报告（仅含筛选数据）
 
-        增量报告：
-        - 筛选完成后立即生成初始报告（仅含筛选数据）
-        - 每批分析完成后重新生成报告（逐步丰富）
-        - 失败任务重试后再次更新报告
+        AI 分析采用消费者模型：所有股票进入单一队列，多个模型 worker 并发抢任务，
+        谁先完成谁的结果写报告。失败自动重新入队，连续失败超过阈值判定该模型本轮失效。
         """
         logger.info("流水线开始执行")
 
@@ -174,8 +174,12 @@ class PipelineOrchestrator:
         except Exception as e:
             logger.error("初始报告生成失败: %s", e, exc_info=True)
 
-        # ── Step 3: 尝试 AI 分析（逐批处理，增量更新报告）──
+        # ── Step 3: AI 分析（消费者模型：多 worker 并发抢任务）──
         analysis_results: Dict[str, StockAnalysisResult] = {}
+        primary_by: Dict[str, str] = {}
+        extras: List = []
+        dead_workers: List[str] = []
+        report_lock = threading.Lock()
 
         if not self.analysis_client.is_available():
             logger.warning("TradingAgents 服务不可用，跳过 AI 分析")
@@ -192,117 +196,51 @@ class PipelineOrchestrator:
                 logger.warning(f"数据预热异常（不影响分析流程）: {e}")
 
             logger.info(
-                "开始 AI 分析: %d 只股票", len(filter_results.stocks)
+                "开始 AI 分析: %d 只股票, %d 个模型 worker",
+                len(filter_results.stocks), len(self.config.workers),
             )
             try:
-                # 登录一次，获取 token
-                token = self.analysis_client.login()
-                if not token:
-                    logger.error("无法登录 TradingAgents，跳过 AI 分析")
-                else:
-                    headers = {
-                        "Authorization": f"Bearer {token}",
-                        "Content-Type": "application/json",
-                    }
-                    # 分批处理
-                    batch_size = self.config.batch_size
-                    stocks = filter_results.stocks
-                    batches = [
-                        stocks[i : i + batch_size]
-                        for i in range(0, len(stocks), batch_size)
-                    ]
+                self.analysis_client._analysis_date = filter_results.date
+                queue = StockDispatchQueue(
+                    workers=self.config.workers,
+                    dispatch_cfg=self.config.dispatch,
+                    executor=self.analysis_client,
+                    deadline=deadline,
+                )
+                queue.submit_all(filter_results.stocks)
 
-                    for batch_idx, batch in enumerate(batches, 1):
-                        # 检查是否超过截止时间（自动任务限制）
-                        if deadline is not None:
-                            from datetime import datetime
-                            if datetime.now() >= deadline:
-                                logger.info(
-                                    "已到达截止时间 %s，跳过剩余 %d 个批次",
-                                    deadline.strftime("%H:%M"),
-                                    len(batches) - batch_idx + 1,
-                                )
-                                break
-
-                        logger.info(
-                            "提交批次 %d/%d（%d 只股票）",
-                            batch_idx, len(batches), len(batch),
-                        )
-                        batch_results = self.analysis_client.process_single_batch(
-                            batch, headers, self.config.timeout_per_stock,
-                            analysis_date=filter_results.date,
-                            deadline=deadline,
-                            deep_mode=deep_mode,
-                            lite_mode=lite_mode,
-                        )
-                        analysis_results.update(batch_results)
-
-                        # 每批完成后增量更新报告
+                def on_result(stock, result, worker_name, attempt):
+                    analysis_results[stock.code] = result
+                    primary_by[stock.code] = worker_name
+                    with report_lock:
                         try:
-                            report_path = self.report_generator.generate(
+                            self.report_generator.generate(
                                 date=filter_results.date,
                                 filter_data=filter_results,
                                 analysis_data=analysis_results,
                             )
-                            logger.info("批次 %d 完成，报告已更新", batch_idx)
                         except Exception as e:
-                            logger.warning("批次 %d 报告更新失败: %s", batch_idx, e)
+                            logger.warning("增量报告更新失败 (%s): %s", stock.code, e)
 
-                    # ── Step 4: 重试失败任务 ──
-                    failed_stocks = [
-                        stock for stock in filter_results.stocks
-                        if analysis_results.get(stock.code)
-                        and analysis_results[stock.code].status in ("failed", "timeout")
-                    ]
+                def on_extra(outcome):
+                    extras.append(outcome)
 
-                    # 检查是否超过截止时间（自动任务限制）
-                    if deadline is not None:
-                        from datetime import datetime
-                        if datetime.now() >= deadline:
-                            logger.info(
-                                "已到达截止时间 %s，跳过重试",
-                                deadline.strftime("%H:%M"),
-                            )
-                            failed_stocks = []
+                def on_all_done():
+                    dead_workers.extend(queue.dead_workers)
+                    logger.info(
+                        "🏁 AI 分析结束: 完成 %d, 旁路 %d, 失效 worker %s",
+                        len(analysis_results), len(extras), dead_workers,
+                    )
 
-                    if failed_stocks:
-                        logger.info(
-                            "重试 %d 只失败/超时的股票", len(failed_stocks)
-                        )
-                        retry_results = self.analysis_client.process_single_batch(
-                            failed_stocks, headers, self.config.timeout_per_stock,
-                            analysis_date=filter_results.date,
-                            deadline=deadline,
-                            deep_mode=deep_mode,
-                            lite_mode=lite_mode,
-                        )
-                        # 仅更新重试成功的结果
-                        for code, result in retry_results.items():
-                            if result.status == "completed":
-                                analysis_results[code] = result
-                                logger.info("股票 %s 重试成功", code)
-
-                        # 重试后再次更新报告
-                        try:
-                            report_path = self.report_generator.generate(
-                                date=filter_results.date,
-                                filter_data=filter_results,
-                                analysis_data=analysis_results,
-                            )
-                            logger.info("重试完成，报告已更新")
-                        except Exception as e:
-                            logger.warning("重试后报告更新失败: %s", e)
-
+                queue.run(on_result, on_extra, on_all_done)
             except Exception as e:
                 logger.error("AI 分析过程异常: %s", e, exc_info=True)
                 # 分析异常不是致命错误，继续生成报告
 
         # 统计分析结果
-        analysis_completed = sum(
-            1 for r in analysis_results.values() if r.status == "completed"
-        )
+        analysis_completed = len(analysis_results)
         analysis_failed = sum(
-            1 for r in analysis_results.values() if r.status in ("failed", "timeout")
+            1 for e in extras if e.status in ("failed", "timeout", "dead_skipped")
         )
 
         if analysis_results:
@@ -333,6 +271,9 @@ class PipelineOrchestrator:
                 report_path="",
                 success=False,
                 error_message=f"报告生成失败: {e}",
+                primary_by=primary_by,
+                extras=extras,
+                dead_workers=dead_workers,
             )
 
         logger.info("流水线执行完成")
@@ -344,16 +285,17 @@ class PipelineOrchestrator:
             analysis_failed=analysis_failed,
             report_path=str(report_path),
             success=True,
+            primary_by=primary_by,
+            extras=extras,
+            dead_workers=dead_workers,
         )
 
 
 class PipelineScheduler:
     """定时调度器，每交易日执行流水线"""
 
-    def __init__(self, config: PipelineConfig, deep_mode: bool = False, lite_mode: bool = False):
+    def __init__(self, config: PipelineConfig):
         self.config = config
-        self.deep_mode = deep_mode
-        self.lite_mode = lite_mode
         self.orchestrator = PipelineOrchestrator(config)
 
     def start(self):
@@ -443,7 +385,7 @@ class PipelineScheduler:
         logger.info("=" * 60)
         logger.info("定时任务触发，目标交易日: %s，截止时间: %s，开始执行流水线", target, deadline.strftime("%Y-%m-%d %H:%M"))
         try:
-            result = self.orchestrator.run(target_date=target, deadline=deadline, deep_mode=self.deep_mode, lite_mode=self.lite_mode)
+            result = self.orchestrator.run(target_date=target, deadline=deadline)
             logger.info(
                 "流水线执行完成: 筛选 %d 只, 分析完成 %d 只, 报告: %s",
                 result.total_filtered,

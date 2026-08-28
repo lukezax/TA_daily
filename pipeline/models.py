@@ -70,6 +70,21 @@ class StockAnalysisResult:
 
 
 @dataclass
+class WorkerOutcome:
+    """单只股 × 单 worker 的旁路结果(不进报告,仅日志/汇总)。"""
+    code: str
+    worker_name: str
+    status: str                  # completed / failed / dead_skipped
+    recommendation: str = ""
+    confidence_score: float = 0.0
+    risk_score: float = 0.0
+    summary: str = ""
+    error_message: str = ""
+    execution_time: float = 0.0
+    attempt: int = 0
+
+
+@dataclass
 class PipelineResult:
     """流水线执行结果"""
     date: str
@@ -80,3 +95,6 @@ class PipelineResult:
     report_path: str
     success: bool = True
     error_message: Optional[str] = None
+    primary_by: Dict[str, str] = field(default_factory=dict)   # {code: worker_name}
+    extras: List[WorkerOutcome] = field(default_factory=list)  # 旁路记录
+    dead_workers: List[str] = field(default_factory=list)      # 本轮失效的 worker
