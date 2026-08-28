@@ -1,0 +1,19 @@
+[
+  {
+    "code": "605255.SH",
+    "name": "天普股份",
+    "buy_date": "2026-07-24",
+    "buy_price": 67.65,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 74.73,
+    "sell_date": "2026-07-29",
+    "return_pct": 10.47,
+    "hold_days": 5,
+    "status": "verified"
+  }
+]

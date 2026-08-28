@@ -1,0 +1,87 @@
+[
+  {
+    "code": "002132.SZ",
+    "name": "恒星科技",
+    "buy_date": "2026-06-22",
+    "buy_price": 5.11,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 5.49,
+    "sell_date": "2026-06-25",
+    "return_pct": 7.44,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "601001.SH",
+    "name": "晋控煤业",
+    "buy_date": "2026-06-22",
+    "buy_price": 18.94,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 18.83,
+    "sell_date": "2026-06-25",
+    "return_pct": -0.58,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "601699.SH",
+    "name": "潞安环能",
+    "buy_date": "2026-06-22",
+    "buy_price": 16.72,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 16.02,
+    "sell_date": "2026-06-25",
+    "return_pct": -4.19,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "000681.SZ",
+    "name": "视觉中国",
+    "buy_date": "2026-06-22",
+    "buy_price": 21.7,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 21.77,
+    "sell_date": "2026-06-25",
+    "return_pct": 0.32,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "600783.SH",
+    "name": "鲁信创投",
+    "buy_date": "2026-06-22",
+    "buy_price": 21.13,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 20.12,
+    "sell_date": "2026-06-25",
+    "return_pct": -4.78,
+    "hold_days": 3,
+    "status": "verified"
+  }
+]

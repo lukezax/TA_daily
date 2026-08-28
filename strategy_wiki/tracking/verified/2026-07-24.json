@@ -1,0 +1,104 @@
+[
+  {
+    "code": "000566.SZ",
+    "name": "海南海药",
+    "buy_date": "2026-07-17",
+    "buy_price": 5.67,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-07-24",
+    "return_pct": null,
+    "hold_days": 7,
+    "status": "no_price"
+  },
+  {
+    "code": "600984.SH",
+    "name": "建设机械",
+    "buy_date": "2026-07-21",
+    "buy_price": 3.29,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 3.64,
+    "sell_date": "2026-07-24",
+    "return_pct": 10.64,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "000301.SZ",
+    "name": "东方盛虹",
+    "buy_date": "2026-07-21",
+    "buy_price": 11.87,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 12.17,
+    "sell_date": "2026-07-24",
+    "return_pct": 2.53,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "000680.SZ",
+    "name": "山推股份",
+    "buy_date": "2026-07-21",
+    "buy_price": 10.25,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 10.88,
+    "sell_date": "2026-07-24",
+    "return_pct": 6.15,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "603226.SH",
+    "name": "菲林格尔",
+    "buy_date": "2026-07-21",
+    "buy_price": 43.26,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 44.93,
+    "sell_date": "2026-07-24",
+    "return_pct": 3.86,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "603629.SH",
+    "name": "利通电子",
+    "buy_date": "2026-07-21",
+    "buy_price": 97.8,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 120.68,
+    "sell_date": "2026-07-24",
+    "return_pct": 23.39,
+    "hold_days": 3,
+    "status": "verified"
+  }
+]

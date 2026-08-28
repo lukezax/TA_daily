@@ -1,0 +1,53 @@
+# ===== 密钥(绝不提交) =====
+key
+.env
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.mypy_cache/
+.pytest_cache/
+
+# ===== 数据产物 =====
+stock_data/
+reports/
+analysis_reports/
+results/
+eval_results/
+data/
+czsc_score_distribution.json
+execution_history.json
+failed_stocks.json
+
+# ===== 日志 =====
+logs/
+*.log
+*.log.[0-9]
+
+# ===== 构建 / 前端 =====
+dist/
+build/
+node_modules/
+frontend/dist/
+frontend/node_modules/
+
+# ===== 工具缓存 =====
+.codegraph/
+.kiro/
+.qoder/
+.trae/
+.vscode/
+.idea/
+
+# ===== 压缩包 =====
+*.zip
+*.tar.gz

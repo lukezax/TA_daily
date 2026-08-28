@@ -1,0 +1,2154 @@
+[
+  {
+    "code": "002052.SZ",
+    "name": "同洲电子",
+    "buy_date": "2026-08-25",
+    "buy_price": 9.08,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002115.SZ",
+    "name": "三维通信",
+    "buy_date": "2026-08-25",
+    "buy_price": 10.82,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002580.SZ",
+    "name": "圣阳股份",
+    "buy_date": "2026-08-25",
+    "buy_price": 21.05,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002973.SZ",
+    "name": "侨银股份",
+    "buy_date": "2026-08-25",
+    "buy_price": 11.59,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002963.SZ",
+    "name": "豪尔赛",
+    "buy_date": "2026-08-25",
+    "buy_price": 18.47,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600604.SH",
+    "name": "市北高新",
+    "buy_date": "2026-08-25",
+    "buy_price": 4.94,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603262.SH",
+    "name": "技源集团",
+    "buy_date": "2026-08-25",
+    "buy_price": 18.4,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "605189.SH",
+    "name": "富春染织",
+    "buy_date": "2026-08-25",
+    "buy_price": 15.03,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002174.SZ",
+    "name": "游族网络",
+    "buy_date": "2026-08-26",
+    "buy_price": 12.13,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603883.SH",
+    "name": "老百姓",
+    "buy_date": "2026-08-26",
+    "buy_price": 13.22,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603369.SH",
+    "name": "今世缘",
+    "buy_date": "2026-08-26",
+    "buy_price": 27.82,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002262.SZ",
+    "name": "恩华药业",
+    "buy_date": "2026-08-26",
+    "buy_price": 21.83,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603099.SH",
+    "name": "长白山",
+    "buy_date": "2026-08-26",
+    "buy_price": 38.08,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002428.SZ",
+    "name": "云南锗业",
+    "buy_date": "2026-08-26",
+    "buy_price": 94.23,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000415.SZ",
+    "name": "渤海租赁",
+    "buy_date": "2026-08-26",
+    "buy_price": 4.46,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600428.SH",
+    "name": "中远海特",
+    "buy_date": "2026-08-26",
+    "buy_price": 11.26,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002832.SZ",
+    "name": "比音勒芬",
+    "buy_date": "2026-08-26",
+    "buy_price": 24.03,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000153.SZ",
+    "name": "丰原药业",
+    "buy_date": "2026-08-26",
+    "buy_price": 6.19,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000403.SZ",
+    "name": "派林生物",
+    "buy_date": "2026-08-26",
+    "buy_price": 10.98,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000592.SZ",
+    "name": "平潭发展",
+    "buy_date": "2026-08-26",
+    "buy_price": 6.18,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000566.SZ",
+    "name": "海南海药",
+    "buy_date": "2026-08-26",
+    "buy_price": 4.97,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000661.SZ",
+    "name": "长春高新",
+    "buy_date": "2026-08-26",
+    "buy_price": 79.8,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000659.SZ",
+    "name": "珠海中富",
+    "buy_date": "2026-08-26",
+    "buy_price": 2.85,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000678.SZ",
+    "name": "襄阳轴承",
+    "buy_date": "2026-08-26",
+    "buy_price": 8.65,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000676.SZ",
+    "name": "智度股份",
+    "buy_date": "2026-08-26",
+    "buy_price": 6.73,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000721.SZ",
+    "name": "西安饮食",
+    "buy_date": "2026-08-26",
+    "buy_price": 6.69,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000716.SZ",
+    "name": "黑芝麻",
+    "buy_date": "2026-08-26",
+    "buy_price": 5.02,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000736.SZ",
+    "name": "中交发展",
+    "buy_date": "2026-08-26",
+    "buy_price": 4.45,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000759.SZ",
+    "name": "中百集团",
+    "buy_date": "2026-08-26",
+    "buy_price": 6.13,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000790.SZ",
+    "name": "华神科技",
+    "buy_date": "2026-08-26",
+    "buy_price": 4.18,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000815.SZ",
+    "name": "美利云",
+    "buy_date": "2026-08-26",
+    "buy_price": 16.7,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000948.SZ",
+    "name": "南天信息",
+    "buy_date": "2026-08-26",
+    "buy_price": 14.37,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "001324.SZ",
+    "name": "长青科技",
+    "buy_date": "2026-08-26",
+    "buy_price": 18.58,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "001318.SZ",
+    "name": "阳光乳业",
+    "buy_date": "2026-08-26",
+    "buy_price": 11.37,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "001330.SZ",
+    "name": "博纳影业",
+    "buy_date": "2026-08-26",
+    "buy_price": 4.93,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002086.SZ",
+    "name": "东方海洋",
+    "buy_date": "2026-08-26",
+    "buy_price": 2.1,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002126.SZ",
+    "name": "银轮股份",
+    "buy_date": "2026-08-26",
+    "buy_price": 41.2,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002163.SZ",
+    "name": "海南发展",
+    "buy_date": "2026-08-26",
+    "buy_price": 8.2,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002173.SZ",
+    "name": "创新医疗",
+    "buy_date": "2026-08-26",
+    "buy_price": 18.61,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002200.SZ",
+    "name": "交投生态",
+    "buy_date": "2026-08-26",
+    "buy_price": 6.83,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002182.SZ",
+    "name": "宝武镁业",
+    "buy_date": "2026-08-26",
+    "buy_price": 11.96,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002235.SZ",
+    "name": "安妮股份",
+    "buy_date": "2026-08-26",
+    "buy_price": 8.79,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002251.SZ",
+    "name": "步步高",
+    "buy_date": "2026-08-26",
+    "buy_price": 3.68,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002292.SZ",
+    "name": "奥飞娱乐",
+    "buy_date": "2026-08-26",
+    "buy_price": 8.08,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002329.SZ",
+    "name": "皇氏集团",
+    "buy_date": "2026-08-26",
+    "buy_price": 3.91,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002343.SZ",
+    "name": "慈文传媒",
+    "buy_date": "2026-08-26",
+    "buy_price": 5.17,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002333.SZ",
+    "name": "罗普斯金",
+    "buy_date": "2026-08-26",
+    "buy_price": 5.67,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002383.SZ",
+    "name": "合众思壮",
+    "buy_date": "2026-08-26",
+    "buy_price": 7.03,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002421.SZ",
+    "name": "达实智能",
+    "buy_date": "2026-08-26",
+    "buy_price": 3.14,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002434.SZ",
+    "name": "万里扬",
+    "buy_date": "2026-08-26",
+    "buy_price": 5.91,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002425.SZ",
+    "name": "凯撒文化",
+    "buy_date": "2026-08-26",
+    "buy_price": 3.13,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002520.SZ",
+    "name": "日发精机",
+    "buy_date": "2026-08-26",
+    "buy_price": 6.15,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002575.SZ",
+    "name": "群兴玩具",
+    "buy_date": "2026-08-26",
+    "buy_price": 5.08,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002589.SZ",
+    "name": "瑞康医药",
+    "buy_date": "2026-08-26",
+    "buy_price": 3.24,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002649.SZ",
+    "name": "博彦科技",
+    "buy_date": "2026-08-26",
+    "buy_price": 9.81,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002682.SZ",
+    "name": "龙洲股份",
+    "buy_date": "2026-08-26",
+    "buy_price": 4.73,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002713.SZ",
+    "name": "东易日盛",
+    "buy_date": "2026-08-26",
+    "buy_price": 9.96,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002788.SZ",
+    "name": "鹭燕医药",
+    "buy_date": "2026-08-26",
+    "buy_price": 11.26,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002772.SZ",
+    "name": "众兴菌业",
+    "buy_date": "2026-08-26",
+    "buy_price": 10.74,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002820.SZ",
+    "name": "桂发祥",
+    "buy_date": "2026-08-26",
+    "buy_price": 9.76,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002821.SZ",
+    "name": "凯莱英",
+    "buy_date": "2026-08-26",
+    "buy_price": 172.23,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002864.SZ",
+    "name": "盘龙药业",
+    "buy_date": "2026-08-26",
+    "buy_price": 22.38,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002887.SZ",
+    "name": "绿茵生态",
+    "buy_date": "2026-08-26",
+    "buy_price": 9.46,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002879.SZ",
+    "name": "长缆科技",
+    "buy_date": "2026-08-26",
+    "buy_price": 16.44,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002947.SZ",
+    "name": "恒铭达",
+    "buy_date": "2026-08-26",
+    "buy_price": 59.61,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "003020.SZ",
+    "name": "立方制药",
+    "buy_date": "2026-08-26",
+    "buy_price": 18.65,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "003021.SZ",
+    "name": "兆威机电",
+    "buy_date": "2026-08-26",
+    "buy_price": 72.78,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600094.SH",
+    "name": "大名城",
+    "buy_date": "2026-08-26",
+    "buy_price": 4.02,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600151.SH",
+    "name": "航天机电",
+    "buy_date": "2026-08-26",
+    "buy_price": 10.21,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600156.SH",
+    "name": "华升股份",
+    "buy_date": "2026-08-26",
+    "buy_price": 8.23,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600162.SH",
+    "name": "香江控股",
+    "buy_date": "2026-08-26",
+    "buy_price": 4.32,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600222.SH",
+    "name": "太龙药业",
+    "buy_date": "2026-08-26",
+    "buy_price": 7.98,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600325.SH",
+    "name": "华发股份",
+    "buy_date": "2026-08-26",
+    "buy_price": 2.35,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600418.SH",
+    "name": "江淮汽车",
+    "buy_date": "2026-08-26",
+    "buy_price": 21.22,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600429.SH",
+    "name": "三元股份",
+    "buy_date": "2026-08-26",
+    "buy_price": 4.67,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600488.SH",
+    "name": "津药药业",
+    "buy_date": "2026-08-26",
+    "buy_price": 5.45,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600545.SH",
+    "name": "卓郎智能",
+    "buy_date": "2026-08-26",
+    "buy_price": 4.25,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600686.SH",
+    "name": "金龙汽车",
+    "buy_date": "2026-08-26",
+    "buy_price": 11.3,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600693.SH",
+    "name": "东百集团",
+    "buy_date": "2026-08-26",
+    "buy_price": 8.96,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600712.SH",
+    "name": "南宁百货",
+    "buy_date": "2026-08-26",
+    "buy_price": 5.45,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600743.SH",
+    "name": "华远控股",
+    "buy_date": "2026-08-26",
+    "buy_price": 2.31,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600829.SH",
+    "name": "人民同泰",
+    "buy_date": "2026-08-26",
+    "buy_price": 10.14,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600833.SH",
+    "name": "第一医药",
+    "buy_date": "2026-08-26",
+    "buy_price": 10.9,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600936.SH",
+    "name": "北投科技",
+    "buy_date": "2026-08-26",
+    "buy_price": 5.09,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600996.SH",
+    "name": "贵广网络",
+    "buy_date": "2026-08-26",
+    "buy_price": 6.67,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "601116.SH",
+    "name": "三江购物",
+    "buy_date": "2026-08-26",
+    "buy_price": 10.76,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "601218.SH",
+    "name": "吉鑫科技",
+    "buy_date": "2026-08-26",
+    "buy_price": 4.48,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "601366.SH",
+    "name": "利群股份",
+    "buy_date": "2026-08-26",
+    "buy_price": 3.66,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "601595.SH",
+    "name": "上海电影",
+    "buy_date": "2026-08-26",
+    "buy_price": 16.48,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603000.SH",
+    "name": "人民网",
+    "buy_date": "2026-08-26",
+    "buy_price": 16.5,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603007.SH",
+    "name": "顺景科技",
+    "buy_date": "2026-08-26",
+    "buy_price": 4.73,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603087.SH",
+    "name": "甘李药业",
+    "buy_date": "2026-08-26",
+    "buy_price": 68.78,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603122.SH",
+    "name": "合富中国",
+    "buy_date": "2026-08-26",
+    "buy_price": 12.24,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603103.SH",
+    "name": "横店影视",
+    "buy_date": "2026-08-26",
+    "buy_price": 14.88,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603127.SH",
+    "name": "昭衍新药",
+    "buy_date": "2026-08-26",
+    "buy_price": 48.29,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603337.SH",
+    "name": "杰克科技",
+    "buy_date": "2026-08-26",
+    "buy_price": 39.09,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603367.SH",
+    "name": "辰欣药业",
+    "buy_date": "2026-08-26",
+    "buy_price": 14.71,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603456.SH",
+    "name": "九洲药业",
+    "buy_date": "2026-08-26",
+    "buy_price": 16.49,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603567.SH",
+    "name": "珍宝岛",
+    "buy_date": "2026-08-26",
+    "buy_price": 5.61,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603687.SH",
+    "name": "大胜达",
+    "buy_date": "2026-08-26",
+    "buy_price": 14.41,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603696.SH",
+    "name": "安记食品",
+    "buy_date": "2026-08-26",
+    "buy_price": 13.32,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603716.SH",
+    "name": "塞力医疗",
+    "buy_date": "2026-08-26",
+    "buy_price": 16.1,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603721.SH",
+    "name": "中广天择",
+    "buy_date": "2026-08-26",
+    "buy_price": 17.99,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603700.SH",
+    "name": "宁水集团",
+    "buy_date": "2026-08-26",
+    "buy_price": 11.85,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603758.SH",
+    "name": "秦安股份",
+    "buy_date": "2026-08-26",
+    "buy_price": 12.12,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603739.SH",
+    "name": "蔚蓝生物",
+    "buy_date": "2026-08-26",
+    "buy_price": 12.54,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603798.SH",
+    "name": "康普顿",
+    "buy_date": "2026-08-26",
+    "buy_price": 13.17,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603848.SH",
+    "name": "好太太",
+    "buy_date": "2026-08-26",
+    "buy_price": 13.34,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603917.SH",
+    "name": "合力科技",
+    "buy_date": "2026-08-26",
+    "buy_price": 12.68,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "605068.SH",
+    "name": "明新旭腾",
+    "buy_date": "2026-08-26",
+    "buy_price": 17.6,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "605179.SH",
+    "name": "一鸣食品",
+    "buy_date": "2026-08-26",
+    "buy_price": 29.94,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "605303.SH",
+    "name": "园林股份",
+    "buy_date": "2026-08-26",
+    "buy_price": 22.85,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002399.SZ",
+    "name": "海普瑞",
+    "buy_date": "2026-08-27",
+    "buy_price": 10.4,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002174.SZ",
+    "name": "游族网络",
+    "buy_date": "2026-08-27",
+    "buy_price": 11.96,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603369.SH",
+    "name": "今世缘",
+    "buy_date": "2026-08-27",
+    "buy_price": 28.1,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600267.SH",
+    "name": "海正药业",
+    "buy_date": "2026-08-27",
+    "buy_price": 12.29,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002064.SZ",
+    "name": "华峰化学",
+    "buy_date": "2026-08-27",
+    "buy_price": 11.12,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002832.SZ",
+    "name": "比音勒芬",
+    "buy_date": "2026-08-27",
+    "buy_price": 24.14,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600428.SH",
+    "name": "中远海特",
+    "buy_date": "2026-08-27",
+    "buy_price": 11.15,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002841.SZ",
+    "name": "视源股份",
+    "buy_date": "2026-08-27",
+    "buy_price": 47.64,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000533.SZ",
+    "name": "顺钠股份",
+    "buy_date": "2026-08-27",
+    "buy_price": 11.61,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000783.SZ",
+    "name": "长江证券",
+    "buy_date": "2026-08-27",
+    "buy_price": 9.08,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "001258.SZ",
+    "name": "立新能源",
+    "buy_date": "2026-08-27",
+    "buy_price": 13.52,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600396.SH",
+    "name": "华电辽能",
+    "buy_date": "2026-08-27",
+    "buy_price": 14.97,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600726.SH",
+    "name": "华电能源",
+    "buy_date": "2026-08-27",
+    "buy_price": 5.79,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "601133.SH",
+    "name": "柏诚股份",
+    "buy_date": "2026-08-27",
+    "buy_price": 25.84,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603106.SH",
+    "name": "恒银科技",
+    "buy_date": "2026-08-27",
+    "buy_price": 8.2,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603261.SH",
+    "name": "立航科技",
+    "buy_date": "2026-08-27",
+    "buy_price": 53.39,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "605183.SH",
+    "name": "确成股份",
+    "buy_date": "2026-08-27",
+    "buy_price": 15.05,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002174.SZ",
+    "name": "游族网络",
+    "buy_date": "2026-08-28",
+    "buy_price": 12.07,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603882.SH",
+    "name": "金域医学",
+    "buy_date": "2026-08-28",
+    "buy_price": 27.96,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603456.SH",
+    "name": "九洲药业",
+    "buy_date": "2026-08-28",
+    "buy_price": 15.97,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603369.SH",
+    "name": "今世缘",
+    "buy_date": "2026-08-28",
+    "buy_price": 28.5,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600267.SH",
+    "name": "海正药业",
+    "buy_date": "2026-08-28",
+    "buy_price": 12.37,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "601728.SH",
+    "name": "中国电信",
+    "buy_date": "2026-08-28",
+    "buy_price": 6.35,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600428.SH",
+    "name": "中远海特",
+    "buy_date": "2026-08-28",
+    "buy_price": 10.98,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002832.SZ",
+    "name": "比音勒芬",
+    "buy_date": "2026-08-28",
+    "buy_price": 24.03,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002841.SZ",
+    "name": "视源股份",
+    "buy_date": "2026-08-28",
+    "buy_price": 46.99,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000636.SZ",
+    "name": "风华高科",
+    "buy_date": "2026-08-28",
+    "buy_price": 54.11,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000657.SZ",
+    "name": "中钨高新",
+    "buy_date": "2026-08-28",
+    "buy_price": 67.54,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000831.SZ",
+    "name": "中国稀土",
+    "buy_date": "2026-08-28",
+    "buy_price": 60.81,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000887.SZ",
+    "name": "中鼎股份",
+    "buy_date": "2026-08-28",
+    "buy_price": 21.04,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000938.SZ",
+    "name": "紫光股份",
+    "buy_date": "2026-08-28",
+    "buy_price": 36.43,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "000977.SZ",
+    "name": "浪潮信息",
+    "buy_date": "2026-08-28",
+    "buy_price": 78.27,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "001309.SZ",
+    "name": "德明利",
+    "buy_date": "2026-08-28",
+    "buy_price": 429.76,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "001359.SZ",
+    "name": "平安电工",
+    "buy_date": "2026-08-28",
+    "buy_price": 90.75,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002064.SZ",
+    "name": "华峰化学",
+    "buy_date": "2026-08-28",
+    "buy_price": 11.62,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002080.SZ",
+    "name": "中材科技",
+    "buy_date": "2026-08-28",
+    "buy_price": 52.48,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002141.SZ",
+    "name": "贤丰控股",
+    "buy_date": "2026-08-28",
+    "buy_price": 6.27,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002156.SZ",
+    "name": "通富微电",
+    "buy_date": "2026-08-28",
+    "buy_price": 63.73,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002167.SZ",
+    "name": "东方锆业",
+    "buy_date": "2026-08-28",
+    "buy_price": 17.28,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002322.SZ",
+    "name": "理工能科",
+    "buy_date": "2026-08-28",
+    "buy_price": 12.44,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002428.SZ",
+    "name": "云南锗业",
+    "buy_date": "2026-08-28",
+    "buy_price": 101.36,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002628.SZ",
+    "name": "成都路桥",
+    "buy_date": "2026-08-28",
+    "buy_price": 5.28,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002741.SZ",
+    "name": "光华科技",
+    "buy_date": "2026-08-28",
+    "buy_price": 25.73,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002774.SZ",
+    "name": "快意电梯",
+    "buy_date": "2026-08-28",
+    "buy_price": 16.68,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002842.SZ",
+    "name": "翔鹭钨业",
+    "buy_date": "2026-08-28",
+    "buy_price": 39.07,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "002980.SZ",
+    "name": "华盛昌",
+    "buy_date": "2026-08-28",
+    "buy_price": 102.05,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "003033.SZ",
+    "name": "征和工业",
+    "buy_date": "2026-08-28",
+    "buy_price": 68.98,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "003032.SZ",
+    "name": "传智教育",
+    "buy_date": "2026-08-28",
+    "buy_price": 10.45,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600113.SH",
+    "name": "浙江东日",
+    "buy_date": "2026-08-28",
+    "buy_price": 30.93,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600206.SH",
+    "name": "有研新材",
+    "buy_date": "2026-08-28",
+    "buy_price": 53.65,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600259.SH",
+    "name": "中稀有色",
+    "buy_date": "2026-08-28",
+    "buy_price": 84.96,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600584.SH",
+    "name": "长电科技",
+    "buy_date": "2026-08-28",
+    "buy_price": 76.54,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600601.SH",
+    "name": "方正科技",
+    "buy_date": "2026-08-28",
+    "buy_price": 12.43,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600641.SH",
+    "name": "先导基电",
+    "buy_date": "2026-08-28",
+    "buy_price": 34.0,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600664.SH",
+    "name": "哈药股份",
+    "buy_date": "2026-08-28",
+    "buy_price": 8.75,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "600683.SH",
+    "name": "京投发展",
+    "buy_date": "2026-08-28",
+    "buy_price": 11.04,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603002.SH",
+    "name": "宏昌电子",
+    "buy_date": "2026-08-28",
+    "buy_price": 16.91,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603078.SH",
+    "name": "江化微",
+    "buy_date": "2026-08-28",
+    "buy_price": 35.09,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603137.SH",
+    "name": "恒尚节能",
+    "buy_date": "2026-08-28",
+    "buy_price": 24.44,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603155.SH",
+    "name": "新亚强",
+    "buy_date": "2026-08-28",
+    "buy_price": 13.83,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603281.SH",
+    "name": "江瀚新材",
+    "buy_date": "2026-08-28",
+    "buy_price": 19.5,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603629.SH",
+    "name": "利通电子",
+    "buy_date": "2026-08-28",
+    "buy_price": 125.22,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603773.SH",
+    "name": "沃格光电",
+    "buy_date": "2026-08-28",
+    "buy_price": 98.46,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "603989.SH",
+    "name": "艾华集团",
+    "buy_date": "2026-08-28",
+    "buy_price": 28.38,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  },
+  {
+    "code": "605358.SH",
+    "name": "立昂微",
+    "buy_date": "2026-08-28",
+    "buy_price": 44.58,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3
+  }
+]

@@ -1,0 +1,53 @@
+[
+  {
+    "code": "002605.SZ",
+    "name": "姚记科技",
+    "buy_date": "2026-07-30",
+    "buy_price": 17.78,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-08-05",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  },
+  {
+    "code": "002848.SZ",
+    "name": "高斯贝尔",
+    "buy_date": "2026-07-30",
+    "buy_price": 12.23,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 12.93,
+    "sell_date": "2026-08-05",
+    "return_pct": 5.72,
+    "hold_days": 6,
+    "status": "verified"
+  },
+  {
+    "code": "603255.SH",
+    "name": "鼎际得",
+    "buy_date": "2026-07-30",
+    "buy_price": 24.91,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 26.51,
+    "sell_date": "2026-08-05",
+    "return_pct": 6.42,
+    "hold_days": 6,
+    "status": "verified"
+  }
+]

@@ -1,0 +1,87 @@
+[
+  {
+    "code": "000783.SZ",
+    "name": "长江证券",
+    "buy_date": "2026-07-14",
+    "buy_price": 8.78,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 8.71,
+    "sell_date": "2026-07-17",
+    "return_pct": -0.8,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "000620.SZ",
+    "name": "盈新发展",
+    "buy_date": "2026-07-14",
+    "buy_price": 3.63,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 3.05,
+    "sell_date": "2026-07-17",
+    "return_pct": -15.98,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "000920.SZ",
+    "name": "沃顿科技",
+    "buy_date": "2026-07-14",
+    "buy_price": 14.03,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 14.15,
+    "sell_date": "2026-07-17",
+    "return_pct": 0.86,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "002430.SZ",
+    "name": "杭氧股份",
+    "buy_date": "2026-07-14",
+    "buy_price": 27.56,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 24.05,
+    "sell_date": "2026-07-17",
+    "return_pct": -12.74,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "002842.SZ",
+    "name": "翔鹭钨业",
+    "buy_date": "2026-07-14",
+    "buy_price": 37.17,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 34.43,
+    "sell_date": "2026-07-17",
+    "return_pct": -7.37,
+    "hold_days": 3,
+    "status": "verified"
+  }
+]

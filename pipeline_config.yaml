@@ -1,0 +1,48 @@
+# 股票筛选分析流水线配置
+# 所有配置项均可通过环境变量覆盖（前缀 PIPELINE_）
+# 优化说明：batch_size=2 + timeout=3h + 并行轮询 + 增量报告 + 失败重试
+
+pipeline:
+  # ==================== TradingAgents-CN API ====================
+  # API 基础 URL
+  api_base_url: "http://localhost:8000"
+  # API 认证凭据（必需）
+  api_username: "admin"
+  api_password: "admin123"
+
+  # ==================== 分析参数 ====================
+  # 每批最多提交的股票数（串行分析，避免本地模型资源争抢导致超时）
+  batch_size: 1
+  # 每只股票的分析超时时间（秒）
+  # 本地模型深度分析较慢，设为 3 小时确保充分完成
+  timeout_per_stock: 10800
+
+  # ==================== 报告配置 ====================
+  # 报告输出目录
+  report_output_dir: "./reports"
+  # HTTP 报告服务监听端口
+  server_port: 8222
+  # TradingAgents 分析结果目录
+  tradingagents_results_dir: "./TradingAgents-CN/results"
+
+  # ==================== 筛选配置 ====================
+  # 筛选策略：b1 或 ultra_short
+  strategy: "b1"
+
+  # ==================== TradingAgents 分析配置 ====================
+  # 分析深度：快速(1级) / 基础(2级) / 标准(3级) / 深度(4级) / 全面(5级)
+  research_depth: "深度"
+  # 分析师团队
+  selected_analysts:
+    - market          # 市场分析师
+    - fundamentals    # 基本面分析师
+    - news            # 新闻分析师
+    - social          # 社媒分析师
+    - czsc            # 缠论分析师（CZSC）
+    - yangjia         # 养家视角分析师（情绪周期+赢面评估）
+
+  # ==================== 调度配置 ====================
+  # 每日执行时间（24小时制 HH:MM）
+  schedule_time: "01:00"
+  # 是否跳过节假日
+  skip_holidays: true

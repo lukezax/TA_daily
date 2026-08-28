@@ -1,0 +1,70 @@
+[
+  {
+    "code": "601211.SH",
+    "name": "国泰海通",
+    "buy_date": "2026-08-04",
+    "buy_price": 18.3,
+    "strategy": "B1",
+    "score": 4,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 17.86,
+    "sell_date": "2026-08-07",
+    "return_pct": -2.4,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "600267.SH",
+    "name": "海正药业",
+    "buy_date": "2026-08-04",
+    "buy_price": 11.42,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 11.92,
+    "sell_date": "2026-08-07",
+    "return_pct": 4.38,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "605296.SH",
+    "name": "神农集团",
+    "buy_date": "2026-08-04",
+    "buy_price": 29.27,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 30.03,
+    "sell_date": "2026-08-07",
+    "return_pct": 2.6,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "600012.SH",
+    "name": "XD皖通高",
+    "buy_date": "2026-08-04",
+    "buy_price": 16.97,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 16.04,
+    "sell_date": "2026-08-07",
+    "return_pct": -5.48,
+    "hold_days": 3,
+    "status": "verified"
+  }
+]

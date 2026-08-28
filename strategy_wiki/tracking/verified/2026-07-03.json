@@ -1,0 +1,19 @@
+[
+  {
+    "code": "001215.SZ",
+    "name": "千味央厨",
+    "buy_date": "2026-06-29",
+    "buy_price": 39.17,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 39.02,
+    "sell_date": "2026-07-03",
+    "return_pct": -0.38,
+    "hold_days": 4,
+    "status": "verified"
+  }
+]

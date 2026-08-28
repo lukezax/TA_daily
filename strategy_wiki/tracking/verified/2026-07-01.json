@@ -1,0 +1,19 @@
+[
+  {
+    "code": "000670.SZ",
+    "name": "盈方微",
+    "buy_date": "2026-06-26",
+    "buy_price": 8.14,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 7.59,
+    "sell_date": "2026-07-01",
+    "return_pct": -6.76,
+    "hold_days": 5,
+    "status": "verified"
+  }
+]

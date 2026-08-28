@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 股票筛选分析报告</title>
+<style>
+:root {
+  --bg: #f5f7fa;
+  --card-bg: #ffffff;
+  --text: #1a1a2e;
+  --text-secondary: #555;
+  --border: #e2e8f0;
+  --accent: #3b82f6;
+  --shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 20px 16px;
+}
+header {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+  color: #fff;
+  padding: 32px 16px;
+  text-align: center;
+}
+header h1 {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+header p {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  margin-top: 8px;
+}
+.report-list {
+  list-style: none;
+  margin-top: 8px;
+}
+.report-item {
+  background: var(--card-bg);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.report-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+.report-item a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  text-decoration: none;
+  color: var(--text);
+}
+.report-date {
+  font-weight: 600;
+  font-size: 1rem;
+}
+.report-count {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+}
+.empty-state .icon { font-size: 3rem; margin-bottom: 16px; }
+footer {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 480px) {
+  .container { padding: 12px 8px; }
+  header { padding: 24px 12px; }
+  .report-item a { padding: 14px 16px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>📊 股票筛选分析报告</h1>
+  <p>B1 策略每日筛选与 AI 分析结果</p>
+</header>
+
+<div class="container">
+{% if reports %}
+<ul class="report-list">
+  {% for report in reports %}
+  <li class="report-item">
+    <a href="{{ report.url }}">
+      <span class="report-date">📅 {{ report.date }}</span>
+      <span class="report-count">{{ report.count }} 只股票</span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<div class="empty-state">
+  <div class="icon">📭</div>
+  <h2>暂无报告</h2>
+  <p style="margin-top: 8px;">尚未生成任何筛选报告</p>
+</div>
+{% endif %}
+</div>
+
+<footer>
+  B1 股票筛选分析系统
+</footer>
+</body>
+</html>

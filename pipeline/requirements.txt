@@ -1,0 +1,8 @@
+# 股票筛选分析流水线依赖
+APScheduler>=3.10.0
+Flask>=3.0.0
+Jinja2>=3.1.0
+PyYAML>=6.0
+requests>=2.31.0
+markdown>=3.5.0
+chinese-calendar>=1.9.0

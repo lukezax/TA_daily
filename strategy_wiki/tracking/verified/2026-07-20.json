@@ -1,0 +1,1322 @@
+[
+  {
+    "code": "601108.SH",
+    "name": "财通证券",
+    "buy_date": "2026-07-14",
+    "buy_price": 8.5,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 8.56,
+    "sell_date": "2026-07-20",
+    "return_pct": 0.71,
+    "hold_days": 6,
+    "status": "verified"
+  },
+  {
+    "code": "600885.SH",
+    "name": "宏发股份",
+    "buy_date": "2026-07-14",
+    "buy_price": 34.45,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 31.46,
+    "sell_date": "2026-07-20",
+    "return_pct": -8.68,
+    "hold_days": 6,
+    "status": "verified"
+  },
+  {
+    "code": "600999.SH",
+    "name": "招商证券",
+    "buy_date": "2026-07-14",
+    "buy_price": 20.46,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 18.92,
+    "sell_date": "2026-07-20",
+    "return_pct": -7.53,
+    "hold_days": 6,
+    "status": "verified"
+  },
+  {
+    "code": "002549.SZ",
+    "name": "凯美特气",
+    "buy_date": "2026-07-14",
+    "buy_price": 17.88,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-07-20",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  },
+  {
+    "code": "002972.SZ",
+    "name": "科安达",
+    "buy_date": "2026-07-14",
+    "buy_price": 17.7,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-07-20",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  },
+  {
+    "code": "601901.SH",
+    "name": "方正证券",
+    "buy_date": "2026-07-15",
+    "buy_price": 7.14,
+    "strategy": "B1",
+    "score": 4,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 6.97,
+    "sell_date": "2026-07-20",
+    "return_pct": -2.38,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "601211.SH",
+    "name": "国泰海通",
+    "buy_date": "2026-07-15",
+    "buy_price": 18.17,
+    "strategy": "B1",
+    "score": 4,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 18.3,
+    "sell_date": "2026-07-20",
+    "return_pct": 0.72,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "600030.SH",
+    "name": "中信证券",
+    "buy_date": "2026-07-15",
+    "buy_price": 28.0,
+    "strategy": "B1",
+    "score": 4,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 27.6,
+    "sell_date": "2026-07-20",
+    "return_pct": -1.43,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "000783.SZ",
+    "name": "长江证券",
+    "buy_date": "2026-07-15",
+    "buy_price": 8.88,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 8.34,
+    "sell_date": "2026-07-20",
+    "return_pct": -6.08,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "601995.SH",
+    "name": "中金公司",
+    "buy_date": "2026-07-15",
+    "buy_price": 35.44,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 35.38,
+    "sell_date": "2026-07-20",
+    "return_pct": -0.17,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "600885.SH",
+    "name": "宏发股份",
+    "buy_date": "2026-07-15",
+    "buy_price": 34.15,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 31.46,
+    "sell_date": "2026-07-20",
+    "return_pct": -7.88,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "002158.SZ",
+    "name": "汉钟精机",
+    "buy_date": "2026-07-15",
+    "buy_price": 33.24,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 26.87,
+    "sell_date": "2026-07-20",
+    "return_pct": -19.16,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "600999.SH",
+    "name": "招商证券",
+    "buy_date": "2026-07-15",
+    "buy_price": 20.4,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 18.92,
+    "sell_date": "2026-07-20",
+    "return_pct": -7.25,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "600641.SH",
+    "name": "先导基电",
+    "buy_date": "2026-07-15",
+    "buy_price": 40.14,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 32.16,
+    "sell_date": "2026-07-20",
+    "return_pct": -19.88,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "603713.SH",
+    "name": "密尔克卫",
+    "buy_date": "2026-07-15",
+    "buy_price": 73.21,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 63.41,
+    "sell_date": "2026-07-20",
+    "return_pct": -13.39,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "002472.SZ",
+    "name": "双环传动",
+    "buy_date": "2026-07-15",
+    "buy_price": 42.39,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 37.8,
+    "sell_date": "2026-07-20",
+    "return_pct": -10.83,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "603650.SH",
+    "name": "彤程新材",
+    "buy_date": "2026-07-15",
+    "buy_price": 78.89,
+    "strategy": "B1",
+    "score": 1,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 67.5,
+    "sell_date": "2026-07-20",
+    "return_pct": -14.44,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "000100.SZ",
+    "name": "TCL科技",
+    "buy_date": "2026-07-15",
+    "buy_price": 5.13,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 5.0,
+    "sell_date": "2026-07-20",
+    "return_pct": -2.53,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "000301.SZ",
+    "name": "东方盛虹",
+    "buy_date": "2026-07-15",
+    "buy_price": 12.23,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 11.4,
+    "sell_date": "2026-07-20",
+    "return_pct": -6.79,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "000510.SZ",
+    "name": "新金路",
+    "buy_date": "2026-07-15",
+    "buy_price": 17.76,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 15.65,
+    "sell_date": "2026-07-20",
+    "return_pct": -11.88,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "000567.SZ",
+    "name": "海德股份",
+    "buy_date": "2026-07-15",
+    "buy_price": 5.99,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 5.51,
+    "sell_date": "2026-07-20",
+    "return_pct": -8.01,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "000636.SZ",
+    "name": "风华高科",
+    "buy_date": "2026-07-15",
+    "buy_price": 59.41,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 46.53,
+    "sell_date": "2026-07-20",
+    "return_pct": -21.68,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "000657.SZ",
+    "name": "中钨高新",
+    "buy_date": "2026-07-15",
+    "buy_price": 74.79,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 60.76,
+    "sell_date": "2026-07-20",
+    "return_pct": -18.76,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "000703.SZ",
+    "name": "恒逸石化",
+    "buy_date": "2026-07-15",
+    "buy_price": 14.54,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 14.65,
+    "sell_date": "2026-07-20",
+    "return_pct": 0.76,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "000811.SZ",
+    "name": "冰轮环境",
+    "buy_date": "2026-07-15",
+    "buy_price": 52.0,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 43.26,
+    "sell_date": "2026-07-20",
+    "return_pct": -16.81,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "000776.SZ",
+    "name": "广发证券",
+    "buy_date": "2026-07-15",
+    "buy_price": 22.1,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 21.6,
+    "sell_date": "2026-07-20",
+    "return_pct": -2.26,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "000833.SZ",
+    "name": "粤桂股份",
+    "buy_date": "2026-07-15",
+    "buy_price": 20.67,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 18.81,
+    "sell_date": "2026-07-20",
+    "return_pct": -9.0,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "000921.SZ",
+    "name": "海信家电",
+    "buy_date": "2026-07-15",
+    "buy_price": 25.45,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 25.04,
+    "sell_date": "2026-07-20",
+    "return_pct": -1.61,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "000962.SZ",
+    "name": "东方钽业",
+    "buy_date": "2026-07-15",
+    "buy_price": 64.0,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 51.63,
+    "sell_date": "2026-07-20",
+    "return_pct": -19.33,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "001389.SZ",
+    "name": "广合科技",
+    "buy_date": "2026-07-15",
+    "buy_price": 186.01,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 176.07,
+    "sell_date": "2026-07-20",
+    "return_pct": -5.34,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "002056.SZ",
+    "name": "横店东磁",
+    "buy_date": "2026-07-15",
+    "buy_price": 25.71,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 24.04,
+    "sell_date": "2026-07-20",
+    "return_pct": -6.5,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "002080.SZ",
+    "name": "中材科技",
+    "buy_date": "2026-07-15",
+    "buy_price": 72.35,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 55.85,
+    "sell_date": "2026-07-20",
+    "return_pct": -22.81,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "002145.SZ",
+    "name": "钛能化学",
+    "buy_date": "2026-07-15",
+    "buy_price": 4.46,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 4.28,
+    "sell_date": "2026-07-20",
+    "return_pct": -4.04,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "002273.SZ",
+    "name": "水晶光电",
+    "buy_date": "2026-07-15",
+    "buy_price": 31.26,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 26.65,
+    "sell_date": "2026-07-20",
+    "return_pct": -14.75,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "002428.SZ",
+    "name": "云南锗业",
+    "buy_date": "2026-07-15",
+    "buy_price": 94.77,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 75.05,
+    "sell_date": "2026-07-20",
+    "return_pct": -20.81,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "002436.SZ",
+    "name": "兴森科技",
+    "buy_date": "2026-07-15",
+    "buy_price": 40.85,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 34.06,
+    "sell_date": "2026-07-20",
+    "return_pct": -16.62,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "002432.SZ",
+    "name": "九安医疗",
+    "buy_date": "2026-07-15",
+    "buy_price": 60.9,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 79.2,
+    "sell_date": "2026-07-20",
+    "return_pct": 30.05,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "002463.SZ",
+    "name": "沪电股份",
+    "buy_date": "2026-07-15",
+    "buy_price": 137.13,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 127.8,
+    "sell_date": "2026-07-20",
+    "return_pct": -6.8,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "002636.SZ",
+    "name": "金安国纪",
+    "buy_date": "2026-07-15",
+    "buy_price": 95.68,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 80.6,
+    "sell_date": "2026-07-20",
+    "return_pct": -15.76,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "002648.SZ",
+    "name": "卫星化学",
+    "buy_date": "2026-07-15",
+    "buy_price": 23.67,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 22.84,
+    "sell_date": "2026-07-20",
+    "return_pct": -3.51,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "002741.SZ",
+    "name": "光华科技",
+    "buy_date": "2026-07-15",
+    "buy_price": 29.5,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 24.8,
+    "sell_date": "2026-07-20",
+    "return_pct": -15.93,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "002895.SZ",
+    "name": "川恒股份",
+    "buy_date": "2026-07-15",
+    "buy_price": 29.43,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 30.6,
+    "sell_date": "2026-07-20",
+    "return_pct": 3.98,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "600095.SH",
+    "name": "湘财股份",
+    "buy_date": "2026-07-15",
+    "buy_price": 7.65,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 8.69,
+    "sell_date": "2026-07-20",
+    "return_pct": 13.59,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "600110.SH",
+    "name": "诺德股份",
+    "buy_date": "2026-07-15",
+    "buy_price": 12.14,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 9.95,
+    "sell_date": "2026-07-20",
+    "return_pct": -18.04,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "600096.SH",
+    "name": "云天化",
+    "buy_date": "2026-07-15",
+    "buy_price": 27.75,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 27.45,
+    "sell_date": "2026-07-20",
+    "return_pct": -1.08,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "600176.SH",
+    "name": "中国巨石",
+    "buy_date": "2026-07-15",
+    "buy_price": 54.52,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 43.8,
+    "sell_date": "2026-07-20",
+    "return_pct": -19.66,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "600183.SH",
+    "name": "生益科技",
+    "buy_date": "2026-07-15",
+    "buy_price": 147.9,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 132.29,
+    "sell_date": "2026-07-20",
+    "return_pct": -10.55,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "600259.SH",
+    "name": "中稀有色",
+    "buy_date": "2026-07-15",
+    "buy_price": 85.88,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 74.05,
+    "sell_date": "2026-07-20",
+    "return_pct": -13.78,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "600346.SH",
+    "name": "恒力石化",
+    "buy_date": "2026-07-15",
+    "buy_price": 15.65,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 15.06,
+    "sell_date": "2026-07-20",
+    "return_pct": -3.77,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "600497.SH",
+    "name": "驰宏锌锗",
+    "buy_date": "2026-07-15",
+    "buy_price": 9.79,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 8.83,
+    "sell_date": "2026-07-20",
+    "return_pct": -9.81,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "600487.SH",
+    "name": "亨通光电",
+    "buy_date": "2026-07-15",
+    "buy_price": 74.38,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 58.39,
+    "sell_date": "2026-07-20",
+    "return_pct": -21.5,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "600549.SH",
+    "name": "厦门钨业",
+    "buy_date": "2026-07-15",
+    "buy_price": 62.57,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 51.27,
+    "sell_date": "2026-07-20",
+    "return_pct": -18.06,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "600888.SH",
+    "name": "新疆众和",
+    "buy_date": "2026-07-15",
+    "buy_price": 11.26,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 9.53,
+    "sell_date": "2026-07-20",
+    "return_pct": -15.36,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "601101.SH",
+    "name": "昊华能源",
+    "buy_date": "2026-07-15",
+    "buy_price": 11.83,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 10.48,
+    "sell_date": "2026-07-20",
+    "return_pct": -11.41,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "601208.SH",
+    "name": "东材科技",
+    "buy_date": "2026-07-15",
+    "buy_price": 53.95,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 43.9,
+    "sell_date": "2026-07-20",
+    "return_pct": -18.63,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "603002.SH",
+    "name": "宏昌电子",
+    "buy_date": "2026-07-15",
+    "buy_price": 18.2,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 15.95,
+    "sell_date": "2026-07-20",
+    "return_pct": -12.36,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "603083.SH",
+    "name": "剑桥科技",
+    "buy_date": "2026-07-15",
+    "buy_price": 200.23,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 176.13,
+    "sell_date": "2026-07-20",
+    "return_pct": -12.04,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "603115.SH",
+    "name": "海星股份",
+    "buy_date": "2026-07-15",
+    "buy_price": 90.66,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 72.95,
+    "sell_date": "2026-07-20",
+    "return_pct": -19.53,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "603132.SH",
+    "name": "金徽股份",
+    "buy_date": "2026-07-15",
+    "buy_price": 15.61,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 14.38,
+    "sell_date": "2026-07-20",
+    "return_pct": -7.88,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "603186.SH",
+    "name": "华正新材",
+    "buy_date": "2026-07-15",
+    "buy_price": 177.01,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 159.3,
+    "sell_date": "2026-07-20",
+    "return_pct": -10.01,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "603256.SH",
+    "name": "宏和科技",
+    "buy_date": "2026-07-15",
+    "buy_price": 206.05,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 160.28,
+    "sell_date": "2026-07-20",
+    "return_pct": -22.21,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "603308.SH",
+    "name": "XD应流股",
+    "buy_date": "2026-07-15",
+    "buy_price": 53.56,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 44.34,
+    "sell_date": "2026-07-20",
+    "return_pct": -17.21,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "603629.SH",
+    "name": "利通电子",
+    "buy_date": "2026-07-15",
+    "buy_price": 113.0,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 90.79,
+    "sell_date": "2026-07-20",
+    "return_pct": -19.65,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "603618.SH",
+    "name": "杭电股份",
+    "buy_date": "2026-07-15",
+    "buy_price": 33.69,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 27.9,
+    "sell_date": "2026-07-20",
+    "return_pct": -17.19,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "603678.SH",
+    "name": "火炬电子",
+    "buy_date": "2026-07-15",
+    "buy_price": 56.01,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 47.23,
+    "sell_date": "2026-07-20",
+    "return_pct": -15.68,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "603730.SH",
+    "name": "岱美股份",
+    "buy_date": "2026-07-15",
+    "buy_price": 11.41,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 10.4,
+    "sell_date": "2026-07-20",
+    "return_pct": -8.85,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "603986.SH",
+    "name": "兆易创新",
+    "buy_date": "2026-07-15",
+    "buy_price": 583.99,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 463.15,
+    "sell_date": "2026-07-20",
+    "return_pct": -20.69,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "605389.SH",
+    "name": "长龄液压",
+    "buy_date": "2026-07-15",
+    "buy_price": 86.86,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 78.45,
+    "sell_date": "2026-07-20",
+    "return_pct": -9.68,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "002472.SZ",
+    "name": "双环传动",
+    "buy_date": "2026-07-16",
+    "buy_price": 42.39,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 37.8,
+    "sell_date": "2026-07-20",
+    "return_pct": -10.83,
+    "hold_days": 4,
+    "status": "verified"
+  },
+  {
+    "code": "605020.SH",
+    "name": "永和股份",
+    "buy_date": "2026-07-16",
+    "buy_price": 36.76,
+    "strategy": "B1",
+    "score": 1,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 33.78,
+    "sell_date": "2026-07-20",
+    "return_pct": -8.11,
+    "hold_days": 4,
+    "status": "verified"
+  },
+  {
+    "code": "001301.SZ",
+    "name": "尚太科技",
+    "buy_date": "2026-07-16",
+    "buy_price": 51.99,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 49.65,
+    "sell_date": "2026-07-20",
+    "return_pct": -4.5,
+    "hold_days": 4,
+    "status": "verified"
+  },
+  {
+    "code": "002517.SZ",
+    "name": "恺英网络",
+    "buy_date": "2026-07-16",
+    "buy_price": 17.18,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 16.2,
+    "sell_date": "2026-07-20",
+    "return_pct": -5.7,
+    "hold_days": 4,
+    "status": "verified"
+  },
+  {
+    "code": "002747.SZ",
+    "name": "埃斯顿",
+    "buy_date": "2026-07-16",
+    "buy_price": 40.9,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 38.19,
+    "sell_date": "2026-07-20",
+    "return_pct": -6.63,
+    "hold_days": 4,
+    "status": "verified"
+  },
+  {
+    "code": "002925.SZ",
+    "name": "盈趣科技",
+    "buy_date": "2026-07-16",
+    "buy_price": 22.68,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 20.29,
+    "sell_date": "2026-07-20",
+    "return_pct": -10.54,
+    "hold_days": 4,
+    "status": "verified"
+  },
+  {
+    "code": "600732.SH",
+    "name": "爱旭股份",
+    "buy_date": "2026-07-16",
+    "buy_price": 12.44,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 11.84,
+    "sell_date": "2026-07-20",
+    "return_pct": -4.82,
+    "hold_days": 4,
+    "status": "verified"
+  },
+  {
+    "code": "603444.SH",
+    "name": "吉比特",
+    "buy_date": "2026-07-16",
+    "buy_price": 366.44,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 340.74,
+    "sell_date": "2026-07-20",
+    "return_pct": -7.01,
+    "hold_days": 4,
+    "status": "verified"
+  },
+  {
+    "code": "000034.SZ",
+    "name": "神州数码",
+    "buy_date": "2026-07-17",
+    "buy_price": 26.93,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 24.61,
+    "sell_date": "2026-07-20",
+    "return_pct": -8.61,
+    "hold_days": 3,
+    "status": "verified"
+  }
+]

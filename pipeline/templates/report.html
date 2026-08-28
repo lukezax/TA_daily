@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 筛选报告 · {{ date }}</title>
+<style>
+:root {
+  --bg: #f5f7fa;
+  --card-bg: #ffffff;
+  --text: #1a1a2e;
+  --text-secondary: #555;
+  --border: #e2e8f0;
+  --accent: #3b82f6;
+  --green: #10b981;
+  --orange: #f59e0b;
+  --red: #ef4444;
+  --shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 0;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px 16px;
+}
+header {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+  color: #fff;
+  padding: 24px 16px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+header h1 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+header .stats {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+header .stats span {
+  display: inline-block;
+  margin: 0 12px;
+  padding: 4px 12px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 20px;
+}
+.stock-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.stock-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+  -webkit-tap-highlight-color: rgba(0,0,0,0.05);
+  touch-action: manipulation;
+}
+.stock-header:hover {
+  background: #f8fafc;
+}
+.stock-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.stock-code {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+.stock-code:hover {
+  text-decoration: underline;
+}
+.stock-name {
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--text);
+  text-decoration: none;
+}
+.stock-name:hover {
+  text-decoration: underline;
+  color: var(--accent);
+}
+.copy-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 2px 4px;
+  border-radius: 4px;
+  vertical-align: middle;
+  transition: background 0.2s;
+}
+.copy-btn:hover {
+  background: #e2e8f0;
+}
+.copy-btn:active {
+  background: #cbd5e1;
+}
+.stock-exchange {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  background: #f1f5f9;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.filter-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+.filter-tag-b1 {
+  background: #dbeafe;
+  color: #1e40af;
+}
+.filter-tag-b2strict {
+  background: #d1fae5;
+  color: #065f46;
+}
+.filter-tag-b2loose {
+  background: #fef3c7;
+  color: #92400e;
+}
+.filter-tag-czsc {
+  background: #fae8ff;
+  color: #86198f;
+}
+.score-badge {
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 6px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.score-4 { background: #d1fae5; color: #065f46; }
+.score-3 { background: #fef3c7; color: #92400e; }
+.score-2 { background: #fee2e2; color: #991b1b; }
+.score-1 { background: #fee2e2; color: #991b1b; }
+.score-0 { background: #f1f5f9; color: #475569; }
+
+.score-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.score-strip-label {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-right: 2px;
+}
+.score-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 3px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+.pill-chan-good { background: #d1fae5; color: #065f46; }
+.pill-chan-mid  { background: #fef3c7; color: #92400e; }
+.pill-chan-bad  { background: #fee2e2; color: #991b1b; }
+.pill-chan-na   { background: #f1f5f9; color: #475569; }
+.pill-win-good  { background: #d1fae5; color: #065f46; }
+.pill-win-mid   { background: #fef3c7; color: #92400e; }
+.pill-win-bad   { background: #fee2e2; color: #991b1b; }
+.pill-win-na    { background: #f1f5f9; color: #475569; }
+
+.action-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 20px 12px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+}
+.action-chip {
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 6px;
+  color: #fff;
+  white-space: nowrap;
+}
+.action-buy { background: var(--green); }
+.action-sell { background: var(--red); }
+.action-hold { background: var(--orange); }
+.action-unknown { background: #9e9e9e; }
+.action-metric {
+  font-size: 0.82rem;
+  padding: 3px 10px;
+  border-radius: 5px;
+  background: #f1f5f9;
+  color: #444;
+  white-space: nowrap;
+}
+.action-metric b { color: #1a1a2e; }
+.action-metric.metric-risk { background: #fff3e0; color: #e65100; }
+.action-metric.metric-risk b { color: #bf360c; }
+.action-metric.metric-target { background: #e8f5e9; color: #2e7d32; }
+.action-metric.metric-target b { color: #1b5e20; }
+
+.stock-details {
+  border-top: 1px solid var(--border);
+  padding: 0;
+}
+details {
+  border-bottom: 1px solid var(--border);
+}
+details:last-child {
+  border-bottom: none;
+}
+summary {
+  padding: 12px 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background: #fafbfc;
+  transition: background 0.2s;
+  list-style: none;
+}
+summary::-webkit-details-marker { display: none; }
+summary::before {
+  content: "▶ ";
+  font-size: 0.7rem;
+  margin-right: 6px;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+details[open] > summary::before {
+  transform: rotate(90deg);
+}
+summary:hover { background: #f1f5f9; }
+.detail-content {
+  padding: 12px 20px 16px;
+}
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+}
+.data-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 0.88rem;
+  border-bottom: 1px dashed #f0f0f0;
+}
+.data-item .label {
+  color: var(--text-secondary);
+}
+.data-item .value {
+  font-weight: 500;
+}
+.bool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 6px;
+}
+.bool-item {
+  font-size: 0.88rem;
+  padding: 4px 0;
+}
+.ai-summary {
+  background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.ai-summary .ai-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.ai-summary .ai-tag {
+  font-size: 0.88rem;
+  padding: 4px 10px;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+.ai-summary .ai-text {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin-top: 8px;
+  line-height: 1.7;
+}
+.ai-summary .ai-text table,
+.report-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 0.85rem;
+}
+.ai-summary .ai-text th,
+.ai-summary .ai-text td,
+.report-content th,
+.report-content td {
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  text-align: left;
+}
+.ai-summary .ai-text th,
+.report-content th {
+  background: #f8fafc;
+  font-weight: 600;
+}
+.ai-summary .ai-text tr:nth-child(even),
+.report-content tr:nth-child(even) {
+  background: #fafbfc;
+}
+.analyst-report {
+  padding: 12px 0;
+}
+.analyst-report h4 {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  color: var(--accent);
+}
+.analyst-report .report-content {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+.analyst-report .report-content h1,
+.analyst-report .report-content h2,
+.analyst-report .report-content h3 {
+  font-size: 0.95rem;
+  color: var(--text);
+  margin: 12px 0 6px;
+}
+.analyst-report .report-content p {
+  margin-bottom: 8px;
+}
+.analyst-report .report-content ul,
+.analyst-report .report-content ol {
+  padding-left: 20px;
+  margin-bottom: 8px;
+}
+.no-ai {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+}
+.empty-state .icon { font-size: 3rem; margin-bottom: 16px; }
+footer {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+footer a { color: var(--accent); text-decoration: none; }
+
+@media (max-width: 768px) {
+  .container { padding: 12px 8px; }
+  header { padding: 16px 12px; }
+  header h1 { font-size: 1.1rem; }
+  .stock-header { padding: 12px 14px; }
+  .data-grid { grid-template-columns: 1fr; }
+  .bool-grid { grid-template-columns: 1fr 1fr; }
+  .ai-summary .ai-row { gap: 8px; }
+  summary { padding: 10px 14px; }
+  .detail-content { padding: 10px 14px 14px; }
+}
+@media (max-width: 480px) {
+  header .stats span { margin: 4px 6px; display: inline-block; }
+  .stock-info { gap: 8px; }
+  .score-badge { font-size: 0.85rem; padding: 4px 10px; }
+  .bool-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>📊 筛选报告 · {{ date }}</h1>
+  <div class="stats">
+    <span>筛选总数: {{ total_scanned }}</span>
+    <span>通过: {{ total_passed }}</span>
+  </div>
+</header>
+
+<div class="container">
+{% if stocks %}
+{% for stock in stocks %}
+<div class="stock-card">
+  <div class="stock-header" onclick="toggleStockDetails(this)">
+    <div class="stock-info">
+      <a class="stock-code" href="{{ stock.url }}" target="_blank" rel="noopener">{{ stock.code }}</a>
+      <button class="copy-btn" onclick="event.stopPropagation();navigator.clipboard.writeText('{{ stock.code.split('.')[0] }}');this.textContent='✓';setTimeout(()=>this.textContent='📋',1000)" title="复制代码">📋</button>
+      <a class="stock-name" href="{{ stock.url }}" target="_blank" rel="noopener">{{ stock.name }}</a>
+      <span class="stock-exchange">{{ stock.exchange }}</span>
+      {% for tag in stock.tags %}
+      <span class="filter-tag {% if tag == 'B1' %}filter-tag-b1{% elif tag == 'B2严格' %}filter-tag-b2strict{% elif tag == 'B2宽松' %}filter-tag-b2loose{% elif tag == '缠高分' %}filter-tag-czsc{% endif %}">{{ tag }}</span>
+      {% endfor %}
+    </div>
+    <span class="score-badge score-{{ stock.total_score }}">{{ stock.total_score }}/4</span>
+  </div>
+  <div class="score-strip">
+    <span class="score-strip-label">缠论评分</span>
+    {% if stock.chan_score %}
+    <span class="score-pill {% if stock.chan_score >= 8 %}pill-chan-good{% elif stock.chan_score >= 5 %}pill-chan-mid{% else %}pill-chan-bad{% endif %}">🧠 {{ stock.chan_score }}/10</span>
+    {% else %}
+    <span class="score-pill pill-chan-na">🧠 —</span>
+    {% endif %}
+    <span class="score-strip-label">养家赢面</span>
+    {% if stock.yangjia_winrate %}
+    <span class="score-pill {% if stock.yangjia_winrate.high > 70 %}pill-win-good{% elif stock.yangjia_winrate.high >= 60 %}pill-win-mid{% else %}pill-win-bad{% endif %}">🎯 {{ stock.yangjia_winrate_str }}</span>
+    {% else %}
+    <span class="score-pill pill-win-na">🎯 —</span>
+    {% endif %}
+  </div>
+  {% if stock.analysis and stock.analysis.recommendation %}
+  <div class="action-bar">
+    {% set action = stock.analysis.recommendation|lower %}
+    {% if '买' in action or 'buy' in action or '增' in action %}
+    <span class="action-chip action-buy">📈 {{ stock.analysis.recommendation }}</span>
+    {% elif '卖' in action or 'sell' in action or '减' in action %}
+    <span class="action-chip action-sell">📉 {{ stock.analysis.recommendation }}</span>
+    {% elif '持' in action or 'hold' in action %}
+    <span class="action-chip action-hold">⏸️ {{ stock.analysis.recommendation }}</span>
+    {% else %}
+    <span class="action-chip action-unknown">❓ {{ stock.analysis.recommendation }}</span>
+    {% endif %}
+    {% if stock.analysis.confidence_score %}
+    <span class="action-metric">置信度: <b>{{ stock.analysis.confidence_score }}%</b></span>
+    {% endif %}
+    {% if stock.analysis.risk_score %}
+    <span class="action-metric metric-risk">风险: <b>{{ stock.analysis.risk_score }}%</b></span>
+    {% endif %}
+    {% if stock.analysis.target_price %}
+    <span class="action-metric metric-target">目标价: <b>{{ stock.analysis.target_price }}</b></span>
+    {% endif %}
+  </div>
+  {% endif %}
+  <div class="stock-details" style="display:none;">
+    <!-- 行情数据 -->
+    <details>
+      <summary>📈 行情数据</summary>
+      <div class="detail-content">
+        <div class="data-grid">
+          <div class="data-item"><span class="label">收盘价</span><span class="value">{{ stock.details.get('收盘价', '—') }}</span></div>
+          <div class="data-item"><span class="label">开盘价</span><span class="value">{{ stock.details.get('开盘价', stock.details.get('open', '—')) }}</span></div>
+          <div class="data-item"><span class="label">最高价</span><span class="value">{{ stock.details.get('最高价', stock.details.get('high', '—')) }}</span></div>
+          <div class="data-item"><span class="label">最低价</span><span class="value">{{ stock.details.get('最低价', stock.details.get('low', '—')) }}</span></div>
+          <div class="data-item"><span class="label">涨幅</span><span class="value">{{ stock.details.get('涨幅', '—') }}%</span></div>
+          <div class="data-item"><span class="label">振幅</span><span class="value">{{ stock.details.get('振幅', '—') }}%</span></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- 市值/量 -->
+    <details>
+      <summary>💰 市值/量</summary>
+      <div class="detail-content">
+        <div class="data-grid">
+          <div class="data-item"><span class="label">总市值</span><span class="value">{{ "%.1f亿"|format((stock.details.get('总市值', 0)|float) / 100000000) }}</span></div>
+          <div class="data-item"><span class="label">流通市值</span><span class="value">{{ "%.1f亿"|format((stock.details.get('流通市值', 0)|float) / 100000000) }}</span></div>
+          <div class="data-item"><span class="label">成交量</span><span class="value">{{ stock.details.get('volume', stock.details.get('成交量', '—')) }}</span></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- KDJ/均线 -->
+    <details>
+      <summary>📉 KDJ/均线</summary>
+      <div class="detail-content">
+        <div class="data-grid">
+          <div class="data-item"><span class="label">J</span><span class="value">{{ stock.details.get('J', '—') }}</span></div>
+          <div class="data-item"><span class="label">K</span><span class="value">{{ stock.details.get('K', '—') }}</span></div>
+          <div class="data-item"><span class="label">D</span><span class="value">{{ stock.details.get('D', '—') }}</span></div>
+          <div class="data-item"><span class="label">MA60</span><span class="value">{{ stock.details.get('MA60', '—') }}</span></div>
+          <div class="data-item"><span class="label">白线</span><span class="value">{{ stock.details.get('白线', '—') }}</span></div>
+          <div class="data-item"><span class="label">黄线</span><span class="value">{{ stock.details.get('黄线', '—') }}</span></div>
+          <div class="data-item"><span class="label">前日收盘价</span><span class="value">{{ stock.details.get('n-1日收盘价', '—') }}</span></div>
+          <div class="data-item"><span class="label">到黄线距离</span><span class="value">{{ stock.details.get('到黄线距离', '—') }}</span></div>
+          <div class="data-item"><span class="label">前周收盘价</span><span class="value">{{ stock.details.get('n-1周收盘价', '—') }}</span></div>
+          <div class="data-item"><span class="label">周K白线</span><span class="value">{{ stock.details.get('周K白线', '—') }}</span></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- B1 原始条件 -->
+    <details>
+      <summary>🎯 B1 原始条件</summary>
+      <div class="detail-content">
+        <div class="bool-grid">
+          <div class="bool-item">{{ '✅' if stock.details.get('J<13') else '❌' }} J&lt;13</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('收盘价>MA60') else '❌' }} 收盘价&gt;MA60</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('收盘价>ZXDKX') else '❌' }} 收盘价&gt;ZXDKX</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('ZXDQ>ZXDKX') else '❌' }} ZXDQ&gt;ZXDKX</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('振幅<7') else '❌' }} 振幅&lt;7</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('涨幅>=-2') else '❌' }} 涨幅&gt;=-2</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('涨幅<2') else '❌' }} 涨幅&lt;2</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('倍量柱条件') else '❌' }} 倍量柱条件</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('市值条件') else '❌' }} 市值条件</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('n-1日K在黄白值之间') else '❌' }} n-1日K在黄白值之间</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('n-1周K高于白线') else '❌' }} n-1周K高于白线</div>
+        </div>
+      </div>
+    </details>
+
+    <!-- B2 条件（仅当股票有 B2 标签时显示） -->
+    {% if 'B2严格' in stock.tags or 'B2宽松' in stock.tags %}
+    <details>
+      <summary>🔥 B2 条件</summary>
+      <div class="detail-content">
+        <div class="data-grid">
+          <div class="data-item"><span class="label">B2 J值</span><span class="value">{{ stock.details.get('B2_J', '—') }}</span></div>
+          <div class="data-item"><span class="label">B2 前日J值</span><span class="value">{{ stock.details.get('B2_J_LAST', '—') }}</span></div>
+          <div class="data-item"><span class="label">B2 K值</span><span class="value">{{ stock.details.get('B2_K', '—') }}</span></div>
+          <div class="data-item"><span class="label">B2 D值</span><span class="value">{{ stock.details.get('B2_D', '—') }}</span></div>
+          <div class="data-item"><span class="label">涨幅</span><span class="value">{{ stock.details.get('B2_涨幅%', '—') }}%</span></div>
+          <div class="data-item"><span class="label">放量比</span><span class="value">{{ stock.details.get('B2_放量比', '—') }}</span></div>
+          <div class="data-item"><span class="label">上影线比</span><span class="value">{{ stock.details.get('B2_上影线比', '—') }}</span></div>
+          <div class="data-item"><span class="label">ZXDQ</span><span class="value">{{ stock.details.get('B2_ZXDQ', '—') }}</span></div>
+          <div class="data-item"><span class="label">ZXDKX</span><span class="value">{{ stock.details.get('B2_ZXDKX', '—') }}</span></div>
+        </div>
+        {% if 'B2严格' in stock.tags %}
+        <div class="bool-grid" style="margin-top: 8px;">
+          <div class="bool-item">{{ '✅' if stock.details.get('B2严_J_LAST<13') else '❌' }} J_LAST&lt;13</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('B2严_涨幅>3.95%') else '❌' }} 涨幅&gt;3.95%</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('B2严_放量') else '❌' }} 放量</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('B2严_J<55') else '❌' }} J&lt;55</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('B2严_收阳且上影线<20%') else '❌' }} 收阳且上影线&lt;20%</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('B2严_C>ZXDKX') else '❌' }} C&gt;ZXDKX</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('B2严_ZXDQ>ZXDKX') else '❌' }} ZXDQ&gt;ZXDKX</div>
+        </div>
+        {% elif 'B2宽松' in stock.tags %}
+        <div class="bool-grid" style="margin-top: 8px;">
+          <div class="bool-item">{{ '✅' if stock.details.get('B2松_J_LAST<0') else '❌' }} J_LAST&lt;0</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('B2松_涨幅>3.95%') else '❌' }} 涨幅&gt;3.95%</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('B2松_放量') else '❌' }} 放量</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('B2松_J<55') else '❌' }} J&lt;55</div>
+        </div>
+        {% endif %}
+      </div>
+    </details>
+    {% endif %}
+
+    <!-- 评分条件 -->
+    <details>
+      <summary>⭐ 评分条件</summary>
+      <div class="detail-content">
+        <div class="bool-grid">
+          <div class="bool-item">{{ '✅' if stock.details.get('新增条件1_30日内倍量') else '❌' }} 30日内倍量（{{ stock.details.get('30日倍量次数', '—') }}次）</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('新增条件2_120日内无大量卖出') else '❌' }} 120日内无放量阴线（违{{ stock.details.get('120日放量阴线次数', '—') }}次）</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('新增条件3_30日内涨幅控制') else '❌' }} 30日内涨幅控制</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('新增条件4_30日内换手率控制') else '❌' }} 30日内换手率控制</div>
+        </div>
+        <div class="data-grid" style="margin-top: 8px;">
+          <div class="data-item"><span class="label">总分</span><span class="value" style="font-weight:700;">{{ stock.details.get('新增条件总分', '—') }}/4</span></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- 回测/斜率 -->
+    <details>
+      <summary>📐 回测/斜率</summary>
+      <div class="detail-content">
+        <div class="data-grid">
+          <div class="data-item"><span class="label">5天回测收益率</span><span class="value">{{ stock.details.get('5天回测收益率', '—') }}%</span></div>
+          <div class="data-item"><span class="label">5天前价格</span><span class="value">{{ stock.details.get('5天前价格', '—') }}</span></div>
+          <div class="data-item"><span class="label">日K3天斜率</span><span class="value">{{ stock.details.get('日K3天斜率', '—') }}</span></div>
+          <div class="data-item"><span class="label">黄白gap占股价%</span><span class="value">{{ stock.details.get('黄白gap占股价%', '—') }}</span></div>
+          <div class="data-item"><span class="label">30日K斜率</span><span class="value">{{ stock.details.get('30日K斜率', '—') }}</span></div>
+          <div class="data-item"><span class="label">120周K斜率</span><span class="value">{{ stock.details.get('120周K斜率', '—') }}</span></div>
+        </div>
+        <div class="bool-grid" style="margin-top: 8px;">
+          <div class="bool-item">{{ '✅' if stock.details.get('日K3天斜率<0.2') else '❌' }} 日K3天斜率&lt;0.2</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('黄白gap>5%') else '❌' }} 黄白gap&gt;5%</div>
+        </div>
+      </div>
+    </details>
+
+    <!-- 形态统计 -->
+    <details>
+      <summary>🔍 形态统计</summary>
+      <div class="detail-content">
+        <div class="data-grid">
+          <div class="data-item"><span class="label">30天涨幅</span><span class="value">{{ stock.details.get('30天涨幅', '—') }}%</span></div>
+          <div class="data-item"><span class="label">30天涨幅限制</span><span class="value">{{ stock.details.get('30天涨幅限制', '—') }}</span></div>
+        </div>
+        <div class="bool-grid" style="margin-top: 8px;">
+          <div class="bool-item">{{ '✅' if stock.details.get('30天涨幅达标') else '❌' }} 30天涨幅达标</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('30天无连续涨停') else '❌' }} 无连续涨停</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('无长上影') else '❌' }} 无长上影</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('无顶部大风车') else '❌' }} 无顶部大风车</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('无非正常放量') else '❌' }} 无非正常放量</div>
+          <div class="bool-item">{{ '✅' if stock.details.get('无跳空') else '❌' }} 无跳空</div>
+        </div>
+      </div>
+    </details>
+
+    <!-- AI 分析 -->
+    <details>
+      <summary>🤖 AI 分析</summary>
+      <div class="detail-content">
+        {% if stock.analysis %}
+        <div class="ai-summary">
+          <div class="ai-row">
+            <span class="ai-tag">📋 建议: <strong>{{ stock.analysis.recommendation or '—' }}</strong></span>
+            {% if stock.analysis.confidence_score %}
+            <span class="ai-tag" title="置信度越高表示AI对建议越确定。>70%=高确信, 40-70%=中等, <40%=低确信">🎯 置信度: <strong>{{ stock.analysis.confidence_score }}%</strong></span>
+            {% else %}
+            <span class="ai-tag">🎯 置信度: <strong>—</strong></span>
+            {% endif %}
+            {% if stock.analysis.risk_score %}
+            <span class="ai-tag" title="风险评分越高表示下行风险越大。<30%=低风险, 30-60%=中等, >60%=高风险">⚠️ 风险: <strong>{{ stock.analysis.risk_score }}%</strong></span>
+            {% else %}
+            <span class="ai-tag">⚠️ 风险: <strong>—</strong></span>
+            {% endif %}
+            {% if stock.analysis.target_price %}
+            <span class="ai-tag">💲 目标价: <strong>{{ stock.analysis.target_price }}</strong></span>
+            {% endif %}
+          </div>
+          <p style="font-size:0.75rem; color:#888; margin-top:4px;">💡 置信度: 越高=AI越确定（>70%高确信）| 风险: 越低越好（<30%低风险）</p>
+          {% if stock.analysis.summary %}
+          <div class="ai-text">{{ stock.analysis.summary|safe }}</div>
+          {% endif %}
+        </div>
+
+        {% if stock.analyst_reports %}
+        {% for report_name, report_html in stock.analyst_reports.items() %}
+        <details class="analyst-report">
+          <summary style="background:transparent; padding: 8px 0; border-bottom: 1px solid var(--border);">📄 {{ report_name }}</summary>
+          <div class="report-content">{{ report_html|safe }}</div>
+        </details>
+        {% endfor %}
+        {% endif %}
+
+        {% else %}
+        <div class="no-ai">
+          <p>🔄 AI 分析未完成</p>
+          <p style="font-size: 0.8rem; margin-top: 4px;">TradingAgents 分析尚未完成或服务不可用</p>
+        </div>
+        {% endif %}
+      </div>
+    </details>
+  </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="empty-state">
+  <div class="icon">📭</div>
+  <h2>今日无符合条件的股票</h2>
+  <p style="margin-top: 8px;">B1/B2 策略筛选与缠论高分通道均未发现符合条件的标的</p>
+</div>
+{% endif %}
+</div>
+
+<footer>
+  <a href="./index.html">← 返回报告列表</a> · 生成时间: {{ now }}
+</footer>
+
+<script>
+function toggleStockDetails(headerEl) {
+  var card = headerEl.closest('.stock-card');
+  var details = card.querySelector('.stock-details');
+  if (details.style.display === 'none') {
+    details.style.display = '';
+  } else {
+    details.style.display = 'none';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.stock-header').forEach(function(header) {
+    header.addEventListener('touchend', function(e) {
+      if (e.target.closest('a, button')) return;
+      e.preventDefault();
+      toggleStockDetails(this);
+    });
+  });
+});
+</script>
+</body>
+</html>

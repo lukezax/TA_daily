@@ -1,0 +1,104 @@
+[
+  {
+    "code": "600285.SH",
+    "name": "羚锐制药",
+    "buy_date": "2026-07-28",
+    "buy_price": 22.31,
+    "strategy": "B1",
+    "score": 4,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 23.48,
+    "sell_date": "2026-07-31",
+    "return_pct": 5.24,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "600998.SH",
+    "name": "九州通",
+    "buy_date": "2026-07-28",
+    "buy_price": 5.05,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 5.15,
+    "sell_date": "2026-07-31",
+    "return_pct": 1.98,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "600177.SH",
+    "name": "雅戈尔",
+    "buy_date": "2026-07-28",
+    "buy_price": 7.74,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 7.88,
+    "sell_date": "2026-07-31",
+    "return_pct": 1.81,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "002841.SZ",
+    "name": "视源股份",
+    "buy_date": "2026-07-28",
+    "buy_price": 45.06,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 42.25,
+    "sell_date": "2026-07-31",
+    "return_pct": -6.24,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "002541.SZ",
+    "name": "鸿路钢构",
+    "buy_date": "2026-07-28",
+    "buy_price": 19.8,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 20.18,
+    "sell_date": "2026-07-31",
+    "return_pct": 1.92,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "002292.SZ",
+    "name": "奥飞娱乐",
+    "buy_date": "2026-07-28",
+    "buy_price": 7.76,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 7.99,
+    "sell_date": "2026-07-31",
+    "return_pct": 2.96,
+    "hold_days": 3,
+    "status": "verified"
+  }
+]

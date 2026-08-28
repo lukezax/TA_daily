@@ -1,0 +1,87 @@
+[
+  {
+    "code": "000848.SZ",
+    "name": "承德露露",
+    "buy_date": "2026-07-29",
+    "buy_price": 8.47,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-08-04",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  },
+  {
+    "code": "000948.SZ",
+    "name": "南天信息",
+    "buy_date": "2026-07-29",
+    "buy_price": 14.07,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-08-04",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  },
+  {
+    "code": "002642.SZ",
+    "name": "荣联科技",
+    "buy_date": "2026-07-29",
+    "buy_price": 7.26,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-08-04",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  },
+  {
+    "code": "002991.SZ",
+    "name": "甘源食品",
+    "buy_date": "2026-07-29",
+    "buy_price": 41.36,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-08-04",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  },
+  {
+    "code": "605337.SH",
+    "name": "李子园",
+    "buy_date": "2026-07-29",
+    "buy_price": 8.86,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-08-04",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  }
+]
