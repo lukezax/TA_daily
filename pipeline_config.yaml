@@ -51,11 +51,11 @@ pipeline:
   # 模型 worker 列表：每个 worker 独立从股票队列抢任务，谁先完成谁的结果进报告
   workers:
     - name: local
+      model_name: "local"
+      timeout: 10800
+    - name: remote
       model_name: "Qwen3.5-122B-A10B-w4a8-nothinking"
       timeout: 10800
-    - name: cloud
-      model_name: "qwen3.7-max"
-      timeout: 1800
 
   # 调度策略
   dispatch:
