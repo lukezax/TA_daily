@@ -47,6 +47,7 @@ frontend/node_modules/
 .trae/
 .vscode/
 .idea/
+.omo/
 
 # ===== 压缩包 =====
 *.zip
