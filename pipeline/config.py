@@ -15,9 +15,11 @@ import yaml
 @dataclass
 class WorkerSpec:
     """一个 worker = 一种模型调用通道(本地 / 云端)。"""
-    name: str                    # "local" / "cloud"
+    name: str                    # "local" / "remote"
     model_name: str              # 传给 TA-CN 的 model_name
     timeout: int = 10800         # 单只股超时(秒)
+    research_depth: Optional[str] = None  # worker级别覆盖（None=使用pipeline级别）
+    start_delay: int = 0         # 启动延时(秒)，0=立即启动
 
 
 @dataclass
@@ -60,6 +62,11 @@ class PipelineConfig:
     # 并发调度(消费者模型)
     workers: List[WorkerSpec] = field(default_factory=list)   # 模型 worker 列表
     dispatch: DispatchConfig = field(default_factory=DispatchConfig)
+    mode: str = "local+remote"   # 运行模式: local(仅本地) / local+remote(本地+云端)
+
+    # 反思记忆：分析当天登记，T+N 收盘后回填收益并写入记忆库
+    reflection_enabled: bool = False
+    reflection_delay_days: int = 1
 
 
 # 必需配置项列表
@@ -109,6 +116,7 @@ def load_config(config_path: Optional[str] = None) -> PipelineConfig:
         "research_depth": "PIPELINE_RESEARCH_DEPTH",
         "schedule_time": "PIPELINE_SCHEDULE_TIME",
         "skip_holidays": "PIPELINE_SKIP_HOLIDAYS",
+        "mode": "PIPELINE_MODE",
     }
 
     # 对每个字段：环境变量 > YAML > 默认值
@@ -135,6 +143,14 @@ def load_config(config_path: Optional[str] = None) -> PipelineConfig:
     # dispatch 解析
     if "dispatch" in yaml_config and isinstance(yaml_config["dispatch"], dict):
         config_dict["dispatch"] = DispatchConfig(**yaml_config["dispatch"])
+
+    # reflection 解析（嵌套块，与 dispatch 同构）
+    reflection = yaml_config.get("reflection")
+    if isinstance(reflection, dict):
+        if "enabled" in reflection:
+            config_dict["reflection_enabled"] = bool(reflection["enabled"])
+        if "delay_days" in reflection:
+            config_dict["reflection_delay_days"] = int(reflection["delay_days"])
 
     # 类型转换
     if "batch_size" in config_dict:

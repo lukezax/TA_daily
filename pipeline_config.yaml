@@ -53,6 +53,8 @@ pipeline:
     - name: local
       model_name: "local"
       timeout: 10800
+      research_depth: "标准"        # local worker使用标准分析（3级），减少分析时间
+      start_delay: 60               # 启动延时60秒，避开remote启动峰值
     - name: remote
       model_name: "Qwen3.5-122B-A10B-w4a8-nothinking"
       timeout: 10800
@@ -61,3 +63,14 @@ pipeline:
   dispatch:
     max_retry: 1           # 失败重入队次数（总共尝试 max_retry+1 次）
     failure_threshold: 3   # 同一 worker 连续失败 N 次判本轮失效
+
+  # 运行模式: local=仅本地模型, local+remote=本地+云端并行
+  # 命令行 --mode 可覆盖此配置
+  mode: "local+remote"
+
+  # 反思记忆：分析当天登记带方向的决策，T+N 收盘后由
+  # reflection_worker 回填收益并写入 5 个记忆集合。
+  # 「持有」不写入（无可学习因果）。
+  reflection:
+    enabled: true       # 已通过检查点 A/B 验收
+    delay_days: 1       # T+1 收盘后执行

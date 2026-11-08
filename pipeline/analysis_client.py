@@ -80,7 +80,7 @@ class TradingAgentsClient:
         """去掉股票代码后缀,TradingAgents 只接受纯 6 位数字。"""
         return code.split(".")[0]
 
-    def submit_one(self, stock, model_name: str, headers: dict) -> str:
+    def submit_one(self, stock, model_name: str, headers: dict, research_depth: str = None) -> str:
         """提交单只股票分析,返回 task_id。"""
         symbol = self._normalize_code(stock.code)
         payload = {
@@ -89,7 +89,7 @@ class TradingAgentsClient:
             "parameters": {
                 "market_type": "A股",
                 "analysis_date": self._analysis_date,
-                "research_depth": self.research_depth,
+                "research_depth": research_depth or self.research_depth,  # 优先使用worker级别
                 "selected_analysts": self.selected_analysts,
                 "include_sentiment": True,
                 "include_risk": True,

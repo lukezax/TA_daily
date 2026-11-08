@@ -52,7 +52,7 @@ ULTRA_SHORT_STRATEGY_CONFIG = {
 
 # API参数
 API_CONFIG = {
-    'token': '44FE41B5-3D9B-44FB-800B-12814D1202B2',  # 付费 token（兜底）
+    'token': 'A7A0890B-075C-4E4C-91F7-874BBF9EBBA7',  # 付费 token（兜底）
     'base_url': 'https://api.zhituapi.com',  # API基础URL
     'request_interval': 0.5,  # 请求间隔（秒）
     # 免费 token 列表（每天 200 次/token），优先使用

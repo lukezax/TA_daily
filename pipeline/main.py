@@ -88,6 +88,9 @@ def main():
     parser.add_argument("--config", type=str, default=None, help="配置文件路径")
     parser.add_argument("--debug", action="store_true",
                         help="调试模式：不更新数据（跳过市值快筛和API拉取），只用本地缓存跑筛选+分析流程")
+    parser.add_argument("--mode", type=str, default=None,
+                        choices=["local", "local+remote"],
+                        help="worker 运行模式: local=仅本地模型, local+remote=本地+云端并行（默认读配置）")
     args = parser.parse_args()
 
     if not any([args.run, args.now, args.serve, args.schedule]):
@@ -116,6 +119,17 @@ def main():
         except (ValueError, AttributeError):
             print(f"[错误] --time 格式无效: {args.time}，应为 HH:MM（如 01:30）", file=sys.stderr)
             sys.exit(1)
+
+    # 如果指定了 --mode，覆盖配置中的 mode
+    if args.mode:
+        config.mode = args.mode
+
+    # 根据 mode 过滤 worker：local 模式只保留本地 worker
+    if config.mode == "local":
+        config.workers = [w for w in config.workers if w.name == "local"]
+        logger.info("worker 模式: 仅本地 (local)，%d 个 worker", len(config.workers))
+    else:
+        logger.info("worker 模式: 本地+云端 (local+remote)，%d 个 worker", len(config.workers))
 
     logger.info("配置加载完成: api=%s, port=%d, schedule=%s",
                 config.api_base_url, config.server_port, config.schedule_time)

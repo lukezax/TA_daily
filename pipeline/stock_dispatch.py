@@ -102,6 +102,12 @@ class StockDispatchQueue:
             "Content-Type": "application/json",
         }
 
+        if worker.start_delay > 0:
+            logger.info(
+                "⏳ worker[%s] 启动延时 %ds", worker.name, worker.start_delay
+            )
+            time.sleep(worker.start_delay)
+
         while not self._stop.is_set():
             try:
                 stock, attempt = self._queue.get(timeout=1)
@@ -142,7 +148,8 @@ class StockDispatchQueue:
         result = None
         err = ""
         try:
-            task_id = self._executor.submit_one(stock, worker.model_name, headers)
+            worker_depth = getattr(worker, 'research_depth', None)
+            task_id = self._executor.submit_one(stock, worker.model_name, headers, worker_depth)
             result = self._executor.poll_one(
                 stock, task_id, headers, worker.timeout
             )
