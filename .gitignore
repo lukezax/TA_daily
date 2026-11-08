@@ -40,6 +40,13 @@ node_modules/
 frontend/dist/
 frontend/node_modules/
 
+# ===== Rust 构建产物 =====
+target/
+
+# ===== 临时数据 / 本地测试配置 =====
+TradingAgents-CN/tmp/
+opencode.json.permtest
+
 # ===== 工具缓存 =====
 .codegraph/
 .kiro/
