@@ -301,12 +301,24 @@ class ReportGenerator:
             # 解析缠论评分与养家赢面（从报告文件提取，缺失时为 None）
             scores = load_scores(self.config.tradingagents_results_dir, stock.code, date)
 
+            # 提取干净的行动词（买入/卖出/持有），用于报告颜色判断
+            action = ""
+            try:
+                decision = self.report_reader.read_final_decision(stock.code, date)
+                if decision and decision.get("action"):
+                    action = decision["action"].strip()
+            except Exception:
+                action = ""
+            if not action and analysis and analysis.recommendation:
+                action = analysis.recommendation.strip()
+
             stocks.append(
                 {
                     "code": stock.code,
                     "name": stock.name,
                     "exchange": stock.exchange,
                     "total_score": stock.total_score,
+                    "action": action,
                     "tags": stock.tags,
                     "details": stock.details,
                     "analysis": analysis,
@@ -318,18 +330,22 @@ class ReportGenerator:
                 }
             )
 
-        # 排序：纯B2严格 > B2严格+宽松 > 纯B2宽松 > 缠高分 > B1按总分降序
+        # 排序：B2严格 > B2严格+宽松 > B2宽松 > B1 > 3天买入 > 自选（按最高优先级归类）
         def _sort_priority(s):
             tags = s.get("tags", [])
             has_strict = 'B2严格' in tags
             has_loose = 'B2宽松' in tags
             if has_strict and not has_loose:
-                priority = 400
+                priority = 500
             elif has_strict and has_loose:
-                priority = 300
+                priority = 450
             elif has_loose:
+                priority = 400
+            elif 'B1' in tags:
+                priority = 300
+            elif '历史买入' in tags:
                 priority = 200
-            elif '缠高分' in tags:
+            elif '自选' in tags:
                 priority = 100
             else:
                 priority = 0

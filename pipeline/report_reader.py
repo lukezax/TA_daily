@@ -7,6 +7,25 @@ import re
 from pathlib import Path
 from typing import Dict, Optional
 
+ACTION_KEYWORDS = ("买入", "卖出", "持有")
+_PRIORITY = {"买入": 0, "卖出": 1, "持有": 2}
+
+
+def extract_action(report: Dict) -> str:
+    """从报告里取出决策动作，取不到就返回空串。
+
+    decision.action 是权威来源；缺失时从 recommendation 文本回退，
+    但「持有」在自然语言里常出现在否定句中，所以优先级低于买入/卖出。
+    """
+    if not report:
+        return ""
+    action = ((report.get("decision") or {}).get("action") or "").strip()
+    if action in ACTION_KEYWORDS:
+        return action
+    text = str(report.get("recommendation") or "")
+    hits = [w for w in ACTION_KEYWORDS if w in text]
+    return min(hits, key=lambda w: _PRIORITY[w]) if hits else ""
+
 
 class TradingAgentsReportReader:
     """读取 TradingAgents 已生成的报告文件"""

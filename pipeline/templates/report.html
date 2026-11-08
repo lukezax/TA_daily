@@ -56,6 +56,38 @@ header .stats span {
   background: rgba(255,255,255,0.15);
   border-radius: 20px;
 }
+.legend {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin: 16px 0 0;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+.legend-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.legend-tag {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.72rem;
+}
 .stock-card {
   background: var(--card-bg);
   border-radius: 12px;
@@ -137,16 +169,20 @@ header .stats span {
   color: #1e40af;
 }
 .filter-tag-b2strict {
-  background: #d1fae5;
-  color: #065f46;
+  background: #cffafe;
+  color: #155e75;
 }
 .filter-tag-b2loose {
-  background: #fef3c7;
-  color: #92400e;
+  background: #e0e7ff;
+  color: #3730a3;
 }
 .filter-tag-czsc {
-  background: #fae8ff;
-  color: #86198f;
+  background: #fce7f3;
+  color: #9d174d;
+}
+.filter-tag-histbuy {
+  background: #f3e8ff;
+  color: #6b21a8;
 }
 .score-badge {
   font-weight: 700;
@@ -211,7 +247,7 @@ header .stats span {
 }
 .action-buy { background: var(--green); }
 .action-sell { background: var(--red); }
-.action-hold { background: var(--orange); }
+.action-hold { background: #64748b; }
 .action-unknown { background: #9e9e9e; }
 .action-metric {
   font-size: 0.82rem;
@@ -419,6 +455,18 @@ footer a { color: var(--accent); text-decoration: none; }
 </header>
 
 <div class="container">
+<div class="legend">
+  <div class="legend-group"><span class="legend-dot" style="background:#10b981"></span> 评分灯：绿=好 · 黄=中 · 红=差</div>
+  <div class="legend-group"><span class="legend-dot" style="background:#ef4444"></span> 行动：买入=绿 · 持有=灰 · 卖出=红</div>
+  <div class="legend-group">
+    <span class="legend-tag" style="background:#dbeafe;color:#1e40af">B1</span>
+    <span class="legend-tag" style="background:#cffafe;color:#155e75">B2严格</span>
+    <span class="legend-tag" style="background:#e0e7ff;color:#3730a3">B2宽松</span>
+    <span class="legend-tag" style="background:#f3e8ff;color:#6b21a8">3天买入</span>
+    <span class="legend-tag" style="background:#fce7f3;color:#9d174d">缠高分</span>
+    <span style="color:#9e9e9e">= 来源分类</span>
+  </div>
+</div>
 {% if stocks %}
 {% for stock in stocks %}
 <div class="stock-card">
@@ -429,7 +477,11 @@ footer a { color: var(--accent); text-decoration: none; }
       <a class="stock-name" href="{{ stock.url }}" target="_blank" rel="noopener">{{ stock.name }}</a>
       <span class="stock-exchange">{{ stock.exchange }}</span>
       {% for tag in stock.tags %}
+      {% if tag == '历史买入' and stock.details.get('买入次数', 0) >= 1 %}
+      <span class="filter-tag filter-tag-histbuy">3天买入：{{ stock.details.get('买入次数', 0) }}(次数)</span>
+      {% elif tag != '历史买入' %}
       <span class="filter-tag {% if tag == 'B1' %}filter-tag-b1{% elif tag == 'B2严格' %}filter-tag-b2strict{% elif tag == 'B2宽松' %}filter-tag-b2loose{% elif tag == '缠高分' %}filter-tag-czsc{% endif %}">{{ tag }}</span>
+      {% endif %}
       {% endfor %}
     </div>
     <span class="score-badge score-{{ stock.total_score }}">{{ stock.total_score }}/4</span>
@@ -448,17 +500,17 @@ footer a { color: var(--accent); text-decoration: none; }
     <span class="score-pill pill-win-na">🎯 —</span>
     {% endif %}
   </div>
-  {% if stock.analysis and stock.analysis.recommendation %}
+  {% if stock.action %}
   <div class="action-bar">
-    {% set action = stock.analysis.recommendation|lower %}
-    {% if '买' in action or 'buy' in action or '增' in action %}
-    <span class="action-chip action-buy">📈 {{ stock.analysis.recommendation }}</span>
-    {% elif '卖' in action or 'sell' in action or '减' in action %}
-    <span class="action-chip action-sell">📉 {{ stock.analysis.recommendation }}</span>
-    {% elif '持' in action or 'hold' in action %}
-    <span class="action-chip action-hold">⏸️ {{ stock.analysis.recommendation }}</span>
+    {% set action = stock.action|lower %}
+    {% if action == '买入' or action == 'buy' or '买' in action %}
+    <span class="action-chip action-buy">📈 {{ stock.analysis.recommendation if stock.analysis else stock.action }}</span>
+    {% elif action == '卖出' or action == 'sell' or '卖' in action %}
+    <span class="action-chip action-sell">📉 {{ stock.analysis.recommendation if stock.analysis else stock.action }}</span>
+    {% elif action == '持有' or action == 'hold' or '持' in action %}
+    <span class="action-chip action-hold">⏸️ {{ stock.analysis.recommendation if stock.analysis else stock.action }}</span>
     {% else %}
-    <span class="action-chip action-unknown">❓ {{ stock.analysis.recommendation }}</span>
+    <span class="action-chip action-unknown">❓ {{ stock.analysis.recommendation if stock.analysis else stock.action }}</span>
     {% endif %}
     {% if stock.analysis.confidence_score %}
     <span class="action-metric">置信度: <b>{{ stock.analysis.confidence_score }}%</b></span>

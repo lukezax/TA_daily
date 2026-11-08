@@ -18,6 +18,11 @@ CHAN_SCORE_RE = re.compile(
     r"综合评分[^：:\n]{0,4}[：:]\s*(\d{1,2})\s*(?:/\s*10)?\s*分?"
 )
 
+# 养家赢面（固定格式，LLM 约定输出）：赢面评分=72% / 赢面评分=70-75%
+YANGJIA_FIXED_RE = re.compile(
+    r"赢面评分\s*=\s*(\d{1,3})(?:\s*[-~至到]\s*(\d{1,3}))?\s*%?"
+)
+
 # 养家赢面（区间）：赢面：70-75% / 赢面评分：40-50% / **赢面评估：** ~72-75% / 当前赢面：约55-60%
 WINRATE_RANGE_RE = re.compile(
     r"赢面[^：:\n]{0,8}[：:]\s*[*约~\s]*(\d{1,3})\s*%?\s*[-~至到]\s*(\d{1,3})\s*%?"
@@ -61,13 +66,20 @@ def parse_yangjia_winrate(md_text: str) -> Optional[Dict[str, int]]:
     if not md_text:
         return None
 
-    # 1) 区间格式：赢面：70-75%
+    # 1) 固定格式（LLM 约定输出，优先）：赢面评分=72% / 赢面评分=70-75%
+    m = YANGJIA_FIXED_RE.search(md_text)
+    if m:
+        low = int(m.group(1))
+        high = int(m.group(2)) if m.group(2) else low
+        return {"low": min(low, high), "high": max(low, high)}
+
+    # 2) 区间格式：赢面：70-75%
     m = WINRATE_RANGE_RE.search(md_text)
     if m:
         low, high = int(m.group(1)), int(m.group(2))
         return {"low": min(low, high), "high": max(low, high)}
 
-    # 2) 单值：预估赢面: <60%（上限） / 赢面：72%（精确值）
+    # 3) 单值：预估赢面: <60%（上限） / 赢面：72%（精确值）
     m = WINRATE_SINGLE_RE.search(md_text)
     if m:
         value = int(m.group(2))
@@ -75,13 +87,13 @@ def parse_yangjia_winrate(md_text: str) -> Optional[Dict[str, int]]:
             return {"low": 0, "high": max(0, value - 1)}
         return {"low": value, "high": value}
 
-    # 3) 无冒号上限：赢面 < 50% / 赢面<60%
+    # 4) 无冒号上限：赢面 < 50% / 赢面<60%
     m = WINRATE_LT_RE.search(md_text)
     if m:
         value = int(m.group(1))
         return {"low": 0, "high": max(0, value - 1)}
 
-    # 4) 自由文本兜底：赢面70-75%
+    # 5) 自由文本兜底：赢面70-75%
     m = WINRATE_FREE_RE.search(md_text)
     if m:
         low, high = int(m.group(1)), int(m.group(2))
