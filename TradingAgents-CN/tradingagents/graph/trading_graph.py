@@ -254,12 +254,12 @@ class TradingAgentsGraph:
         deep_config = self.config.get("deep_model_config", {})
 
         # 读取快速模型参数
-        quick_max_tokens = quick_config.get("max_tokens", 131072)
+        quick_max_tokens = quick_config.get("max_tokens", 32768)
         quick_temperature = quick_config.get("temperature", 0.7)
         quick_timeout = quick_config.get("timeout", 600)
 
         # 读取深度模型参数
-        deep_max_tokens = deep_config.get("max_tokens", 131072)
+        deep_max_tokens = deep_config.get("max_tokens", 32768)
         deep_temperature = deep_config.get("temperature", 0.7)
         deep_timeout = deep_config.get("timeout", 600)
 
@@ -495,11 +495,11 @@ class TradingAgentsGraph:
             quick_config = self.config.get("quick_model_config", {})
             deep_config = self.config.get("deep_model_config", {})
             
-            quick_max_tokens = quick_config.get("max_tokens", 131072)
+            quick_max_tokens = quick_config.get("max_tokens", 32768)
             quick_temperature = quick_config.get("temperature", 0.7)
             quick_timeout = quick_config.get("timeout", 180)
             
-            deep_max_tokens = deep_config.get("max_tokens", 131072)
+            deep_max_tokens = deep_config.get("max_tokens", 32768)
             deep_temperature = deep_config.get("temperature", 0.7)
             deep_timeout = deep_config.get("timeout", 180)
             
@@ -562,13 +562,13 @@ class TradingAgentsGraph:
             quick_config = self.config.get("quick_model_config", {})
             deep_config = self.config.get("deep_model_config", {})
 
-            quick_max_tokens = quick_config.get("max_tokens", 131072)
+            quick_max_tokens = quick_config.get("max_tokens", 32768)
             quick_temperature = quick_config.get("temperature", 0.7)
-            quick_timeout = quick_config.get("timeout", 180)
+            quick_timeout = quick_config.get("timeout", 500)
 
-            deep_max_tokens = deep_config.get("max_tokens", 131072)
+            deep_max_tokens = deep_config.get("max_tokens", 32768)
             deep_temperature = deep_config.get("temperature", 0.7)
-            deep_timeout = deep_config.get("timeout", 180)
+            deep_timeout = deep_config.get("timeout", 500)
 
             logger.info(f"🔧 [{provider_name}-快速模型] max_tokens={quick_max_tokens}, temperature={quick_temperature}, timeout={quick_timeout}s")
             logger.info(f"🔧 [{provider_name}-深度模型] max_tokens={deep_max_tokens}, temperature={deep_temperature}, timeout={deep_timeout}s")

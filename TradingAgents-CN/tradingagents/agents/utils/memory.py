@@ -6,6 +6,7 @@ from dashscope import TextEmbedding
 import os
 import threading
 import hashlib
+from collections import OrderedDict
 from typing import Dict, Optional
 from urllib.parse import urlparse
 
@@ -39,6 +40,49 @@ def _create_openai_bypass_proxy(**kwargs) -> OpenAI:
         return client
     else:
         return OpenAI(**kwargs)
+
+
+# ===== embedding 结果缓存 =====
+# 为什么要有：换成远程 embedding 服务后单次约 22 秒，而一次分析里 5 个 agent 各调一次
+# get_memories，其中 bull/bear/trader/research_manager 四个拼出的 curr_situation
+# **逐字相同**（四份报告 + 缠论段），只有 risk_manager 少缠论那段 —— 5 次调用只有
+# 2 种文本。不缓存就是每股白烧 3×22≈66 秒。
+# 做成模块级（而非实例级），因为 5 个 agent 各有各的 FinancialSituationMemory 实例。
+_EMBEDDING_CACHE: "OrderedDict[str, list]" = OrderedDict()
+_EMBEDDING_CACHE_LOCK = threading.Lock()
+_EMBEDDING_CACHE_DEFAULT_SIZE = 8
+
+
+def _embedding_cache_size() -> int:
+    try:
+        return max(0, int(os.getenv('EMBEDDING_CACHE_SIZE', _EMBEDDING_CACHE_DEFAULT_SIZE)))
+    except (TypeError, ValueError):
+        return _EMBEDDING_CACHE_DEFAULT_SIZE
+
+
+def _cache_get(key: str) -> Optional[list]:
+    with _EMBEDDING_CACHE_LOCK:
+        if key not in _EMBEDDING_CACHE:
+            return None
+        _EMBEDDING_CACHE.move_to_end(key)
+        return list(_EMBEDDING_CACHE[key])   # 返回副本，免得调用方改坏缓存
+
+
+def _cache_put(key: str, vector) -> None:
+    size = _embedding_cache_size()
+    if size <= 0:
+        return
+    with _EMBEDDING_CACHE_LOCK:
+        _EMBEDDING_CACHE[key] = list(vector)
+        _EMBEDDING_CACHE.move_to_end(key)
+        while len(_EMBEDDING_CACHE) > size:
+            _EMBEDDING_CACHE.popitem(last=False)
+
+
+def clear_embedding_cache() -> None:
+    """清空缓存。换 embedding 服务/模型后调用，测试也用得到。"""
+    with _EMBEDDING_CACHE_LOCK:
+        _EMBEDDING_CACHE.clear()
 
 
 class ChromaDBManager:
@@ -136,8 +180,16 @@ class FinancialSituationMemory:
         # 根据LLM提供商选择嵌入模型和客户端
         # 初始化降级选项标志
         self.fallback_available = False
-        
-        if self.llm_provider == "dashscope" or self.llm_provider == "alibaba":
+
+        embedding_base_url = os.getenv('EMBEDDING_BASE_URL')
+        if embedding_base_url:
+            self.embedding = os.getenv('EMBEDDING_MODEL', 'bge-m3')
+            self.client = _create_openai_bypass_proxy(
+                api_key=os.getenv('EMBEDDING_API_KEY', 'not-needed'),
+                base_url=embedding_base_url,
+            )
+            logger.info(f"🔌 使用独立向量端点: {embedding_base_url} (model={self.embedding})")
+        elif self.llm_provider == "dashscope" or self.llm_provider == "alibaba":
             self.embedding = "text-embedding-v3"
             self.client = None  # DashScope不需要OpenAI客户端
 
@@ -376,7 +428,75 @@ class FinancialSituationMemory:
         logger.warning(f"⚠️ 强制截断：保留首尾关键信息，{len(text)}字符截断为{len(truncated)}字符")
         return truncated, True
 
+    @staticmethod
+    def _proportional_truncate(text, budget, blocks=5):
+        """按内容块占比分配截断预算，每块保留开头。
+
+        curr_situation 由多份报告用空行拼接，整体截尾会整段丢掉靠后的缠论/
+        基本面/新闻。报告内部同样含空行（实测可达175 段），故先合并成约
+        blocks 个大块再等比截断，避免把正文撕碎或撑爆预算。
+        """
+        groups, cur = [], ""
+        for part in [p for p in text.split("\n\n") if p]:
+            cur = f"{cur}\n\n{part}" if cur else part
+            if len(cur) >= budget // blocks:
+                groups.append(cur)
+                cur = ""
+        if cur:
+            groups.append(cur)
+
+        total = sum(len(g) for g in groups)
+        if total <= budget:
+            return text
+        scale = max(0, budget - 2 * (len(groups) - 1)) / total
+        kept, used = [], 0
+        for i, group in enumerate(groups):
+            quota = int(len(group) * scale) if i < len(groups) - 1 else max(0, budget - used - 2 * i)
+            kept.append(group[:quota])
+            used += len(kept[-1])
+        return "\n\n".join(kept)
+
+    def _embedding_namespace(self) -> str:
+        """缓存键的命名空间：端点 + 模型名。
+
+        换服务（手机→远程）或换模型后，旧向量必须失效 —— 不同服务算出的向量
+        混在一个集合里会让相似度检索彻底失真。
+        """
+        client = self.client
+        base = getattr(client, "base_url", "") or os.getenv("EMBEDDING_BASE_URL", "")
+        return f"{base}|{getattr(self, 'embedding', '')}"
+
     def get_embedding(self, text):
+        """带缓存的向量化入口（真正的调用在 `_embed_uncached`）。
+
+        **零向量不缓存**：服务出错时 `_embed_uncached` 会「降级」返回
+        `[0.0]*1024`，一旦缓存住，一次瞬时故障就把这段文本永久钉死成垃圾向量。
+        """
+        if not text or not isinstance(text, str):
+            return self._embed_uncached(text)
+
+        key = hashlib.sha256(
+            f"{self._embedding_namespace()}\x00{text}".encode("utf-8", "ignore")
+        ).hexdigest()
+        hit = _cache_get(key)
+        if hit is not None:
+            logger.debug("💾 embedding 命中缓存，省一次远程调用")
+            self._last_text_info = {
+                "original_length": len(text),
+                "processed_length": len(text),
+                "was_truncated": False,
+                "was_skipped": False,
+                "provider": self.llm_provider,
+                "strategy": "cache_hit",
+            }
+            return hit
+
+        vector = self._embed_uncached(text)
+        if vector and any(vector):
+            _cache_put(key, vector)
+        return vector
+
+    def _embed_uncached(self, text):
         """Get embedding for a text using the configured provider"""
 
         # 检查记忆功能是否被禁用
@@ -410,18 +530,20 @@ class FinancialSituationMemory:
             }
             return [0.0] * 1024
         
-        # 记录文本信息（不进行任何截断）
-        if text_length > 8192:
-            logger.info(f"📝 处理长文本: {text_length}字符，提供商: {self.llm_provider}")
-        
-        # 存储文本处理信息
+        original_length = text_length
+        budget = int(os.getenv('EMBEDDING_MAX_CHARS', '6500'))
+        if text_length > budget:
+            text = self._proportional_truncate(text, budget)
+            text_length = len(text)
+            logger.info(f"✂️ 文本截断 {original_length}→{text_length}字符 (预算{budget})")
+
         self._last_text_info = {
-            'original_length': text_length,
-            'processed_length': text_length,  # 不截断，保持原长度
-            'was_truncated': False,  # 永不截断
+            'original_length': original_length,
+            'processed_length': text_length,
+            'was_truncated': text_length < original_length,
             'was_skipped': False,
             'provider': self.llm_provider,
-            'strategy': 'no_truncation_with_fallback'  # 标记策略
+            'strategy': 'proportional_by_section' if text_length < original_length else 'no_truncation'
         }
 
         if (self.llm_provider == "dashscope" or
@@ -610,18 +732,19 @@ class FinancialSituationMemory:
     def get_memories(self, current_situation, n_matches=1):
         """Find matching recommendations using embeddings with smart truncation handling"""
         
+        # 先看库里有没有东西，再决定值不值得花一次 embedding
+        # （库为空时算出来的向量没人用，白白打一次 embedding 服务）
+        collection_count = self.situation_collection.count()
+        if collection_count == 0:
+            logger.debug(f"📭 记忆库为空，跳过 embedding 查询")
+            return []
+
         # 获取当前情况的embedding
         query_embedding = self.get_embedding(current_situation)
-        
+
         # 检查是否为空向量（记忆功能被禁用或出错）
         if all(x == 0.0 for x in query_embedding):
             logger.debug(f"⚠️ 查询embedding为空向量，返回空结果")
-            return []
-        
-        # 检查是否有足够的数据进行查询
-        collection_count = self.situation_collection.count()
-        if collection_count == 0:
-            logger.debug(f"📭 记忆库为空，返回空结果")
             return []
         
         # 调整查询数量，不能超过集合中的文档数量

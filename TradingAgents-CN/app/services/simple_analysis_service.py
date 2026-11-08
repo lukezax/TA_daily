@@ -1992,15 +1992,15 @@ class SimpleAnalysisService:
 
                     # 合并进度跟踪器的详细信息
                     result.update({
-                        'progress': progress_data['progress'],
-                        'current_step': progress_data['current_step'],
-                        'message': progress_data['message'],
-                        'elapsed_time': progress_data['elapsed_time'],
-                        'remaining_time': progress_data['remaining_time'],
+                        'progress': progress_data.get('progress', progress_data.get('progress_percentage', 0)),
+                        'current_step': progress_data.get('current_step', 0),
+                        'message': progress_data.get('message', progress_data.get('last_message', '')),
+                        'elapsed_time': progress_data.get('elapsed_time', 0),
+                        'remaining_time': progress_data.get('remaining_time', 0),
                         'estimated_total_time': progress_data.get('estimated_total_time', 0),
-                        'steps': progress_data['steps'],
-                        'start_time': progress_data['start_time'],
-                        'last_update': progress_data['last_update']
+                        'steps': progress_data.get('steps', []),
+                        'start_time': progress_data.get('start_time'),
+                        'last_update': progress_data.get('last_update', progress_data.get('start_time'))
                     })
                     logger.info(f"📊 合并内存进度跟踪器数据: {task_id}")
                 else:

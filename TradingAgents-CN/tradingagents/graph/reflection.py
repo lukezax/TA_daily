@@ -47,17 +47,35 @@ Your goal is to deliver detailed insights into investment decisions and highligh
    - Extract key insights from the summary into a concise sentence of no more than 1000 tokens.
    - Ensure the condensed sentence captures the essence of the lessons and reasoning for easy reference.
 
+5. Reading the returns figure:
+   - The returns value is a PERCENTAGE expressed as a decimal fraction, not a currency amount.
+   - For example 0.05 means the position gained 5%, and -0.08 means it lost 8%.
+   - A POSITIVE percentage means the decision was correct: a buy that was followed by a rise,
+     or a sell that was followed by a fall.
+   - A NEGATIVE percentage means the decision was wrong and must be analysed for mistakes.
+   - A percentage near zero means the decision had little effect either way.
+
 Adhere strictly to these instructions, and ensure your output is detailed, accurate, and actionable. You will also be given objective descriptions of the market from a price movements, technical indicator, news, and sentiment perspective to provide more context for your analysis.
 """
 
     def _extract_current_situation(self, current_state: Dict[str, Any]) -> str:
-        """Extract the current market situation from the state."""
+        """Extract the current market situation from the state.
+
+        必须与 trader.py 查询记忆时拼接的文本口径一致（都含缠论），
+        否则写入的向量与检索的向量会系统性偏差。
+        """
         curr_market_report = current_state["market_report"]
         curr_sentiment_report = current_state["sentiment_report"]
         curr_news_report = current_state["news_report"]
         curr_fundamentals_report = current_state["fundamentals_report"]
 
-        return f"{curr_market_report}\n\n{curr_sentiment_report}\n\n{curr_news_report}\n\n{curr_fundamentals_report}"
+        situation = f"{curr_market_report}\n\n{curr_sentiment_report}\n\n{curr_news_report}\n\n{curr_fundamentals_report}"
+
+        czsc_report = current_state.get("czsc_report")
+        if czsc_report:
+            situation += f"\n\n缠论结构分析：\n{czsc_report}"
+
+        return situation
 
     def _reflect_on_component(
         self, component_type: str, report: str, situation: str, returns_losses

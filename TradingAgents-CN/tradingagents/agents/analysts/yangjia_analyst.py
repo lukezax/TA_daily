@@ -293,7 +293,13 @@ def create_yangjia_analyst(llm, config: dict = None):
 - 所有数字已由系统计算，请直接引用，不要重新估算
 - 你只能看到个股数据，无法看到全市场涨停家数等全市场情绪数据
 - 使用人民币(¥)作为价格单位
-- 持仓周期参考：1-3周波段"""
+- 持仓周期参考：1-3周波段
+
+【输出格式要求（必须严格遵守）】
+在报告末尾，必须单独输出一行结论，格式固定如下（等号两侧无空格，百分比为整数，禁止用"约""~""大概""左右"等模糊词）：
+赢面评分=72%
+若赢面为区间，则输出：
+赢面评分=70-75%"""
 
         try:
             response = llm.invoke([
@@ -317,12 +323,15 @@ def _generate_fallback_report(ticker: str, signals: dict) -> str:
     rr = signals.get("风险收益比", 0)
     if rr >= 3:
         winrate = "70-80%"
+        fixed_winrate = "70-80"
         position = "中仓（逐步建仓）"
     elif rr >= 1.5:
         winrate = "60-70%"
+        fixed_winrate = "60-70"
         position = "小仓（试探性参与）"
     else:
         winrate = "<60%"
+        fixed_winrate = "0-59"
         position = "观望（风险收益比不佳）"
 
     return f"""# 养家视角分析（降级报告）
@@ -336,6 +345,8 @@ def _generate_fallback_report(ticker: str, signals: dict) -> str:
 ## 赢面评估
 - 预估赢面: {winrate}
 - 仓位建议: {position}
+
+赢面评分={fixed_winrate}
 
 注：本报告由模板自动生成（LLM不可用），仅供参考。
 """

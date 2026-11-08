@@ -5,14 +5,30 @@
 
 import logging
 import threading
+from datetime import date
 from typing import Dict, List
 
 from pipeline.config import PipelineConfig
 from pipeline.filter_runner import StockFilterRunner
 from pipeline.analysis_client import TradingAgentsClient
 from pipeline.report_generator import ReportGenerator
-from pipeline.models import PipelineResult, StockAnalysisResult
+from pipeline.models import PipelineResult, StockAnalysisResult, StockFilterData
 from pipeline.stock_dispatch import StockDispatchQueue
+from pipeline.reflection_worker import PendingReflectionStore, enqueue_reflection
+
+
+def record_pending_reflections(results, store, analysis_date, enabled: bool = True) -> int:
+    """登记本轮分析的待反思任务。登记是副作用，异常不得向上抛。
+
+    results 接受 orchestrator 原生的 {code: StockAnalysisResult} 或其 values 序列。
+    """
+    if not enabled:
+        return 0
+    items = list(results.values()) if isinstance(results, dict) else list(results)
+    try:
+        return enqueue_reflection(items, store, analysis_date)
+    except Exception:
+        return 0
 
 logger = logging.getLogger(__name__)
 
@@ -63,6 +79,22 @@ class PipelineOrchestrator:
         self.analysis_client = TradingAgentsClient(config)
         self.report_generator = ReportGenerator(config)
 
+    def _enqueue_reflections(self, analysis_results, analysis_date=None):
+        try:
+            enabled = bool(getattr(self.config, "reflection_enabled", False))
+            if not enabled or not analysis_results:
+                return
+            store = PendingReflectionStore()
+            n = record_pending_reflections(
+                analysis_results,
+                store,
+                analysis_date or date.today().isoformat(),
+            )
+            if n:
+                logger.info("已登记 %d 条待反思任务（明日收盘后回填收益）", n)
+        except Exception as e:
+            logger.warning("登记待反思任务失败（不影响本次分析）: %s", e)
+
     def run(self, target_date=None, deadline=None, debug=False) -> PipelineResult:
         """
         执行完整流水线：筛选 → 分析 → 报告
@@ -108,38 +140,80 @@ class PipelineOrchestrator:
             logger.error("Stock_Filter 返回空结果（total_scanned=0），视为致命错误")
             raise RuntimeError("Stock_Filter 返回空结果（total_scanned=0）")
 
-        # ── Step 1.5: 缠论高分扫描（全市场缠论高分通道，独立分类）──
-        logger.info("开始执行缠论高分扫描（全市场缠论脚本，非 LLM）")
+        # ── Step 1.5: 缠论高分扫描（仅计算，不入队） + 历史买入扫描（入队）──
+        # 缠论高分：计算缠分但不加入分析队列（缠论数据仍可在报告中展示）
+        logger.info("开始执行缠论高分扫描（仅计算，不入队）")
         try:
-            from pipeline.czsc_scanner import scan_high_score, CZSC_HIGH_SCORE_TAG
+            from pipeline.czsc_scanner import scan_high_score
 
             czsc_high_stocks, czsc_pool_size = scan_high_score()
             if czsc_high_stocks:
-                existing_codes = {s.code for s in filter_results.stocks}
-                added = 0
-                for cs in czsc_high_stocks:
-                    if cs.code in existing_codes:
-                        # 已有 B1/B2 记录 → 追加"缠高分"标签与缠论详情
-                        for s in filter_results.stocks:
-                            if s.code == cs.code:
-                                if CZSC_HIGH_SCORE_TAG not in s.tags:
-                                    s.tags.append(CZSC_HIGH_SCORE_TAG)
-                                s.details.update(cs.details)
-                    else:
-                        filter_results.stocks.append(cs)
-                        added += 1
                 logger.info(
-                    "缠高分扫描: 新增 %d 只，合并标签 %d 只，共 %d 只",
-                    added,
-                    len(czsc_high_stocks) - added,
+                    "缠高分扫描: 发现 %d 只，不入队（缠分数据保留在报告中）",
                     len(czsc_high_stocks),
                 )
-            # 扫描池大小并入总扫描数（去重统计：两通道扫描池相同则取较大值）
             filter_results.total_scanned = max(
                 filter_results.total_scanned, czsc_pool_size
             )
         except Exception as e:
             logger.error("缠论高分扫描失败（降级跳过，不影响主流程）: %s", e, exc_info=True)
+
+        # 历史买入扫描：过去 3 天 AI 分析结果为"买入"的股票入队
+        logger.info("开始执行历史买入扫描（过去 3 天行动=买入）")
+        try:
+            from pipeline.historical_buy_scanner import scan_historical_buy
+
+            hist_buy_stocks, hist_buy_pool_size = scan_historical_buy()
+            if hist_buy_stocks:
+                existing_codes = {s.code for s in filter_results.stocks}
+                added = 0
+                for hs in hist_buy_stocks:
+                    if hs.code not in existing_codes:
+                        filter_results.stocks.append(hs)
+                        added += 1
+                    else:
+                        # 已有 B1/B2 记录 → 追加"历史买入"标签与详情
+                        for s in filter_results.stocks:
+                            if s.code == hs.code:
+                                if "历史买入" not in s.tags:
+                                    s.tags.append("历史买入")
+                                s.details.update(hs.details)
+                logger.info(
+                    "历史买入扫描: 新增 %d 只，合并标签 %d 只，共 %d 只",
+                    added,
+                    len(hist_buy_stocks) - added,
+                    len(hist_buy_stocks),
+                )
+            filter_results.total_scanned = max(
+                filter_results.total_scanned, hist_buy_pool_size
+            )
+        except Exception as e:
+            logger.error("历史买入扫描失败（降级跳过，不影响主流程）: %s", e, exc_info=True)
+
+        # 入队前全量去重：按纯数字 code 统一 key，确保每只股票只被处理一次
+        # 自选股 code 为纯数字（如 002920），B1/B2/历史买入为带后缀（002920.SZ），需归一化比较
+        seen: Dict[str, StockFilterData] = {}
+        deduped = []
+        for s in filter_results.stocks:
+            key = s.code.split(".")[0]
+            if key in seen:
+                existing = seen[key]
+                for t in s.tags:
+                    if t not in existing.tags:
+                        existing.tags.append(t)
+                existing.details.update(s.details)
+                # 优先保留带后缀的 code（后续 AI 分析需要）
+                if "." not in existing.code and "." in s.code:
+                    existing.code = s.code
+            else:
+                seen[key] = s
+                deduped.append(s)
+        if len(deduped) != len(filter_results.stocks):
+            logger.info(
+                "入队前全量去重: %d → %d 只",
+                len(filter_results.stocks), len(deduped),
+            )
+            filter_results.stocks = deduped
 
         logger.info(
             "筛选完成: 扫描 %d 只，通过 %d 只",
@@ -250,6 +324,8 @@ class PipelineOrchestrator:
                 analysis_failed,
             )
 
+        self._enqueue_reflections(analysis_results)
+
         # ── Step 5: 生成最终报告 ──
         logger.info("生成最终报告")
         try:
@@ -353,6 +429,28 @@ class PipelineScheduler:
         """根据触发时间确定目标交易日（兼容旧调用）"""
         return self._get_next_trading_day()
 
+    def _run_reflection(self):
+        """回填历史决策的收益并写入记忆库。
+
+        刻意与「明天是否交易日」解耦：它消费的是**已经发生**的决策，
+        只要 T+1 行情到了就该回填。所以放在交易日判断之前，
+        保证周五、节假日的夜里也能把队列清干净，不积压到下周。
+
+        放在分析之前还有个副作用正是我们要的：写入与「分析时读记忆」
+        是两个进程同时碰同一个 ChromaDB，错开就不会撞锁。
+        """
+        if not getattr(self.config, "reflection_enabled", False):
+            logger.info("记忆写入未启用（reflection.enabled=false），跳过")
+            return
+        try:
+            from pipeline.reflection_runner import ReflectionRunner
+            from pipeline.run_reflection import _build_writer
+
+            done = ReflectionRunner(writer=_build_writer).run_once()
+            logger.info("记忆写入完成: %d 条", done)
+        except Exception as e:
+            logger.error("记忆写入异常: %s", e, exc_info=True)
+
     def _run_pipeline(self):
         """
         调度触发时判断是否应该执行。
@@ -369,6 +467,9 @@ class PipelineScheduler:
         正在执行的批次会跑完。
         """
         from datetime import date, timedelta, datetime
+
+        # 先回填历史决策的记忆：它不依赖「明天是否交易日」
+        self._run_reflection()
 
         tomorrow = date.today() + timedelta(days=1)
 

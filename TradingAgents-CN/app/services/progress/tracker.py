@@ -466,6 +466,10 @@ class RedisProgressTracker:
                 'remaining_time': self.progress_data.get('remaining_time', 0),
                 'estimated_total_time': self.progress_data.get('estimated_total_time', 0),
                 'progress_percentage': self.progress_data.get('progress_percentage', 0),
+                # 兼容字段：调用方统一读取 progress / message / last_update
+                'progress': self.progress_data.get('progress_percentage', 0),
+                'message': self.progress_data.get('last_message', ''),
+                'last_update': self.progress_data.get('last_update', self.progress_data.get('start_time')),
                 'status': self.progress_data.get('status', 'pending'),
                 'current_step': self.progress_data.get('current_step')
             }
