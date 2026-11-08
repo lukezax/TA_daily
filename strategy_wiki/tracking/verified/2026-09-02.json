@@ -1,0 +1,71 @@
+[
+  {
+    "code": "000533.SZ",
+    "name": "顺钠股份",
+    "buy_date": "2026-08-27",
+    "buy_price": 11.61,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格",
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-09-02",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  },
+  {
+    "code": "603106.SH",
+    "name": "恒银科技",
+    "buy_date": "2026-08-27",
+    "buy_price": 8.2,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-09-02",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  },
+  {
+    "code": "603261.SH",
+    "name": "立航科技",
+    "buy_date": "2026-08-27",
+    "buy_price": 53.39,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-09-02",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  },
+  {
+    "code": "605183.SH",
+    "name": "确成股份",
+    "buy_date": "2026-08-27",
+    "buy_price": 15.05,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-09-02",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  }
+]

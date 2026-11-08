@@ -1,0 +1,36 @@
+[
+  {
+    "code": "002564.SZ",
+    "name": "天沃科技",
+    "buy_date": "2026-09-23",
+    "buy_price": 5.45,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-09-29",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  },
+  {
+    "code": "603216.SH",
+    "name": "梦天家居",
+    "buy_date": "2026-09-23",
+    "buy_price": 22.75,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-09-29",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  }
+]

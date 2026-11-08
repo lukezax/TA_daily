@@ -1,0 +1,36 @@
+[
+  {
+    "code": "002029.SZ",
+    "name": "七 匹 狼",
+    "buy_date": "2026-10-22",
+    "buy_price": 8.94,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-10-28",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  },
+  {
+    "code": "600202.SH",
+    "name": "哈空调",
+    "buy_date": "2026-10-22",
+    "buy_price": 5.57,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-10-28",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  }
+]

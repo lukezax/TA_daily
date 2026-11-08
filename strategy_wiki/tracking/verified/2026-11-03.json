@@ -1,0 +1,36 @@
+[
+  {
+    "code": "001330.SZ",
+    "name": "博纳影业",
+    "buy_date": "2026-10-29",
+    "buy_price": 5.6,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 5.57,
+    "sell_date": "2026-11-03",
+    "return_pct": -0.54,
+    "hold_days": 5,
+    "status": "verified"
+  },
+  {
+    "code": "605577.SH",
+    "name": "龙版传媒",
+    "buy_date": "2026-10-29",
+    "buy_price": 13.77,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 13.0,
+    "sell_date": "2026-11-03",
+    "return_pct": -5.59,
+    "hold_days": 5,
+    "status": "verified"
+  }
+]

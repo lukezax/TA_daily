@@ -1,0 +1,19 @@
+[
+  {
+    "code": "603110.SH",
+    "name": "东方材料",
+    "buy_date": "2026-09-03",
+    "buy_price": 24.71,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-09-09",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  }
+]

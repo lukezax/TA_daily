@@ -1,0 +1,19 @@
+[
+  {
+    "code": "002214.SZ",
+    "name": "大立科技",
+    "buy_date": "2026-10-15",
+    "buy_price": 16.63,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-10-21",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  }
+]

@@ -1,0 +1,36 @@
+[
+  {
+    "code": "603269.SH",
+    "name": "海鸥股份",
+    "buy_date": "2026-10-08",
+    "buy_price": 23.16,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-10-14",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  },
+  {
+    "code": "600671.SH",
+    "name": "天目药业",
+    "buy_date": "2026-10-09",
+    "buy_price": 22.87,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 23.19,
+    "sell_date": "2026-10-14",
+    "return_pct": 1.4,
+    "hold_days": 5,
+    "status": "verified"
+  }
+]

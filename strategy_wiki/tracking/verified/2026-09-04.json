@@ -1,0 +1,138 @@
+[
+  {
+    "code": "603658.SH",
+    "name": "安图生物",
+    "buy_date": "2026-09-01",
+    "buy_price": 32.92,
+    "strategy": "B1",
+    "score": 4,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 32.39,
+    "sell_date": "2026-09-04",
+    "return_pct": -1.61,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "603129.SH",
+    "name": "春风动力",
+    "buy_date": "2026-09-01",
+    "buy_price": 297.72,
+    "strategy": "B1",
+    "score": 4,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 300.6,
+    "sell_date": "2026-09-04",
+    "return_pct": 0.97,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "689009.SH",
+    "name": "九号公司-WD",
+    "buy_date": "2026-09-01",
+    "buy_price": 42.17,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 40.2,
+    "sell_date": "2026-09-04",
+    "return_pct": -4.67,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "600663.SH",
+    "name": "陆家嘴",
+    "buy_date": "2026-09-01",
+    "buy_price": 9.15,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 9.13,
+    "sell_date": "2026-09-04",
+    "return_pct": -0.22,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "000415.SZ",
+    "name": "渤海租赁",
+    "buy_date": "2026-09-01",
+    "buy_price": 4.44,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 4.51,
+    "sell_date": "2026-09-04",
+    "return_pct": 1.58,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "601728.SH",
+    "name": "中国电信",
+    "buy_date": "2026-09-01",
+    "buy_price": 6.37,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 6.4,
+    "sell_date": "2026-09-04",
+    "return_pct": 0.47,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "605577.SH",
+    "name": "龙版传媒",
+    "buy_date": "2026-09-01",
+    "buy_price": 10.62,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 14.14,
+    "sell_date": "2026-09-04",
+    "return_pct": 33.15,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "600673.SH",
+    "name": "东阳光",
+    "buy_date": "2026-09-01",
+    "buy_price": 33.14,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2宽松"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 32.13,
+    "sell_date": "2026-09-04",
+    "return_pct": -3.05,
+    "hold_days": 3,
+    "status": "verified"
+  }
+]

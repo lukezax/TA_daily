@@ -1,0 +1,121 @@
+[
+  {
+    "code": "603406.SH",
+    "name": "天富龙",
+    "buy_date": "2026-09-11",
+    "buy_price": 31.3,
+    "strategy": "B2",
+    "score": 0,
+    "tags": [
+      "B2严格"
+    ],
+    "hold_target_days": 3,
+    "sell_price": null,
+    "sell_date": "2026-09-17",
+    "return_pct": null,
+    "hold_days": 6,
+    "status": "no_price"
+  },
+  {
+    "code": "600971.SH",
+    "name": "恒源煤电",
+    "buy_date": "2026-09-14",
+    "buy_price": 8.62,
+    "strategy": "B1",
+    "score": 4,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 8.58,
+    "sell_date": "2026-09-17",
+    "return_pct": -0.46,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "600941.SH",
+    "name": "中国移动",
+    "buy_date": "2026-09-14",
+    "buy_price": 97.72,
+    "strategy": "B1",
+    "score": 4,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 96.94,
+    "sell_date": "2026-09-17",
+    "return_pct": -0.8,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "603766.SH",
+    "name": "隆鑫通用",
+    "buy_date": "2026-09-14",
+    "buy_price": 14.13,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 14.7,
+    "sell_date": "2026-09-17",
+    "return_pct": 4.03,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "601318.SH",
+    "name": "中国平安",
+    "buy_date": "2026-09-14",
+    "buy_price": 54.83,
+    "strategy": "B1",
+    "score": 3,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 53.51,
+    "sell_date": "2026-09-17",
+    "return_pct": -2.41,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "600664.SH",
+    "name": "哈药股份",
+    "buy_date": "2026-09-14",
+    "buy_price": 6.99,
+    "strategy": "B1",
+    "score": 2,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 7.36,
+    "sell_date": "2026-09-17",
+    "return_pct": 5.29,
+    "hold_days": 3,
+    "status": "verified"
+  },
+  {
+    "code": "000506.SZ",
+    "name": "招金黄金",
+    "buy_date": "2026-09-14",
+    "buy_price": 18.82,
+    "strategy": "B1",
+    "score": 1,
+    "tags": [
+      "B1"
+    ],
+    "hold_target_days": 3,
+    "sell_price": 19.59,
+    "sell_date": "2026-09-17",
+    "return_pct": 4.09,
+    "hold_days": 3,
+    "status": "verified"
+  }
+]
