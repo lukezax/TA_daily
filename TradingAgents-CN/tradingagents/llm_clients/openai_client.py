@@ -33,6 +33,18 @@ def _is_local_url(url: Optional[str]) -> bool:
         return False
 
 
+def _needs_thinking_disabled(model: Optional[str], base_url: Optional[str]) -> bool:
+    """vLLM 的 Qwen3.5-122B（含 -nothinking 别名）默认开启 thinking。
+
+    这两个别名指向同一模型、同一套对话模板，是否思考由请求体里的
+    chat_template_kwargs.enable_thinking 控制。不显式关闭时 token 会先写进
+    reasoning 字段，可能耗尽 max_tokens 导致 content 为空（finish_reason=length）。
+    """
+    model_name = (model or "").lower()
+    url = (base_url or "").lower()
+    return "qwen3.5-122b" in model_name or ":22222" in url
+
+
 def _clear_proxy_env() -> dict:
     """临时清除代理环境变量，返回被清除的变量用于恢复。
 
@@ -68,6 +80,7 @@ _PASSTHROUGH_KWARGS = (
     "callbacks",
     "http_client",
     "http_async_client",
+    "extra_body",
 )
 
 _PROVIDER_CONFIG = {
@@ -119,6 +132,25 @@ class OpenAIClient(BaseLLMClient):
                 llm_kwargs[key] = self.kwargs[key]
 
         resolved_url = llm_kwargs.get("base_url")
+
+        # vLLM 122B 默认开思考：必须显式传 chat_template_kwargs.enable_thinking=false，
+        # 否则 reasoning 会吃掉 max_tokens，可能拿不到正文（content 为空）。
+        # 用 extra_body 透传（model_kwargs 会被 openai SDK 当成具名参数而报错）。
+        if _needs_thinking_disabled(self.model, resolved_url):
+            extra_body = llm_kwargs.get("extra_body")
+            if not isinstance(extra_body, dict):
+                extra_body = {}
+            chat_template_kwargs = extra_body.get("chat_template_kwargs")
+            if not isinstance(chat_template_kwargs, dict):
+                chat_template_kwargs = {}
+            chat_template_kwargs.setdefault("enable_thinking", False)
+            extra_body["chat_template_kwargs"] = chat_template_kwargs
+            llm_kwargs["extra_body"] = extra_body
+            logger.info(
+                f"🧠 [关闭思考] model={self.model}, base_url={resolved_url}, "
+                f"chat_template_kwargs={chat_template_kwargs}"
+            )
+
         need_bypass_proxy = resolved_url and _is_local_url(resolved_url)
 
         if need_bypass_proxy:
