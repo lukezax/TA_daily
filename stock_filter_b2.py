@@ -8,10 +8,14 @@ B2 宽松版条件：
   COND4: 当日 J 值 < 55
 
 B2 严格版额外条件：
-  COND1: 前一交易日 J 值 < 13（更严格）
+  COND1: 与宽松版相同，前一交易日 J 值 < 0
   COND5: 收阳且上影线占当日涨幅 < 20%
   COND6: C > ZXDKX
   COND7: ZXDQ > ZXDKX
+
+严格版 = 宽松版 4 条件 + 额外 3 条件，因此严格 ⊆ 宽松。
+（原实现把严格版 COND1 写成 J_LAST < 13，比宽松版更松，导致严格通过
+而宽松不通过；现有数据中约 16% 的严格信号存在该问题。）
 """
 
 import sys
@@ -32,12 +36,23 @@ B2_STRATEGY_CONFIG = {
     'm3': 57,         # ZXDKX 计算周期3
     'm4': 114,        # ZXDKX 计算周期4
     'ema_period': 10, # ZXDQ 计算周期
-    'j_strict_threshold': 13,   # 严格版 J_LAST 阈值
+    'j_strict_threshold': 0,    # 严格版 J_LAST 阈值（与宽松版一致，保证严格 ⊆ 宽松）
     'j_loose_threshold': 0,     # 宽松版 J_LAST 阈值
     'change_threshold': 3.95,   # 涨幅阈值 (%)
     'j_max_threshold': 55,      # 当日 J 值上限
     'upper_shadow_ratio': 0.2,  # 上影线占涨幅比例上限（严格版）
 }
+
+
+def b2_decision(cond1, cond2, cond3, cond4, cond5, cond6, cond7):
+    """由 7 个条件得出 (严格, 宽松)。
+
+    cond1 是宽松与严格共用的 J_LAST 门槛；严格版 = 宽松 4 条件 + 额外 3 条件。
+    把判定收敛到单一函数，保证「严格通过 ⇒ 宽松通过」这一不变式不被再次破坏。
+    """
+    loose = cond1 and cond2 and cond3 and cond4
+    strict = loose and cond5 and cond6 and cond7
+    return strict, loose
 
 
 def _calculate_sma(values: list, n: int, m: int) -> list:
@@ -148,16 +163,13 @@ def b2_filter(stock_data: list) -> Dict[str, Any]:
     # 计算放量比
     volume_ratio = vol_today / vol_last if vol_last > 0 else 0
 
-    # ── 宽松版条件 ──
-    cond1_loose = j_last < B2_STRATEGY_CONFIG['j_loose_threshold']  # J_LAST < 0
+    # ── 宽松版条件（cond1 为宽松/严格共用） ──
+    cond1 = j_last < B2_STRATEGY_CONFIG['j_loose_threshold']  # J_LAST < 0
     cond2 = change_pct > B2_STRATEGY_CONFIG['change_threshold']      # 涨幅 > 3.95%
     cond3 = vol_today > vol_last                                      # 放量
     cond4 = j_today < B2_STRATEGY_CONFIG['j_max_threshold']          # J < 55
 
-    loose_result = cond1_loose and cond2 and cond3 and cond4
-
     # ── 严格版额外条件 ──
-    cond1_strict = j_last < B2_STRATEGY_CONFIG['j_strict_threshold']  # J_LAST < 13
 
     # COND5: 收阳且上影线占当日涨幅 < 20%
     # C > O AND ((H-C)/(H-REF(C,1))) < 0.2
@@ -195,7 +207,7 @@ def b2_filter(stock_data: list) -> Dict[str, Any]:
     # COND7: ZXDQ > ZXDKX
     cond7 = zxdq > zxdkx if (zxdq is not None and zxdkx is not None) else False
 
-    strict_result = cond1_strict and cond2 and cond3 and cond4 and cond5 and cond6 and cond7
+    strict_result, loose_result = b2_decision(cond1, cond2, cond3, cond4, cond5, cond6, cond7)
 
     # 组装 details
     details = {
@@ -212,7 +224,7 @@ def b2_filter(stock_data: list) -> Dict[str, Any]:
     }
 
     conditions_strict = {
-        'B2严_J_LAST<13': cond1_strict,
+        'B2严_J_LAST<0': cond1,
         'B2严_涨幅>3.95%': cond2,
         'B2严_放量': cond3,
         'B2严_J<55': cond4,
@@ -222,7 +234,7 @@ def b2_filter(stock_data: list) -> Dict[str, Any]:
     }
 
     conditions_loose = {
-        'B2松_J_LAST<0': cond1_loose,
+        'B2松_J_LAST<0': cond1,
         'B2松_涨幅>3.95%': cond2,
         'B2松_放量': cond3,
         'B2松_J<55': cond4,
