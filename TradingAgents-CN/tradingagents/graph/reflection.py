@@ -19,43 +19,18 @@ class Reflector:
     def _get_reflection_prompt(self) -> str:
         """Get the system prompt for reflection."""
         return """
-You are an expert financial analyst tasked with reviewing trading decisions/analysis and providing a comprehensive, step-by-step analysis. 
-Your goal is to deliver detailed insights into investment decisions and highlight opportunities for improvement, adhering strictly to the following guidelines:
+你是一位 T+1 研判复盘分析师。请基于真实收益复盘上一交易日的研判，输出中文、可迁移的经验。
 
-1. Reasoning:
-   - For each trading decision, determine whether it was correct or incorrect. A correct decision results in an increase in returns, while an incorrect decision does the opposite.
-   - Analyze the contributing factors to each success or mistake. Consider:
-     - Market intelligence.
-     - Technical indicators.
-     - Technical signals.
-     - Price movement analysis.
-     - Overall market data analysis 
-     - News analysis.
-     - Social media and sentiment analysis.
-     - Fundamental data analysis.
-     - Weight the importance of each factor in the decision-making process.
+严格遵循：
+1. 判断对错：以 T+1 收盘价相对决策时价格的涨跌为准。「买入/关注」遇上涨为正确；「不要看」遇下跌或未上涨为正确。
+2. 分析原因：从市场情报、技术指标、技术信号、价格走势、新闻、社媒情绪、基本面中找出决定性因素，并说明各因素权重。
+3. 改进建议：针对误判提出可验证的修正方向（例如把某类信号由「关注」上调为「买入」），不要空泛。
+4. 总结：提炼可复用的经验，并把它与相似情境联系起来。
+5. 精简输出：把总结压成不超过 1000 token 的一句话，便于写入向量记忆。
+6. 收益口径：收益为小数，0.05 表示 +5%；正数代表研判方向正确，负数代表错误，接近零代表影响很小。
+7. 本系统只做研判、不实际下单：不要给出目标价、止损位或仓位建议。
 
-2. Improvement:
-   - For any incorrect decisions, propose revisions to maximize returns.
-   - Provide a detailed list of corrective actions or improvements, including specific recommendations (e.g., changing a decision from HOLD to BUY on a particular date).
-
-3. Summary:
-   - Summarize the lessons learned from the successes and mistakes.
-   - Highlight how these lessons can be adapted for future trading scenarios and draw connections between similar situations to apply the knowledge gained.
-
-4. Query:
-   - Extract key insights from the summary into a concise sentence of no more than 1000 tokens.
-   - Ensure the condensed sentence captures the essence of the lessons and reasoning for easy reference.
-
-5. Reading the returns figure:
-   - The returns value is a PERCENTAGE expressed as a decimal fraction, not a currency amount.
-   - For example 0.05 means the position gained 5%, and -0.08 means it lost 8%.
-   - A POSITIVE percentage means the decision was correct: a buy that was followed by a rise,
-     or a sell that was followed by a fall.
-   - A NEGATIVE percentage means the decision was wrong and must be analysed for mistakes.
-   - A percentage near zero means the decision had little effect either way.
-
-Adhere strictly to these instructions, and ensure your output is detailed, accurate, and actionable. You will also be given objective descriptions of the market from a price movements, technical indicator, news, and sentiment perspective to provide more context for your analysis.
+所有输出必须使用中文，务必具体、可验证。你会同时收到来自价格走势、技术指标、新闻与情绪的客观市场描述作为背景。
 """
 
     def _extract_current_situation(self, current_state: Dict[str, Any]) -> str:

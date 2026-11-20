@@ -12,9 +12,22 @@ from typing import Dict, Iterable, List, Optional, Tuple
 from pymongo import MongoClient
 
 from pipeline.report_reader import extract_action
+from tradingagents.decision_contract import LABELS, LEGACY_LABEL_MAP
 
-REFLECTABLE_ACTIONS = ("买入", "卖出")
+REFLECTABLE_ACTIONS = LABELS
+# 历史报告/记忆里的旧标签也允许回填，由 normalize_action 统一映射
+REFLECTABLE_LEGACY = (*LABELS, *LEGACY_LABEL_MAP)
+# 三档方向符号：买入/关注看涨，不要看等同于「无上涨信号」
+DIRECTION_SIGN = {"买入": 1, "关注": 1, "不要看": -1}
 MAX_FAILURES = 3
+
+
+def normalize_action(action: Optional[str]) -> str:
+    """把新三档标签或旧买卖标签统一成新三档；无法识别返回空串。"""
+    if not action:
+        return ""
+    value = str(action).strip()
+    return LEGACY_LABEL_MAP.get(value, value)
 
 # 行情/报告的时间基准：行情日期是北京交易日，报告时间戳是 UTC（见 _to_beijing）
 BEIJING_TZ = timezone(timedelta(hours=8))
@@ -22,27 +35,27 @@ MARKET_CLOSE_BJ = time(15, 0)
 
 
 def should_reflect(action: Optional[str]) -> bool:
-    """只有带方向的决策才有可学习的因果，「持有」不写入记忆。"""
-    if not action:
-        return False
-    return action.strip() in REFLECTABLE_ACTIONS
+    """三档关注等级都带研判信息，均可写入记忆（旧标签先归一化）。"""
+    return normalize_action(action) in REFLECTABLE_ACTIONS
 
 
 def compute_realized_return(
     action: Optional[str], price_at_decision: Optional[float], price_after: Optional[float]
 ) -> Optional[float]:
-    """算出带方向的收益率（小数，0.1 表示 10%）。
+    """算出带方向的 T+1 收益（小数，0.1 表示 10%）。
 
-    买入看涨、卖出看跌，所以方向相反时取反。无法计算时返回 None。
+    买入/关注看涨（涨为正），不要看表示无上涨信号（跌为正）。
+    旧标签 持有→关注、卖出→不要看。无法计算时返回 None。
     """
-    if not should_reflect(action):
+    level = normalize_action(action)
+    if level not in DIRECTION_SIGN:
         return None
     if not price_at_decision or not price_after:
         return None
     if price_at_decision <= 0:
         return None
     change = (price_after - price_at_decision) / price_at_decision
-    return change if action.strip() == "买入" else -change
+    return change * DIRECTION_SIGN[level]
 
 
 class PendingReflectionStore:
@@ -53,7 +66,8 @@ class PendingReflectionStore:
         self._coll.create_index([("stock_symbol", 1), ("analysis_date", 1)], unique=True)
 
     def record(self, stock_symbol: str, analysis_date: str, action: str) -> bool:
-        if not stock_symbol or not analysis_date or not should_reflect(action):
+        level = normalize_action(action)
+        if not stock_symbol or not analysis_date or not should_reflect(level):
             return False
         self._coll.update_one(
             {"stock_symbol": stock_symbol, "analysis_date": analysis_date},
@@ -61,7 +75,7 @@ class PendingReflectionStore:
                 "$set": {
                     "stock_symbol": stock_symbol,
                     "analysis_date": analysis_date,
-                    "action": action.strip(),
+                    "action": level,
                 },
                 "$setOnInsert": {"fail_count": 0},
             },
@@ -146,7 +160,7 @@ def collect_backfillable(store, db=None, dry_run: bool = False) -> int:
 
     docs = list(
         reports.find(
-            {"decision.action": {"$in": list(REFLECTABLE_ACTIONS)}},
+            {"decision.action": {"$in": list(REFLECTABLE_LEGACY)}},
             {"stock_symbol": 1, "analysis_date": 1, "decision": 1, "timestamp": 1},
         )
     )
