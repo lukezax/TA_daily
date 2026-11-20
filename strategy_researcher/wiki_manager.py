@@ -88,10 +88,32 @@ class WikiManager:
             for f in sorted(insights_dir.glob("*.md"))[-5:]:
                 parts.append(f"## 洞察: {f.stem}\n\n{f.read_text(encoding='utf-8')[:1500]}")
 
+        # 人工纠错：README 承诺会被读取，此前未实现，导致反馈闭环失效
+        corrections_dir = self.wiki_dir / "corrections"
+        if corrections_dir.exists():
+            for f in sorted(corrections_dir.glob("*.md"))[-7:]:
+                if f.name == "README.md":
+                    continue
+                parts.append(f"## 纠错: {f.stem}\n\n{f.read_text(encoding='utf-8')[:1500]}")
+
         return "\n\n---\n\n".join(parts) if parts else "（暂无历史数据）"
 
+    @staticmethod
+    def _analysis_is_empty(content: str) -> bool:
+        """检查「三、策略分析」是否为空（历史上曾连续 60+ 天写空分析）。"""
+        marker = "## 三、策略分析"
+        if marker not in content:
+            return False
+        section = content.split(marker, 1)[1]
+        next_section = section.find("\n## ")
+        if next_section != -1:
+            section = section[:next_section]
+        return not section.strip()
+
     def write_daily_report(self, report_date: str, content: str):
-        """写入每日报告"""
+        """写入每日报告；策略分析为空时拒绝写入。"""
+        if self._analysis_is_empty(content):
+            raise ValueError("策略分析为空，拒绝写入日报（请先修复 LLM 分析）")
         path = self.wiki_dir / "daily_reports" / f"{report_date}.md"
         path.write_text(content, encoding="utf-8")
         self.append_log("daily_report", f"生成每日报告 {report_date}")

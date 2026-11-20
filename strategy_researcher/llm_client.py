@@ -29,29 +29,39 @@ class LocalLLMClient:
             os.environ.update(saved)
         self.model = RESEARCHER_CONFIG["llm_model"]
         self.temperature = RESEARCHER_CONFIG["llm_temperature"]
+        self.max_retries = RESEARCHER_CONFIG.get("llm_max_retries", 3)
 
     def chat(self, system_prompt: str, user_prompt: str) -> str:
-        """单轮对话，返回文本"""
-        try:
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt},
-                ],
-                temperature=self.temperature,
-                max_tokens=4096,
-            )
-            content = response.choices[0].message.content
-            logger.debug("LLM 响应长度: %d", len(content))
-            return content
-        except Exception as e:
-            logger.error("LLM 调用失败: %s", e)
-            return f"[LLM 调用失败: {e}]"
+        """单轮对话，返回文本。空返回会重试，耗尽后抛错，避免静默写入空分析。"""
+        retries = getattr(self, "max_retries", 3)
+        last_error = None
+        for attempt in range(retries):
+            try:
+                response = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt},
+                    ],
+                    temperature=self.temperature,
+                    max_tokens=4096,
+                )
+                content = response.choices[0].message.content
+                if content and content.strip():
+                    logger.debug("LLM 响应长度: %d", len(content))
+                    return content
+                last_error = RuntimeError("LLM 返回空内容")
+                logger.warning("LLM 返回空内容（第 %d/%d 次）", attempt + 1, retries)
+            except Exception as e:
+                last_error = e
+                logger.error("LLM 调用失败（第 %d/%d 次）: %s", attempt + 1, retries, e)
+        raise RuntimeError(f"LLM 调用失败（重试 {retries} 次）：{last_error}")
 
     def analyze_with_cot(self, data: dict, question: str) -> dict:
         """CoT 分析：强制按 数据→推理→结论 格式输出"""
         system_prompt = """你是一位量化策略研究员。你的职责是分析股票筛选策略的表现，识别问题，提出优化建议。
+
+背景：本系统不实际下单，只做筛选策略的表现复盘与方向研判，输出用于人工参考，不是交易指令。
 
 铁律：
 1. 每个结论必须引用具体数据（哪个日期、哪个文件、具体数字）
@@ -59,6 +69,10 @@ class LocalLLMClient:
 3. 推理过程必须按 "数据 → 推理 → 结论" 格式
 4. 优化建议必须附带可验证的预期效果
 5. 区分"确定的发现"和"需要更多数据验证的假设"
+6. 样本量门槛：样本少于 30 只时，不得写"策略失效/最优/反转"，只能写"样本不足，暂不判断"
+7. 数据质量预检：先检查跨天验证样本数与历史报告是否口径一致、是否存在未分类样本；若数据可疑，先写"数据质量异常"并停止下结论
+8. 历史对账：引用历史上下文时，若本次结论与既往 insight 相反，必须显式说明是"新证据推翻旧结论"还是"小样本噪声"，不得直接覆盖
+9. 结论必须标注样本量、平均收益、胜率与置信区间（如可得）
 
 输出格式（严格遵循）：
 

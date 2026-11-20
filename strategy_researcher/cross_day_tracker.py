@@ -159,12 +159,24 @@ class CrossDayTracker:
         if not all_verified:
             return {"total": 0, "message": "暂无验证数据"}
 
-        # 按策略+分数分组统计
+        # 按策略+分数分组统计。B2 必须区分严格/宽松，否则两者被合并成
+        # 「B2_0分」，无法判断哪种筛选口径真正有效。
         groups = defaultdict(list)
         for r in all_verified:
             if r.get("return_pct") is None:
                 continue
-            key = f"{r['strategy']}_{r.get('score', 0)}分"
+            strategy = r.get("strategy", "")
+            if strategy == "B2":
+                tags = r.get("tags") or []
+                if "B2严格" in tags:
+                    level = "B2严格"
+                elif "B2宽松" in tags:
+                    level = "B2宽松"
+                else:
+                    level = "B2未分类"
+                key = f"{level}_{r.get('score', 0)}分"
+            else:
+                key = f"{strategy}_{r.get('score', 0)}分"
             groups[key].append(r["return_pct"])
 
         summary = {

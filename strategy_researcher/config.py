@@ -14,6 +14,7 @@ RESEARCHER_CONFIG = {
     "llm_model": "local",
     "llm_timeout": 300,
     "llm_temperature": 0.3,
+    "llm_max_retries": 3,  # 空返回/失败时重试次数，重试耗尽后抛错而不是写空报告
 
     # Tavily
     "tavily_api_key": os.getenv("TAVILY_API_KEY", ""),

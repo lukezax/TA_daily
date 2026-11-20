@@ -54,10 +54,15 @@ class StrategyResearcher:
         # 5. LLM 分析（CoT）
         logger.info("步骤5: LLM 分析...")
         analysis_input = self._prepare_analysis_input(data, performance, context)
-        analysis = self.llm.analyze_with_cot(
-            data=analysis_input,
-            question="分析今日策略表现，与历史对比，识别异常模式，提出优化方向。"
-        )
+        try:
+            analysis = self.llm.analyze_with_cot(
+                data=analysis_input,
+                question="分析今日策略表现，与历史对比，识别异常模式，提出优化方向。"
+            )
+        except Exception as e:
+            # 不再静默写入空分析：显式标记失败，便于人工发现并保证日报可追溯
+            logger.error("LLM 分析失败，本次未生成策略结论: %s", e)
+            analysis = {"raw_analysis": f"（LLM 分析失败，本次未生成策略结论：{e}）"}
 
         # 6. 如果需要外部信息，用 Tavily 搜索
         if analysis.get("needs_external_info"):
