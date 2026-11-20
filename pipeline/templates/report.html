@@ -505,10 +505,10 @@ footer a { color: var(--accent); text-decoration: none; }
     {% set action = stock.action|lower %}
     {% if action == '买入' or action == 'buy' or '买' in action %}
     <span class="action-chip action-buy">📈 {{ stock.analysis.recommendation if stock.analysis else stock.action }}</span>
-    {% elif action == '卖出' or action == 'sell' or '卖' in action %}
-    <span class="action-chip action-sell">📉 {{ stock.analysis.recommendation if stock.analysis else stock.action }}</span>
-    {% elif action == '持有' or action == 'hold' or '持' in action %}
-    <span class="action-chip action-hold">⏸️ {{ stock.analysis.recommendation if stock.analysis else stock.action }}</span>
+    {% elif action == '不要看' or action == '不看' or action == 'sell' or '卖' in action %}
+    <span class="action-chip action-sell">🚫 {{ stock.analysis.recommendation if stock.analysis else stock.action }}</span>
+    {% elif action == '关注' or action == 'hold' or '持' in action %}
+    <span class="action-chip action-hold">👀 {{ stock.analysis.recommendation if stock.analysis else stock.action }}</span>
     {% else %}
     <span class="action-chip action-unknown">❓ {{ stock.analysis.recommendation if stock.analysis else stock.action }}</span>
     {% endif %}
