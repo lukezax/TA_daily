@@ -7,24 +7,32 @@ import re
 from pathlib import Path
 from typing import Dict, Optional
 
-ACTION_KEYWORDS = ("买入", "卖出", "持有")
-_PRIORITY = {"买入": 0, "卖出": 1, "持有": 2}
+from tradingagents.decision_contract import LABELS as ACTION_KEYWORDS
+from tradingagents.decision_contract import LEGACY_LABEL_MAP
+
+# 「买入」优先级最高；旧标签在文本回退时先映射再比较
+_PRIORITY = {"买入": 0, "关注": 1, "不要看": 2}
 
 
 def extract_action(report: Dict) -> str:
-    """从报告里取出决策动作，取不到就返回空串。
+    """从报告里取出关注等级（关注/买入/不要看），取不到就返回空串。
 
-    decision.action 是权威来源；缺失时从 recommendation 文本回退，
-    但「持有」在自然语言里常出现在否定句中，所以优先级低于买入/卖出。
+    decision.action 是权威来源；缺失时从 recommendation 文本回退。
+    旧报告里的 买入/持有/卖出 会映射为新三档，历史数据无需改写。
     """
     if not report:
         return ""
     action = ((report.get("decision") or {}).get("action") or "").strip()
     if action in ACTION_KEYWORDS:
         return action
+    if action in LEGACY_LABEL_MAP:
+        return LEGACY_LABEL_MAP[action]
     text = str(report.get("recommendation") or "")
-    hits = [w for w in ACTION_KEYWORDS if w in text]
-    return min(hits, key=lambda w: _PRIORITY[w]) if hits else ""
+    hits = [w for w in (*ACTION_KEYWORDS, *LEGACY_LABEL_MAP) if w in text]
+    if not hits:
+        return ""
+    best = min(hits, key=lambda w: _PRIORITY.get(LEGACY_LABEL_MAP.get(w, w), 3))
+    return LEGACY_LABEL_MAP.get(best, best)
 
 
 class TradingAgentsReportReader:

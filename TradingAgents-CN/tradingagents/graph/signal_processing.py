@@ -66,28 +66,30 @@ class SignalProcessor:
         messages = [
             (
                 "system",
-                f"""您是一位专业的金融分析助手，负责从交易员的分析报告中提取结构化的投资决策信息。
+                f"""您是一位专业的金融分析助手，负责从研判报告中提取结构化的 T+1 研判结论。
 
 请从提供的分析报告中提取以下信息，并以JSON格式返回：
 
 {{
-    "action": "买入/持有/卖出",
-    "target_price": 数字({currency}价格，**必须提供具体数值，不能为null**),
+    "action": "关注/买入/不要看",
+    "direction": "涨/跌/震荡",
+    "target_price": 数字或null（可选，仅当报告中明确给出时填写；非必需）,
     "confidence": 数字(0-1之间，如果没有明确提及则为0.7),
     "risk_score": 数字(0-1之间，如果没有明确提及则为0.5),
-    "reasoning": "决策的主要理由摘要"
+    "reasoning": "研判的主要理由摘要"
 }}
 
 请确保：
-1. action字段必须是"买入"、"持有"或"卖出"之一（绝对不允许使用英文buy/hold/sell）
-2. target_price必须是具体的数字,target_price应该是合理的{currency}价格数字（使用{currency_symbol}符号）
-3. confidence和risk_score应该在0-1之间
-4. reasoning应该是简洁的中文摘要
-5. 所有内容必须使用中文，不允许任何英文投资建议
+1. action字段必须是"关注"、"买入"或"不要看"之一（这是关注等级，不是交易指令；绝对不允许使用英文buy/hold/sell）
+2. direction字段必须是"涨"、"跌"或"震荡"之一，表示 T+1 方向研判
+3. target_price 不是必需项；原报告没有明确目标价时填 null，不要编造
+4. confidence和risk_score应该在0-1之间
+5. reasoning应该是简洁的中文摘要
+6. 所有内容必须使用中文，不允许任何英文投资建议
 
 特别注意：
 - 股票代码 {stock_symbol or '未知'} 是{market_info['market_name']}，使用{currency}计价
-- 目标价格必须与股票的交易货币一致（{currency_symbol}）
+- 只提取研判结论，不要生成目标价、止损位或仓位建议
 
 如果某些信息在报告中没有明确提及，请使用合理的默认值。""",
             ),
