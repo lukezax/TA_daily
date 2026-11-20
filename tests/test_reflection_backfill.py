@@ -81,10 +81,10 @@ class TestCollectBackfillable:
             doc("600150", "2026-10-13"),   # 齐全 → 登记
             doc("600150", "2026-10-19"),   # 分析日是该股最后一行，缺次日 → 跳过
             doc("999999", "2026-10-13"),   # 无行情 → 跳过
-            doc("600150", "2026-10-13", "持有"),  # 持有 → 跳过
+            doc("600150", "2026-10-13", "持有"),  # 持有 → 映射为关注，与同日买入共用一条队列记录
         ]
         db = self._db(reports, QUOTES)
-        assert collect_backfillable(store, db=db) == 1
+        assert collect_backfillable(store, db=db) == 2
         assert [i["stock_symbol"] for i in store.all_pending()] == ["600150"]
 
     def test_试运行只数不改队列(self, store):
@@ -141,11 +141,16 @@ class TestIsBackfillable:
         """184 条这种。"""
         assert is_backfillable(doc("999999", "2026-10-13"), QUOTES) is False
 
-    @pytest.mark.parametrize("action", ["持有", "", None])
-    def test_非买卖动作不回填(self, action):
+    @pytest.mark.parametrize("action", ["", None, "观望"])
+    def test_非研判动作不回填(self, action):
         d = doc("600150", "2026-10-13")
         d["decision"] = {"action": action}
         assert is_backfillable(d, QUOTES) is False
+
+    def test_旧持有映射为关注后可回填(self):
+        d = doc("600150", "2026-10-13")
+        d["decision"] = {"action": "持有"}
+        assert is_backfillable(d, QUOTES) is True
 
     def test_缺decision字段不抛异常(self):
         assert is_backfillable({"stock_symbol": "600150", "analysis_date": "2026-10-13"}, QUOTES) is False

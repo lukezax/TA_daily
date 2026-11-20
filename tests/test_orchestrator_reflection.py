@@ -31,8 +31,8 @@ class TestRecordPendingAfterAnalysis:
             "000001": _result("000001", "投资建议：持有。"),
         }
         n = record_pending_reflections(results, store, "2026-10-14")
-        assert n == 1
-        assert store.all_pending()[0]["stock_symbol"] == "600150"
+        assert n == 2
+        assert {r["stock_symbol"] for r in store.all_pending()} == {"600150", "000001"}
 
     def test_空结果不报错(self, store):
         from pipeline.orchestrator import record_pending_reflections

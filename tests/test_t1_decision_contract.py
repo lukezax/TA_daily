@@ -2,6 +2,8 @@
 
 from pathlib import Path
 
+from pipeline.labels import LABELS as PIPELINE_LABELS
+from pipeline.labels import LEGACY_LABEL_MAP as PIPELINE_LEGACY_MAP
 from pipeline.report_reader import ACTION_KEYWORDS, extract_action
 from tradingagents.decision_contract import (
     DIRECTIONS,
@@ -23,6 +25,12 @@ def test_directions_are_up_down_flat():
 
 def test_legacy_labels_map_to_new_attention_levels():
     assert LEGACY_LABEL_MAP == {"买入": "买入", "持有": "关注", "卖出": "不要看"}
+
+
+def test_pipeline_and_tradingagents_contracts_match():
+    """两侧常量必须一致，否则 pipeline CLI 与 agent 输出会对不上。"""
+    assert PIPELINE_LABELS == LABELS
+    assert PIPELINE_LEGACY_MAP == LEGACY_LABEL_MAP
 
 
 def test_contract_requires_t1_direction_and_forbids_execution_instructions():

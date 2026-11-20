@@ -35,10 +35,10 @@ class TestEnqueueReflection:
         enqueue_reflection([_result("600150", "建议卖出该股票")], store)
         assert len(store.all_pending()) == 1
 
-    def test_持有不登记(self, store):
+    def test_持有映射为关注后登记(self, store):
         n = enqueue_reflection([_result("600150", "投资建议：持有。")], store)
-        assert n == 0
-        assert store.all_pending() == []
+        assert n == 1
+        assert store.all_pending()[0]["action"] == "关注"
 
     def test_失败的股票不登记(self, store):
         enqueue_reflection([_result("600150", "投资建议：买入。", status="failed")], store)
@@ -52,7 +52,7 @@ class TestEnqueueReflection:
         enqueue_reflection([_result("600150", "")], store)
         assert store.all_pending() == []
 
-    def test_混合结果只登记有方向的(self, store):
+    def test_混合结果登记三档等级(self, store):
         results = [
             _result("600150", "投资建议：买入。"),
             _result("000001", "投资建议：持有。"),
@@ -60,9 +60,9 @@ class TestEnqueueReflection:
             _result("000003", "投资建议：买入。", status="failed"),
         ]
         n = enqueue_reflection(results, store)
-        assert n == 2
+        assert n == 3
         codes = {r["stock_symbol"] for r in store.all_pending()}
-        assert codes == {"600150", "000002"}
+        assert codes == {"600150", "000001", "000002"}
 
     def test_空列表返回零(self, store):
         assert enqueue_reflection([], store) == 0
@@ -131,9 +131,9 @@ class TestSymbolSuffix:
             _result("001389.SZ", "建议卖出"),
             _result("601326", "投资建议：持有。"),
         ]
-        assert enqueue_reflection(results, store, analysis_date="2026-10-23") == 3
+        assert enqueue_reflection(results, store, analysis_date="2026-10-23") == 4
         assert {r["stock_symbol"] for r in store.all_pending()} == \
-            {"600030", "601998", "001389"}
+            {"600030", "601998", "001389", "601326"}
 
 
 class TestNormalizeSymbol:

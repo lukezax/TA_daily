@@ -14,7 +14,7 @@ from pipeline.reflection_worker import compute_realized_return, should_reflect
 
 
 class TestComputeRealizedReturn:
-    """收益算法: 买入涨为正, 卖出跌为正, 持有跳过"""
+    """收益算法: 买入/关注涨为正, 不要看跌为正；旧标签持有→关注、卖出→不要看"""
 
     def test_买入_价格上涨_收益为正(self):
         assert compute_realized_return("买入", 100.0, 110.0) == pytest.approx(0.10)
@@ -31,8 +31,8 @@ class TestComputeRealizedReturn:
     def test_价格不变_收益为零(self):
         assert compute_realized_return("买入", 38.11, 38.11) == pytest.approx(0.0)
 
-    def test_持有_返回None表示跳过(self):
-        assert compute_realized_return("持有", 100.0, 110.0) is None
+    def test_持有映射为关注后按看涨评分(self):
+        assert compute_realized_return("持有", 100.0, 110.0) == pytest.approx(0.10)
 
     def test_未知动作_返回None(self):
         assert compute_realized_return("观望", 100.0, 110.0) is None
@@ -62,10 +62,10 @@ class TestComputeRealizedReturn:
 
 
 class TestShouldReflect:
-    """跳过「持有」——已确认的决策"""
+    """三档关注等级都可反思；旧标签映射后同样可反思"""
 
-    def test_持有_跳过(self):
-        assert should_reflect("持有") is False
+    def test_持有映射为关注后执行(self):
+        assert should_reflect("持有") is True
 
     def test_买入_执行(self):
         assert should_reflect("买入") is True

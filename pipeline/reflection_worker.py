@@ -12,7 +12,7 @@ from typing import Dict, Iterable, List, Optional, Tuple
 from pymongo import MongoClient
 
 from pipeline.report_reader import extract_action
-from tradingagents.decision_contract import LABELS, LEGACY_LABEL_MAP
+from pipeline.labels import LABELS, LEGACY_LABEL_MAP
 
 REFLECTABLE_ACTIONS = LABELS
 # 历史报告/记忆里的旧标签也允许回填，由 normalize_action 统一映射

@@ -20,13 +20,13 @@ def reflector():
 
 class TestPromptStatesPercentage:
     def test_prompt_明确说明收益是百分比(self, reflector):
-        prompt = reflector.reflection_system_prompt.lower()
-        assert "percentage" in prompt
+        prompt = reflector.reflection_system_prompt
+        assert "百分比" in prompt
 
     def test_prompt_说明正负号含义(self, reflector):
         prompt = reflector.reflection_system_prompt
-        assert "positive" in prompt.lower()
-        assert "negative" in prompt.lower()
+        assert "正数" in prompt
+        assert "负数" in prompt
 
 
 class TestSituationMatchesQueryPath:

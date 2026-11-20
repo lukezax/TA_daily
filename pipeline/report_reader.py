@@ -7,8 +7,8 @@ import re
 from pathlib import Path
 from typing import Dict, Optional
 
-from tradingagents.decision_contract import LABELS as ACTION_KEYWORDS
-from tradingagents.decision_contract import LEGACY_LABEL_MAP
+from pipeline.labels import LABELS as ACTION_KEYWORDS
+from pipeline.labels import LEGACY_LABEL_MAP
 
 # 「买入」优先级最高；旧标签在文本回退时先映射再比较
 _PRIORITY = {"买入": 0, "关注": 1, "不要看": 2}

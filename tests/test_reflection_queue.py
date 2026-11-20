@@ -29,9 +29,9 @@ class TestRecord:
         assert items[0]["analysis_date"] == "2026-10-14"
         assert items[0]["action"] == "买入"
 
-    def test_持有不被记录(self, store):
+    def test_持有映射为关注后被记录(self, store):
         store.record("600150", "2026-10-14", "持有")
-        assert store.all_pending() == []
+        assert store.all_pending()[0]["action"] == "关注"
 
     def test_未知动作不被记录(self, store):
         store.record("600150", "2026-10-14", "观望")

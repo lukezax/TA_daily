@@ -210,16 +210,12 @@ class TestRunnerScan:
         _, recs = w.calls[0]
         assert "系统决策：买入" in recs["交易员"]
 
-    def test_权威动作为持有时不写记忆并出队(self, store):
-        """检查点 A 在真实数据上发现的：队列动作是文本正则抽的，Mongo 权威判断可能是「持有」。
-
-        持有不该写记忆（用户只要买卖），也不能留在队列里空转 ——
-        compute_realized_return('持有', ...) 恒为 None，它永远等不到 T+1 收益。
-        """
-        store.record("600150", "20261014", "买入")  # 队列以为要记
+    def test_权威动作为持有时映射为关注并写记忆出队(self, store):
+        """旧「持有」映射为「关注」后同样可学习；以 Mongo 权威动作为准。"""
+        store.record("600150", "20261014", "买入")  # 队列以为买入
         w = FakeWriter()
-        assert _runner(store, writer=w, docs={("600150", "20261014"): make_doc("持有")}).run_once() == 0
-        assert w.calls == []
+        assert _runner(store, writer=w, docs={("600150", "20261014"): make_doc("持有")}).run_once() == 1
+        assert len(w.calls) == 1
         assert store.all_pending() == []
 
     def test_权威动作与队列方向相反时以Mongo为准(self, store):
@@ -490,7 +486,7 @@ class TestPureHelpers:
     def test_收益方向(self):
         assert compute_realized_return("买入", 100.0, 110.0) == pytest.approx(0.1)
         assert compute_realized_return("卖出", 100.0, 110.0) == pytest.approx(-0.1)
-        assert compute_realized_return("持有", 100.0, 110.0) is None
+        assert compute_realized_return("持有", 100.0, 110.0) == pytest.approx(0.1)  # 旧持有→关注
 
     def test_取价(self):
         p0, p1 = fetch_decision_prices(QUOTES, "600150", "20261014")

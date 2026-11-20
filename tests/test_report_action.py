@@ -23,11 +23,11 @@ class TestExtractAction:
         report = {"recommendation": "投资建议：买入。目标价格：39.5元。"}
         assert extract_action(report) == "买入"
 
-    def test_持有也被识别(self):
-        assert extract_action({"recommendation": "投资建议：持有。"}) == "持有"
+    def test_旧持有映射为关注(self):
+        assert extract_action({"recommendation": "投资建议：持有。"}) == "关注"
 
-    def test_卖出被识别(self):
-        assert extract_action({"recommendation": "建议卖出该股票"}) == "卖出"
+    def test_旧卖出映射为不要看(self):
+        assert extract_action({"recommendation": "建议卖出该股票"}) == "不要看"
 
     def test_完全无法识别时返回空(self):
         assert extract_action({"recommendation": "暂无明确建议"}) == ""
@@ -37,7 +37,7 @@ class TestExtractAction:
 
     def test_decision优先于recommendation(self):
         report = {"decision": {"action": "持有"}, "recommendation": "投资建议：买入。"}
-        assert extract_action(report) == "持有"
+        assert extract_action(report) == "关注"
 
     def test_无法识别的动作不返回(self):
         assert extract_action({"decision": {"action": "观望"}}) == ""
