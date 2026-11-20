@@ -10,7 +10,10 @@ import json
 import os
 import time
 import datetime
+import logging
 import requests
+
+logger = logging.getLogger(__name__)
 
 try:
     from pipeline.report_scores import format_winrate, load_scores
@@ -43,7 +46,12 @@ def _post(payload: dict) -> bool:
     size_kb = len(json.dumps(payload, ensure_ascii=False).encode("utf-8")) / 1024
     print(f"[飞书] 发送中，消息大小 {size_kb:.1f}KB ...")
     try:
-        resp = requests.post(FEISHU_WEBHOOK, json=payload, timeout=8)
+        # 飞书是国内域名，直连即可。关闭 trust_env 以忽略环境变量里残留的
+        # HTTP(S)_PROXY / ALL_PROXY（例如已失效的 127.0.0.1:7892），
+        # 否则 requests 会把请求送给死代理，ConnectionError 被吞成静默失败。
+        session = requests.Session()
+        session.trust_env = False
+        resp = session.post(FEISHU_WEBHOOK, json=payload, timeout=8)
         print(f"[飞书] HTTP {resp.status_code}")
         result = resp.json()
         print(f"[飞书] 返回: {result}")
@@ -51,15 +59,19 @@ def _post(payload: dict) -> bool:
             print("[飞书] 发送成功")
             return True
         print(f"[飞书] 发送失败: {result}")
+        logger.error("飞书推送失败：接口返回 %s", result)
         return False
     except requests.exceptions.Timeout:
         print("[飞书] 超时（8s），跳过")
+        logger.error("飞书推送失败：请求超时（8s）")
         return False
     except requests.exceptions.ConnectionError as e:
         print(f"[飞书] 连接失败: {e}")
+        logger.error("飞书推送失败：连接失败 %s", e)
         return False
     except Exception as e:
         print(f"[飞书] 异常: {type(e).__name__}: {e}")
+        logger.error("飞书推送失败：%s: %s", type(e).__name__, e)
         return False
 
 
@@ -351,14 +363,19 @@ def _split_into_batches(qualified_results: list, date_str: str) -> list:
     return batches
 
 
-def send_b1_results(qualified_results: list) -> None:
+def send_b1_results(qualified_results: list) -> bool:
     """
     将B1筛选符合条件的股票以 interactive 卡片形式发送到飞书
     每只股票多行分组展示，代码为超链接，动态分批不超 20KB
+
+    Returns:
+        全部消息发送成功返回 True；任意一条失败返回 False（并记录 ERROR 日志）
     """
     if not qualified_results:
-        send_feishu_text("【B1筛选完成】今日无符合条件的股票。")
-        return
+        ok = send_feishu_text("【B1筛选完成】今日无符合条件的股票。")
+        if not ok:
+            logger.error("飞书推送失败：『今日无符合条件的股票』提示未送达")
+        return ok
 
     date_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     report_date = date_str[:10]
@@ -377,16 +394,11 @@ def send_b1_results(qualified_results: list) -> None:
 
     # 先发分割线，区分每次筛选结果
     sep = f"{'━' * 12} 🔔 B1筛选 {date_str} 共{total}只 {'━' * 12}"
-    send_feishu_text(sep)
-    time.sleep(0.3)
-    send_feishu_text(sep)
-    time.sleep(0.3)
-    send_feishu_text(sep)
-    time.sleep(0.3)
-    send_feishu_text(sep)
-    time.sleep(0.3)
-    send_feishu_text(sep)
-    time.sleep(0.3)
+    all_ok = True
+    for _ in range(5):
+        if not send_feishu_text(sep):
+            all_ok = False
+        time.sleep(0.3)
 
     for idx, batch in enumerate(batches):
         batch_num = idx + 1
@@ -394,6 +406,11 @@ def send_b1_results(qualified_results: list) -> None:
         msg = _build_card(batch, date_str, total, batch_num, total_batches)
         ok = _post(msg)
         if not ok:
+            all_ok = False
             print(f"[飞书] 第 {batch_num} 批失败，继续")
         if batch_num < total_batches:
             time.sleep(0.3)
+
+    if not all_ok:
+        logger.error("飞书推送失败：%d 只股票分 %d 批发送，其中有消息未送达", total, total_batches)
+    return all_ok
