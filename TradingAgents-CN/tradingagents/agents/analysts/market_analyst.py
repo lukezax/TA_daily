@@ -7,6 +7,7 @@ import traceback
 from tradingagents.utils.tool_logging import log_analyst_module
 
 # 导入统一日志系统
+from tradingagents.decision_contract import T1_DECISION_RULE
 from tradingagents.utils.logging_init import get_logger
 logger = get_logger("default")
 
@@ -146,6 +147,7 @@ def create_market_analyst(llm, toolkit):
                     "system",
                     "你是一位专业的股票技术分析师，与其他分析师协作。\n"
                     "\n"
+                    + T1_DECISION_RULE + "\n"
                     "📋 **分析对象：**\n"
                     "- 公司名称：{company_name}\n"
                     "- 股票代码：{ticker}\n"
@@ -179,16 +181,16 @@ def create_market_analyst(llm, toolkit):
                     "## 📉 价格趋势分析\n"
                     "[在这里分析价格趋势，考虑{market_name}市场特点]\n"
                     "\n"
-                    "## 💭 投资建议\n"
-                    "[在这里给出明确的投资建议：买入/持有/卖出]\n"
+                    "## 💭 T+1 研判\n"
+                    "[给出方向（涨/跌/震荡）与关注等级：关注/买入/不要看]\n"
                     "\n"
                     "⚠️ **重要提醒：**\n"
                     "- 必须使用上述格式输出，不要自创标题格式\n"
                     "- 所有价格数据使用{currency_name}（{currency_symbol}）表示\n"
                     "- 确保在分析中正确使用公司名称\"{company_name}\"和股票代码\"{ticker}\"\n"
                     "- 不要在标题中使用\"技术分析报告\"等自创标题\n"
-                    "- 如果你有明确的技术面投资建议（买入/持有/卖出），请在投资建议部分明确标注\n"
-                    "- 不要使用'最终交易建议'前缀，因为最终决策需要综合所有分析师的意见\n"
+                    "- 如果有明确的技术面 T+1 研判，请在研判部分给出方向与关注等级\n"
+                    "- 不要使用'最终交易建议'前缀，因为最终结论需要综合所有分析师的意见\n"
                     "\n"
                     "请使用中文，基于真实数据进行分析。",
                 ),
@@ -435,17 +437,16 @@ def create_market_analyst(llm, toolkit):
 
 ---
 
-## 四、投资建议
+## 四、T+1 研判
 
 ### 1. 综合评估
 
 [基于上述技术指标，给出综合评估]
 
-### 2. 操作建议
+### 2. 研判结论
 
-- **投资评级**：买入/持有/卖出
-- **目标价位**：[给出具体价格区间] {market_info['currency_symbol']}
-- **止损位**：[给出止损价格] {market_info['currency_symbol']}
+- **T+1 方向**：涨/跌/震荡
+- **关注等级**：关注/买入/不要看
 - **风险提示**：[列出主要风险因素]
 
 ### 3. 关键价格区间

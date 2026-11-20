@@ -8,6 +8,7 @@ from langchain_core.messages import AIMessage, ToolMessage
 
 # 导入分析模块日志装饰器
 from tradingagents.utils.tool_logging import log_analyst_module
+from tradingagents.decision_contract import T1_DECISION_RULE
 
 # 导入统一日志系统
 from tradingagents.utils.logging_init import get_logger
@@ -180,7 +181,8 @@ def create_fundamentals_analyst(llm, toolkit):
 
         # 统一的系统提示，适用于所有股票类型
         system_message = (
-            f"你是一位专业的股票基本面分析师。"
+            T1_DECISION_RULE
+            + f"你是一位专业的股票基本面分析师。"
             f"⚠️ 绝对强制要求：你必须调用工具获取真实数据！不允许任何假设或编造！"
             f"任务：分析{company_name}（股票代码：{ticker}，{market_info['market_name']}）"
             f"{instrument_context}"
@@ -190,20 +192,20 @@ def create_fundamentals_analyst(llm, toolkit):
             "- 基于真实数据进行深度基本面分析"
             f"- 计算并提供合理价位区间（使用{market_info['currency_name']}{market_info['currency_symbol']}）"
             "- 包含PE、PB等估值指标的客观数据展示"
-            "- 提供基于基本面的目标价位建议"
+            "- 基本面只用于识别硬伤与估值背景，不输出目标价或止损位"
             "- 结合市场特点进行分析"
-            "⏰ 交易时间框架说明（重要）："
-            "- 本系统服务于中短期波段交易（持仓周期1-3周）"
-            "- PE估值分析仅作为参考背景信息，不应作为否决买入的主因"
+            "⏰ 研判时间框架说明（重要）："
+            "- 本系统只做 T+1 研判，不设定持仓周期或仓位"
+            "- PE估值分析仅作为参考背景信息，不应作为否决「买入」研判标签的主因"
             "- 重点关注：公司是否有基本面硬伤（亏损、退市风险、财务造假、重大诉讼）"
             "- PE高低的判断标准："
             "  * PE > 500 或为负值：⚠️ 可能存在基本面危机，需重点提示"
-            "  * PE 50-500：正常波动范围，对波段交易影响有限，客观陈述即可，不要判为'严重偏高'"
+            "  * PE 50-500：正常波动范围，对 T+1 研判影响有限，客观陈述即可，不要判为'严重偏高'"
             "  * PE < 50：估值合理或偏低，可作为加分项"
             "- 不要因为PE=60或PE=80就判断为'估值严重偏高'——对成长股和周期股这是常见区间"
             "🌍 语言和货币要求："
             "- 所有分析内容必须使用中文"
-            "- 投资建议必须使用中文：买入、持有、卖出"
+            "- 关注等级必须使用中文：关注、买入、不要看"
             "- 绝对不允许使用英文：buy、hold、sell"
             f"- 货币单位使用：{market_info['currency_name']}（{market_info['currency_symbol']}）"
             "🚫 严格禁止："
@@ -217,8 +219,8 @@ def create_fundamentals_analyst(llm, toolkit):
             "- 立即调用统一基本面分析工具"
             "- 等待工具返回真实数据"
             "- 基于真实数据进行分析"
-            "- 提供具体的价位区间和目标价"
-            "- 使用中文投资建议（买入/持有/卖出）"
+            "- 不提供目标价、止损位或仓位"
+            "- 使用中文关注等级（关注/买入/不要看）"
             "现在立即开始调用工具！不要说任何其他话！"
         )
 
@@ -234,7 +236,7 @@ def create_fundamentals_analyst(llm, toolkit):
             "   - 公司基本信息和财务数据分析"
             "   - PE、PB、PEG等估值指标分析"
             "   - 当前股价是否被低估或高估的判断"
-            "   - 合理价位区间和目标价位建议"
+            "   - 基本面硬伤与估值背景（不输出目标价）"
             "   - 基于基本面的投资建议（买入/持有/卖出）"
             "4. 🚨 重要：工具只需调用一次！一次调用返回所有需要的数据！不要重复调用！🚨"
             "5. 🚨 如果你已经看到ToolMessage，说明工具已经返回数据，直接生成报告，不要再调用工具！🚨"
@@ -470,7 +472,7 @@ def create_fundamentals_analyst(llm, toolkit):
                         f"1. 公司基本信息和财务数据分析\n"
                         f"2. PE、PB、PEG等估值指标分析\n"
                         f"3. 当前股价是否被低估或高估的判断\n"
-                        f"4. 合理价位区间和目标价位建议\n"
+                        f"4. 基本面硬伤与 T+1 关联度（不输出目标价）\n"
                         f"5. 基于基本面的投资建议（买入/持有/卖出）\n\n"
                         f"要求：\n"
                         f"- 使用中文撰写报告\n"

@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 from typing import Optional
 
+from tradingagents.decision_contract import T1_DECISION_RULE
 from tradingagents.utils.logging_init import get_logger
 
 logger = get_logger("default")
@@ -281,19 +282,21 @@ def create_yangjia_analyst(llm, config: dict = None):
         user_prompt = f"""以下是股票 {ticker} 的真实市场数据（由系统计算，非推测）：
 
 {signals_text}
+{T1_DECISION_RULE}
 
-请基于以上真实数据，用你的交易框架给出分析：
+请基于以上真实数据，用你的交易框架给出 T+1 研判：
 1. 情绪阶段判断（基于量能变化和涨跌趋势推断个股情绪状态）
 2. 赢面评估（基于风险收益比，给出具体百分比）
-3. 仓位建议（参照你的赢面仓位表）
-4. 空仓测试（如果现在空仓，你会买入吗？为什么？）
+3. 关注等级（把赢面强度映射为：关注/买入/不要看）
+4. 空仓测试（如果现在空仓，你会把它列入买入名单吗？为什么？）
 5. 关键风险提示
 
 注意：
 - 所有数字已由系统计算，请直接引用，不要重新估算
 - 你只能看到个股数据，无法看到全市场涨停家数等全市场情绪数据
 - 使用人民币(¥)作为价格单位
-- 持仓周期参考：1-3周波段
+- 研判周期为下一交易日（T+1），不设定持仓周期
+- 你的赢面-仓位表仅用于换算赢面强度，不要输出仓位比例或「小仓/重仓」等字样
 
 【输出格式要求（必须严格遵守）】
 在报告末尾，必须单独输出一行结论，格式固定如下（等号两侧无空格，百分比为整数，禁止用"约""~""大概""左右"等模糊词）：

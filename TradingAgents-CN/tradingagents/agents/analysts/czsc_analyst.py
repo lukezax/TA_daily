@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Optional
 
 # 导入统一日志系统
+from tradingagents.decision_contract import T1_DECISION_RULE
 from tradingagents.utils.logging_init import get_logger
 
 logger = get_logger("default")
@@ -267,6 +268,7 @@ def _generate_czsc_report(llm, ticker: str, signals: dict, company_name: str = "
     signals_json = json.dumps(signals, ensure_ascii=False, indent=2)
 
     prompt = f"""你是一位精通缠论（缠中说禅理论）的技术分析师。请基于以下缠论量化分析结果，为股票 {company_name or ticker}（代码：{ticker}）生成一份专业的缠论结构分析报告。
+{T1_DECISION_RULE}
 
 ## 缠论量化信号数据
 
@@ -303,7 +305,7 @@ def _generate_czsc_report(llm, ticker: str, signals: dict, company_name: str = "
 
 ## 五、操作建议
 
-基于缠论结构分析，给出明确的技术面操作建议（买入/持有/观望/减仓），并说明理由。
+基于缠论结构分析，给出明确的 T+1 关注等级（关注/买入/不要看），并说明理由。
 
 注意事项：
 - 缠论的笔确认需要后续K线验证，信号有一定滞后性
