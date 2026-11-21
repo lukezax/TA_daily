@@ -22,7 +22,8 @@ from pipeline.report_generator import ReportGenerator
 OUT_DIR = Path("/tmp/opencode/t1_trial_reports")
 ANALYSIS_DATE = "2026-11-20"  # 最近交易日；不重新拉取行情
 DEPTH = "快速"
-ANALYSTS = ["market", "news", "yangjia"]  # 试跑用 3 位分析师，降低耗时
+# 与生产配置保持一致，必须包含 czsc，否则 czsc_report.md 会是 0 字节占位文件
+ANALYSTS = ["market", "fundamentals", "news", "social", "czsc", "yangjia"]
 # 本地 27B 模型即使快速深度也要 45~50 分钟/只，需显式给足超时
 API_BASE = os.getenv("TRIAL_API_BASE", "http://localhost:8000")
 POLL_TIMEOUT = int(os.getenv("TRIAL_POLL_TIMEOUT", "3600"))
