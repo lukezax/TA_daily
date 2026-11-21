@@ -124,6 +124,7 @@ class TradingAgentsReportReader:
         """
         result = {
             "action": "",
+            "direction": "",
             "confidence": 0.0,
             "risk_score": 0.0,
             "target_price": 0.0,
@@ -134,6 +135,11 @@ class TradingAgentsReportReader:
         action_match = re.search(r"\*\*行动\*\*[:：]\s*(.+)", content)
         if action_match:
             result["action"] = action_match.group(1).strip()
+
+        # 解析 T+1 方向
+        direction_match = re.search(r"\*\*方向\*\*[:：]\s*(.+)", content)
+        if direction_match:
+            result["direction"] = direction_match.group(1).strip()
 
         # 解析置信度
         confidence_match = re.search(r"\*\*置信度\*\*[:：]\s*([\d.]+)", content)

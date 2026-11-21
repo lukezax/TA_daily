@@ -252,6 +252,7 @@ class TradingAgentsClient:
                 code=stock.code,
                 status="completed",
                 recommendation=data.get("recommendation", decision.get("action", "")),
+                direction=decision.get("direction", ""),
                 confidence_score=confidence_pct,
                 risk_score=risk_pct,
                 risk_level=data.get("risk_level", ""),

@@ -267,6 +267,8 @@ class ReportGenerator:
                     if decision:
                         if not analysis.recommendation:
                             analysis.recommendation = decision.get("action", "")
+                        if not analysis.direction:
+                            analysis.direction = decision.get("direction", "")
                         if not analysis.confidence_score:
                             analysis.confidence_score = decision.get("confidence", 0.0)
                         if not analysis.risk_score:
@@ -284,6 +286,7 @@ class ReportGenerator:
                         code=stock.code,
                         status="completed",
                         recommendation=decision.get("action", ""),
+                        direction=decision.get("direction", ""),
                         confidence_score=decision.get("confidence", 0.0),
                         risk_score=decision.get("risk_score", 0.0),
                         target_price=decision.get("target_price", 0.0),
@@ -301,7 +304,7 @@ class ReportGenerator:
             # 解析缠论评分与养家赢面（从报告文件提取，缺失时为 None）
             scores = load_scores(self.config.tradingagents_results_dir, stock.code, date)
 
-            # 提取干净的行动词（买入/卖出/持有），用于报告颜色判断
+            # 提取关注等级（关注/买入/不要看），用于报告颜色判断
             action = ""
             try:
                 decision = self.report_reader.read_final_decision(stock.code, date)
@@ -319,6 +322,7 @@ class ReportGenerator:
                     "exchange": stock.exchange,
                     "total_score": stock.total_score,
                     "action": action,
+                    "direction": analysis.direction if analysis else "",
                     "tags": stock.tags,
                     "details": stock.details,
                     "analysis": analysis,

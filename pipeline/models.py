@@ -57,11 +57,12 @@ class StockAnalysisResult:
     """单只股票的 AI 分析结果"""
     code: str
     status: str = "pending"             # completed / failed / timeout / pending
-    recommendation: str = ""            # 买入 / 卖出 / 持有
+    recommendation: str = ""            # 关注 / 买入 / 不要看（旧标签读取时映射）
+    direction: str = ""                 # T+1 方向：涨 / 跌 / 震荡
     confidence_score: float = 0.0       # 0-100
     risk_score: float = 0.0             # 0-100
     risk_level: str = ""                # 低 / 中 / 高
-    target_price: float = 0.0           # 目标价位
+    target_price: float = 0.0           # 兼容旧报告字段，模板不再展示
     summary: str = ""                   # 分析推理摘要
     analyst_reports: Dict[str, str] = field(default_factory=dict)  # {报告名: markdown内容}
     execution_time: float = 0.0         # 执行耗时（秒）

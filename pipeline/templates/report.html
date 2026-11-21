@@ -457,7 +457,7 @@ footer a { color: var(--accent); text-decoration: none; }
 <div class="container">
 <div class="legend">
   <div class="legend-group"><span class="legend-dot" style="background:#10b981"></span> 评分灯：绿=好 · 黄=中 · 红=差</div>
-  <div class="legend-group"><span class="legend-dot" style="background:#ef4444"></span> 行动：买入=绿 · 持有=灰 · 卖出=红</div>
+  <div class="legend-group"><span class="legend-dot" style="background:#ef4444"></span> 关注等级：买入=绿 · 关注=灰 · 不要看=红</div>
   <div class="legend-group">
     <span class="legend-tag" style="background:#dbeafe;color:#1e40af">B1</span>
     <span class="legend-tag" style="background:#cffafe;color:#155e75">B2严格</span>
@@ -518,8 +518,8 @@ footer a { color: var(--accent); text-decoration: none; }
     {% if stock.analysis.risk_score %}
     <span class="action-metric metric-risk">风险: <b>{{ stock.analysis.risk_score }}%</b></span>
     {% endif %}
-    {% if stock.analysis.target_price %}
-    <span class="action-metric metric-target">目标价: <b>{{ stock.analysis.target_price }}</b></span>
+    {% if stock.direction %}
+    <span class="action-metric metric-target">T+1 方向: <b>{{ stock.direction }}</b></span>
     {% endif %}
   </div>
   {% endif %}
@@ -700,8 +700,8 @@ footer a { color: var(--accent); text-decoration: none; }
             {% else %}
             <span class="ai-tag">⚠️ 风险: <strong>—</strong></span>
             {% endif %}
-            {% if stock.analysis.target_price %}
-            <span class="ai-tag">💲 目标价: <strong>{{ stock.analysis.target_price }}</strong></span>
+            {% if stock.direction %}
+            <span class="ai-tag">🧭 T+1 方向: <strong>{{ stock.direction }}</strong></span>
             {% endif %}
           </div>
           <p style="font-size:0.75rem; color:#888; margin-top:4px;">💡 置信度: 越高=AI越确定（>70%高确信）| 风险: 越低越好（<30%低风险）</p>
