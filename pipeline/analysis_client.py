@@ -4,15 +4,76 @@ TradingAgents-CN API 客户端
 """
 
 import logging
+import re
 import time
 from typing import Optional
 
 import requests
 
 from pipeline.config import PipelineConfig
+from pipeline.labels import LABELS
 from pipeline.models import StockAnalysisResult
+from pipeline.report_reader import extract_action
 
 logger = logging.getLogger(__name__)
+
+
+def _as_float(value, default=0.0) -> float:
+    """容忍 None / 空串 / 非数值字段（新契约里 target_price 可能为 null）。"""
+    if value is None or value == "":
+        return default
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _extract_direction(decision: dict) -> str:
+    """优先取结构化 direction；缺失时从推理文本补出 T+1 方向。"""
+    value = str(decision.get("direction", "") or "").strip()
+    if value in ("涨", "跌", "震荡"):
+        return value
+    text = str(decision.get("reasoning", "") or "")
+    if "判断为上涨" in text or "看涨" in text:
+        return "涨"
+    if "判断为下跌" in text or "看跌" in text:
+        return "跌"
+    if "震荡" in text:
+        return "震荡"
+    match = re.search(r"T\+1[^。；\n]{0,12}(涨|跌|震荡)", text)
+    return match.group(1) if match else ""
+
+
+def parse_result_payload(data: dict, code: str, elapsed: float) -> StockAnalysisResult:
+    """把 API 的结果字典解析成 StockAnalysisResult（不抛异常）。"""
+    decision = data.get("decision") or {}
+    confidence_pct = _as_float(
+        data.get("confidence_score", decision.get("confidence", 0))
+    )
+    if confidence_pct <= 1:
+        confidence_pct *= 100
+    risk_pct = _as_float(decision.get("risk_score", 0))
+    if risk_pct <= 1:
+        risk_pct *= 100
+
+    long_text = str(data.get("recommendation") or "")
+    label = str(decision.get("action") or "").strip()
+    if label not in LABELS:
+        label = extract_action({"recommendation": long_text})
+
+    return StockAnalysisResult(
+        code=code,
+        status="completed",
+        recommendation=label,
+        direction=_extract_direction(decision),
+        confidence_score=confidence_pct,
+        risk_score=risk_pct,
+        risk_level=data.get("risk_level", ""),
+        target_price=_as_float(decision.get("target_price", 0)),
+        summary=str(data.get("summary") or long_text or decision.get("reasoning") or ""),
+        analyst_reports=data.get("reports", {}) if isinstance(data.get("reports", {}), dict) else {},
+        execution_time=elapsed,
+    )
 
 
 class TradingAgentsClient:
@@ -230,37 +291,7 @@ class TradingAgentsClient:
                 )
 
             data = resp.json().get("data", {})
-
-            reports = {}
-            raw_reports = data.get("reports", {})
-            if isinstance(raw_reports, dict):
-                reports = raw_reports
-
-            decision = data.get("decision", {})
-
-            raw_confidence = float(
-                data.get("confidence_score", decision.get("confidence", 0))
-            )
-            raw_risk = float(decision.get("risk_score", 0))
-
-            confidence_pct = (
-                raw_confidence * 100 if raw_confidence <= 1 else raw_confidence
-            )
-            risk_pct = raw_risk * 100 if raw_risk <= 1 else raw_risk
-
-            return StockAnalysisResult(
-                code=stock.code,
-                status="completed",
-                recommendation=data.get("recommendation", decision.get("action", "")),
-                direction=decision.get("direction", ""),
-                confidence_score=confidence_pct,
-                risk_score=risk_pct,
-                risk_level=data.get("risk_level", ""),
-                target_price=float(decision.get("target_price", 0)),
-                summary=data.get("summary", decision.get("reasoning", "")),
-                analyst_reports=reports,
-                execution_time=elapsed,
-            )
+            return parse_result_payload(data, stock.code, elapsed)
 
         except Exception as e:
             logger.error("解析任务 %s 结果异常: %s", task_id, e)
