@@ -6,8 +6,8 @@
 """
 
 import csv
+import os
 import sys
-from datetime import date
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -23,7 +23,9 @@ OUT_DIR = Path("/tmp/opencode/t1_trial_reports")
 ANALYSIS_DATE = "2026-11-20"  # 最近交易日；不重新拉取行情
 DEPTH = "快速"
 ANALYSTS = ["market", "news", "yangjia"]  # 试跑用 3 位分析师，降低耗时
-POLL_TIMEOUT = 900
+# 本地 27B 模型即使快速深度也要 45~50 分钟/只，需显式给足超时
+API_BASE = os.getenv("TRIAL_API_BASE", "http://localhost:8000")
+POLL_TIMEOUT = int(os.getenv("TRIAL_POLL_TIMEOUT", "3600"))
 
 
 def pick_stocks(n):
@@ -42,6 +44,7 @@ def main():
     rows, csv_name = pick_stocks(n)
 
     config = load_config()
+    config.api_base_url = API_BASE
     config.report_output_dir = str(OUT_DIR)
     config.research_depth = DEPTH
     config.selected_analysts = ANALYSTS
@@ -73,7 +76,12 @@ def main():
             exchange=r.get("交易所", ""),
             result=True,
             tags=["B1"],
-            details=dict(r),
+            details={
+                "新增条件总分": int(float(r.get("新增条件总分", 0) or 0)),
+                "收盘价": float(r.get("收盘价", 0) or 0),
+                "涨幅": float(r.get("涨幅", 0) or 0),
+                "振幅": float(r.get("振幅", 0) or 0),
+            },
         )
         for r in rows
     ]

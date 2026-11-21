@@ -10,6 +10,12 @@ from typing import Dict, Optional
 from pipeline.labels import LABELS as ACTION_KEYWORDS
 from pipeline.labels import LEGACY_LABEL_MAP
 
+
+def normalize_action(action: str) -> str:
+    """旧报告里的买卖持有 → 新三档关注等级。"""
+    value = str(action or "").strip()
+    return LEGACY_LABEL_MAP.get(value, value)
+
 # 「买入」优先级最高；旧标签在文本回退时先映射再比较
 _PRIORITY = {"买入": 0, "关注": 1, "不要看": 2}
 
@@ -134,7 +140,7 @@ class TradingAgentsReportReader:
         # 解析行动
         action_match = re.search(r"\*\*行动\*\*[:：]\s*(.+)", content)
         if action_match:
-            result["action"] = action_match.group(1).strip()
+            result["action"] = normalize_action(action_match.group(1).strip())
 
         # 解析 T+1 方向
         direction_match = re.search(r"\*\*方向\*\*[:：]\s*(.+)", content)
