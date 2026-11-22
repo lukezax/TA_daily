@@ -1,5 +1,6 @@
 import requests
 import time
+import threading
 import urllib3
 from datetime import date
 from config import API_CONFIG
@@ -17,39 +18,47 @@ _token_usage = {}  # {token: count}
 _usage_date = ""
 _DAILY_LIMIT = API_CONFIG.get('free_token_daily_limit', 198)
 _free_token_exhausted_printed = False  # 只打印一次切换提示
+_token_lock = threading.Lock()  # 保护 token 计数与轮换状态（并发下避免计数竞争）
+
+# 按 token 类型限制智兔 API 的实际并发请求数：免费 2、付费 4
+_FREE_SEM = threading.Semaphore(2)
+_PAID_SEM = threading.Semaphore(4)
 
 
 def _get_current_token():
     """获取当前可用的 token（优先免费 ，用完后切换到付费 token）"""
     global _token_usage, _usage_date, _free_token_exhausted_printed
 
-    today = date.today().isoformat()
-    if _usage_date != today:
-        _token_usage = {}
-        _usage_date = today
-        _free_token_exhausted_printed = False
+    with _token_lock:
+        today = date.today().isoformat()
+        if _usage_date != today:
+            _token_usage = {}
+            _usage_date = today
+            _free_token_exhausted_printed = False
 
-    free_tokens = API_CONFIG.get('free_tokens', [])
+        free_tokens = API_CONFIG.get('free_tokens', [])
 
-    for token in free_tokens:
-        if _token_usage.get(token, 0) < _DAILY_LIMIT:
-            return token
+        for token in free_tokens:
+            if _token_usage.get(token, 0) < _DAILY_LIMIT:
+                return token
 
-    # 免费 token 用完，使用付费 token
-    if not _free_token_exhausted_printed:
-        print(f"⚠️ 智兔 API: 免费 token 全部用完（{len(free_tokens)} 个×{_DAILY_LIMIT} 次），切换到付费 token")
-        _free_token_exhausted_printed = True
-    return API_CONFIG['token']
+        # 免费 token 用完，使用付费 token
+        if not _free_token_exhausted_printed:
+            print(f"⚠️ 智兔 API: 免费 token 全部用完（{len(free_tokens)} 个×{_DAILY_LIMIT} 次），切换到付费 token")
+            _free_token_exhausted_printed = True
+        return API_CONFIG['token']
 
 
 def _record_usage(token):
     """记录 token 使用"""
-    _token_usage[token] = _token_usage.get(token, 0) + 1
+    with _token_lock:
+        _token_usage[token] = _token_usage.get(token, 0) + 1
 
 
 def _mark_token_exhausted(token):
     """标记 token 为耗尽（失败时调用，强制切换到下一个）"""
-    _token_usage[token] = _token_usage.get(token, 0) + _DAILY_LIMIT
+    with _token_lock:
+        _token_usage[token] = _token_usage.get(token, 0) + _DAILY_LIMIT
 
 
 def _api_request(url_template, **kwargs):
@@ -81,53 +90,59 @@ def _api_request(url_template, **kwargs):
         print(f"智兔 API 请求: {url}")
 
         is_403 = False
+        # 按 token 类型限制真实并发：免费 2，付费 4
+        sem = _FREE_SEM if is_free else _PAID_SEM
+        sem.acquire()
         try:
-            headers = kwargs.pop('headers', {})
-            headers.setdefault('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36')
-            response = requests.get(url, verify=False, headers=headers, **kwargs)
-            response.raise_for_status()
-            data = response.json()
+            try:
+                headers = kwargs.pop('headers', {})
+                headers.setdefault('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36')
+                response = requests.get(url, verify=False, headers=headers, **kwargs)
+                response.raise_for_status()
+                data = response.json()
 
-            # 打印响应摘要，方便调试
-            if isinstance(data, dict):
-                print(f"智兔 API 响应: code={data.get('code')}, error={data.get('error')}, keys={list(data.keys())[:5]}")
-            elif isinstance(data, list):
-                print(f"智兔 API 响应: list length={len(data)}")
-            else:
-                print(f"智兔 API 响应: type={type(data)}")
+                # 打印响应摘要，方便调试
+                if isinstance(data, dict):
+                    print(f"智兔 API 响应: code={data.get('code')}, error={data.get('error')}, keys={list(data.keys())[:5]}")
+                elif isinstance(data, list):
+                    print(f"智兔 API 响应: list length={len(data)}")
+                else:
+                    print(f"智兔 API 响应: type={type(data)}")
 
-            # 检查 API 层面错误
-            if isinstance(data, dict) and data.get('error'):
-                error_msg = str(data.get('error', ''))
-                # 404/资源不存在 是股票代码问题，不是 token 问题，直接返回 None
-                if '404' in error_msg or '资源不存在' in error_msg or '参数' in error_msg:
-                    print(f"智兔 API: 资源不存在（{token_label}）- 可能是股票代码无效")
-                    return None
-                # 其他错误（如 token 过期/无效）才切换 token
-                print(f"智兔 API 返回错误: {error_msg} ({token_label})")
-                _mark_token_exhausted(current_token)
-                continue
+                # 检查 API 层面错误
+                if isinstance(data, dict) and data.get('error'):
+                    error_msg = str(data.get('error', ''))
+                    # 404/资源不存在 是股票代码问题，不是 token 问题，直接返回 None
+                    if '404' in error_msg or '资源不存在' in error_msg or '参数' in error_msg:
+                        print(f"智兔 API: 资源不存在（{token_label}）- 可能是股票代码无效")
+                        return None
+                    # 其他错误（如 token 过期/无效）才切换 token
+                    print(f"智兔 API 返回错误: {error_msg} ({token_label})")
+                    _mark_token_exhausted(current_token)
+                    continue
 
-            # 成功
-            _record_usage(current_token)
-            usage_count = _token_usage.get(current_token, 0)
-            # 每个 token 首次使用、切换 token、以及每 100 次打印一次状态
-            if usage_count == 1 or usage_count % 100 == 0:
-                print(f"智兔 API: 当前使用 {token_label}，今日已用 {usage_count} 次")
-            return data
+                # 成功
+                _record_usage(current_token)
+                usage_count = _token_usage.get(current_token, 0)
+                # 每个 token 首次使用、切换 token、以及每 100 次打印一次状态
+                if usage_count == 1 or usage_count % 100 == 0:
+                    print(f"智兔 API: 当前使用 {token_label}，今日已用 {usage_count} 次")
+                return data
 
-        except requests.exceptions.Timeout:
-            print(f"智兔 API 超时 ({token_label}, 第{attempt+1}次) URL: {url}")
-        except requests.exceptions.HTTPError as e:
-            status_code = e.response.status_code if e.response is not None else 0
-            print(f"智兔 API HTTP {status_code} ({token_label}, 第{attempt+1}次)")
-            # 429=超限, 401=无效 → 标记 token 耗尽；403=间歇性拒绝 → 仅重试不标记
-            if status_code in (401, 429):
-                _mark_token_exhausted(current_token)
-            elif status_code == 403:
-                is_403 = True  # 不标记，下次重试可能命中其他后端服务器
-        except Exception as e:
-            print(f"智兔 API 异常: {e} ({token_label}, 第{attempt+1}次)")
+            except requests.exceptions.Timeout:
+                print(f"智兔 API 超时 ({token_label}, 第{attempt+1}次) URL: {url}")
+            except requests.exceptions.HTTPError as e:
+                status_code = e.response.status_code if e.response is not None else 0
+                print(f"智兔 API HTTP {status_code} ({token_label}, 第{attempt+1}次)")
+                # 429=超限, 401=无效 → 标记 token 耗尽；403=间歇性拒绝 → 仅重试不标记
+                if status_code in (401, 429):
+                    _mark_token_exhausted(current_token)
+                elif status_code == 403:
+                    is_403 = True  # 不标记，下次重试可能命中其他后端服务器
+            except Exception as e:
+                print(f"智兔 API 异常: {e} ({token_label}, 第{attempt+1}次)")
+        finally:
+            sem.release()
 
         # 失败，标记当前 token 耗尽（403 除外）
         if not is_403:

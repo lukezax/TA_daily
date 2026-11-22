@@ -357,7 +357,7 @@ def run_filter(strategy='b1', test=False, mock=False, retry=False, debug=False):
                 fetch_stocks.append(s)
             else:
                 local_stocks.append(s)
-        print(f"本地有效：{len(local_stocks)} 只（5线程）  需拉取：{len(fetch_stocks)} 只（2线程）")
+        print(f"本地有效：{len(local_stocks)} 只（5线程）  需拉取：{len(fetch_stocks)} 只（4线程，实际并发由 api.py 按 token 类型限制）")
     else:
         local_stocks = []
         fetch_stocks = stock_list
@@ -392,10 +392,10 @@ def run_filter(strategy='b1', test=False, mock=False, retry=False, debug=False):
         print(f"处理本地缓存股票（5线程）...")
         _run_batch(local_stocks, 5)
 
-    # 需要拉取的：2线程（避免被ban）
+    # 需要拉取的：外层 4 线程；api.py 内按 token 类型限速（免费 2 / 付费 4）
     if fetch_stocks and not should_exit:
-        print(f"处理需拉取股票（2线程）...")
-        _run_batch(fetch_stocks, 2)
+        print(f"处理需拉取股票（4线程，免费 token 实际并发 2 / 付费 4）...")
+        _run_batch(fetch_stocks, 4)
 
     if should_exit:
         print("处理已取消")
