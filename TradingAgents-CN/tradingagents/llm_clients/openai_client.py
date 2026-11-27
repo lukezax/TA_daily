@@ -1,3 +1,4 @@
+import ipaddress
 import logging
 import os
 import threading
@@ -22,27 +23,52 @@ _PROXY_ENV_KEYS = (
 
 
 def _is_local_url(url: Optional[str]) -> bool:
-    """判断 URL 是否指向本地地址"""
+    """判断 URL 是否指向本地/内网地址。
+
+    这些地址不应该走外网代理：本机可能配置了 HTTP_PROXY/ALL_PROXY，一旦
+    请求内网或 Tailscale 地址时被代理接管，httpx 会报 socks 协议错误或直接
+    502/超时。除了 loopback，还要覆盖 RFC1918 私网和 Tailscale 的
+    100.64.0.0/10（CGNAT）网段。
+    """
     if not url:
         return False
     try:
         parsed = urlparse(url)
-        host = parsed.hostname or ""
-        return host in ("localhost", "127.0.0.1", "0.0.0.0", "::1")
+        host = (parsed.hostname or "").strip().lower()
+        if not host:
+            return False
+        if host in ("localhost", "0.0.0.0", "::1"):
+            return True
+        try:
+            ip = ipaddress.ip_address(host)
+        except ValueError:
+            # 无法解析为 IP 时，把常见内网域名后缀也视为内网
+            return host.endswith((".local", ".lan", ".internal", ".home"))
+        return bool(
+            ip.is_loopback
+            or ip.is_private
+            or ip.is_link_local
+            or ip in ipaddress.ip_network("100.64.0.0/10")
+        )
     except Exception:
         return False
 
 
 def _needs_thinking_disabled(model: Optional[str], base_url: Optional[str]) -> bool:
-    """vLLM 的 Qwen3.5-122B（含 -nothinking 别名）默认开启 thinking。
+    """vLLM 上的 Qwen3.5/Qwen3.6 系列默认开启 thinking。
 
-    这两个别名指向同一模型、同一套对话模板，是否思考由请求体里的
-    chat_template_kwargs.enable_thinking 控制。不显式关闭时 token 会先写进
-    reasoning 字段，可能耗尽 max_tokens 导致 content 为空（finish_reason=length）。
+    是否思考由请求体里的 chat_template_kwargs.enable_thinking 控制。不显式
+    关闭时 token 会先写进 reasoning 字段，可能耗尽 max_tokens 导致 content
+    为空（finish_reason=length）。
     """
     model_name = (model or "").lower()
     url = (base_url or "").lower()
-    return "qwen3.5-122b" in model_name or ":22222" in url
+    return (
+        "qwen3.5-122b" in model_name
+        or "qwen3.6" in model_name
+        or ":22222" in url
+        or ":22223" in url
+    )
 
 
 def _clear_proxy_env() -> dict:

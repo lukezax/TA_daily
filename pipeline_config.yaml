@@ -56,7 +56,7 @@ pipeline:
       research_depth: "标准"        # local worker使用标准分析（3级），减少分析时间
       start_delay: 60               # 启动延时60秒，避开remote启动峰值
     - name: remote
-      model_name: "Qwen3.5-122B-A10B-w4a8-nothinking"
+      model_name: "Qwen3.6-35B-A3B-W4A8"
       timeout: 10800
 
   # 调度策略

@@ -193,6 +193,6 @@ Tailscale 默认给稳定 IP，但万一变了：
 
 ## 8. 已知的问题
 
-- **35B 模型服务挂了**：`192.168.200.160:8005` 当前返回 502。等它恢复后可以再加一段 Caddyfile 同时暴露，比如绑 22223 转发到 192.168.200.160:8005。
+- **35B 模型接入（2026-11-27 已解决）**：`192.168.200.160:8005` 是 mitmproxy 网关，GET `/v1/models` 会 502，POST `/v1/chat/completions` 可用；直连 vLLM 在 `192.168.200.141:8000`（同一把 key，支持 `/v1/models`，上下文 262144）。已在 `Caddyfile-relay` 增加 `:22223` 段，`reverse_proxy 192.168.200.141:8000` 并由 Caddy 注入 key。本机配置使用 `http://100.127.30.80:22223/v1` + 模型 `Qwen3.6-35B-A3B-W4A8`。旧的 `:22222 → 192.168.200.73:8000` 保留未动（后端已 connection refused）。
 - **Caddy 版本**：系统 apt 装的是 2.6.2，功能足够用，不是最新但够稳。
 - **Docker Hub 国内拉不下来**：原计划用 caddy:2-alpine 容器跑，但 `docker.io/registry-1.docker.io` TCP 超时，所以改用 apt 装的原生 caddy。如要还原 docker 方案，先配 docker registry mirror。
