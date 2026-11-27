@@ -54,21 +54,21 @@ def _is_local_url(url: Optional[str]) -> bool:
         return False
 
 
-def _needs_thinking_disabled(model: Optional[str], base_url: Optional[str]) -> bool:
-    """vLLM 上的 Qwen3.5/Qwen3.6 系列默认开启 thinking。
+def _thinking_setting(model: Optional[str], base_url: Optional[str]) -> Optional[bool]:
+    """返回该模型/端点应显式设置的 enable_thinking 值。
 
-    是否思考由请求体里的 chat_template_kwargs.enable_thinking 控制。不显式
-    关闭时 token 会先写进 reasoning 字段，可能耗尽 max_tokens 导致 content
-    为空（finish_reason=length）。
+    - False：vLLM 上的 Qwen3.5-122B 默认开思考，必须关闭，否则 reasoning
+      会吃掉 max_tokens，可能拿不到正文（content 为空）。
+    - True：Qwen3.6-35B（vLLM 远端）显式开启，保留思考过程。
+    - None：不干预，交给服务端默认行为。
     """
     model_name = (model or "").lower()
     url = (base_url or "").lower()
-    return (
-        "qwen3.5-122b" in model_name
-        or "qwen3.6" in model_name
-        or ":22222" in url
-        or ":22223" in url
-    )
+    if "qwen3.5-122b" in model_name or ":22222" in url:
+        return False
+    if "qwen3.6-35b" in model_name:
+        return True
+    return None
 
 
 def _clear_proxy_env() -> dict:
@@ -159,21 +159,23 @@ class OpenAIClient(BaseLLMClient):
 
         resolved_url = llm_kwargs.get("base_url")
 
-        # vLLM 122B 默认开思考：必须显式传 chat_template_kwargs.enable_thinking=false，
-        # 否则 reasoning 会吃掉 max_tokens，可能拿不到正文（content 为空）。
+        # 按模型决定是否显式设置 thinking：
+        # - Qwen3.5-122B 必须关闭，否则 reasoning 会吃掉 max_tokens；
+        # - Qwen3.6 显式开启，保留思考过程。
         # 用 extra_body 透传（model_kwargs 会被 openai SDK 当成具名参数而报错）。
-        if _needs_thinking_disabled(self.model, resolved_url):
+        thinking = _thinking_setting(self.model, resolved_url)
+        if thinking is not None:
             extra_body = llm_kwargs.get("extra_body")
             if not isinstance(extra_body, dict):
                 extra_body = {}
             chat_template_kwargs = extra_body.get("chat_template_kwargs")
             if not isinstance(chat_template_kwargs, dict):
                 chat_template_kwargs = {}
-            chat_template_kwargs.setdefault("enable_thinking", False)
+            chat_template_kwargs.setdefault("enable_thinking", thinking)
             extra_body["chat_template_kwargs"] = chat_template_kwargs
             llm_kwargs["extra_body"] = extra_body
             logger.info(
-                f"🧠 [关闭思考] model={self.model}, base_url={resolved_url}, "
+                f"🧠 [{'开启' if thinking else '关闭'}思考] model={self.model}, base_url={resolved_url}, "
                 f"chat_template_kwargs={chat_template_kwargs}"
             )
 
